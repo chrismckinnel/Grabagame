@@ -1,6 +1,6 @@
 Grabagame\BookingBundle\Entity\Member:
     type: entity
-    repositoryClass: Grabagame\Bundle\Repository\MemberRepository
+    repositoryClass: Grabagame\BookingBundle\Repository\MemberRepository
     table: Member
     id:
         id:

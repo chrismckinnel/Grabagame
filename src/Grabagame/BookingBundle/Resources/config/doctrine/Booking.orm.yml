@@ -1,6 +1,6 @@
 Grabagame\BookingBundle\Entity\Booking:
     type: entity
-    repositoryClass: Grabagame\Bundle\Repository\BookingRepository
+    repositoryClass: Grabagame\BookingBundle\Repository\BookingRepository
     table: Booking
     id:
         id:

@@ -40,14 +40,14 @@ class Club
     private $courts;
 
     /**
-     * @var Grabagame\BookingBundle\Entity\User
+     * @var Grabagame\BookingBundle\Entity\Member
      */
-    private $users;
+    private $members;
 
     public function __construct()
     {
         $this->courts = new \Doctrine\Common\Collections\ArrayCollection();
-    $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->members = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
@@ -161,22 +161,22 @@ class Club
     }
 
     /**
-     * Add users
+     * Add members
      *
-     * @param Grabagame\BookingBundle\Entity\User $users
+     * @param Grabagame\BookingBundle\Entity\Member $members
      */
-    public function addUser(\Grabagame\BookingBundle\Entity\User $users)
+    public function addMember(\Grabagame\BookingBundle\Entity\Member $members)
     {
-        $this->users[] = $users;
+        $this->members[] = $members;
     }
 
     /**
-     * Get users
+     * Get members
      *
      * @return Doctrine\Common\Collections\Collection 
      */
-    public function getUsers()
+    public function getMembers()
     {
-        return $this->users;
+        return $this->members;
     }
 }

@@ -1,6 +1,6 @@
 Grabagame\BookingBundle\Entity\Club:
     type: entity
-    repositoryClass: Grabagame\Bundle\Repository\ClubRepository
+    repositoryClass: Grabagame\BookingBundle\Repository\ClubRepository
     table: Club
     id:
         id:
@@ -22,6 +22,6 @@ Grabagame\BookingBundle\Entity\Club:
         courts:
             targetEntity: Court
             mappedBy: club
-        users:
-            targetEntity: User
+        members:
+            targetEntity: Member
             mappedBy: club
