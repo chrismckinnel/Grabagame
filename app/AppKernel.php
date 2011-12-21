@@ -17,7 +17,7 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
-            new Grabagame\Bundle\GrabagameBundle(),
+            new Grabagame\BookingBundle\GrabagameBookingBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -1,0 +1,31 @@
+Grabagame\BookingBundle\Entity\User:
+    type: entity
+    repositoryClass: Grabagame\Bundle\Repository\UserRepository
+    table: User
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        firstName:
+            type: string
+            length: 50
+        lastName:
+            type: string
+            length: 50
+        email:
+            type: string
+            length: 50
+        createdDate:
+            type: date
+        verified:
+            type: boolean
+    manyToOne:
+        club:
+            targetEntity: Club
+            inversedBy: users
+    oneToMany:
+        bookings:
+            targetEntity: Booking
+            mappedBy: user
