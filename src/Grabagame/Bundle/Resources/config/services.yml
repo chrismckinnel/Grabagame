@@ -1,0 +1,7 @@
+parameters:
+#    grabagame.example.class: Grabagame\Bundle\Example
+
+services:
+#    grabagame.example:
+#        class: %grabagame.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
