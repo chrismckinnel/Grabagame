@@ -1,4 +1,4 @@
-Grabagame\Bundle\Entity\Member:
+Grabagame\BookingBundle\Entity\Member:
     type: entity
     repositoryClass: Grabagame\Bundle\Repository\MemberRepository
     table: Member

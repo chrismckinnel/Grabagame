@@ -1,4 +1,4 @@
-Grabagame\Bundle\Entity\Court:
+Grabagame\BookingBundle\Entity\Court:
     type: entity
     repositoryClass: Grabagame\Bundle\Repository\CourtRepository
     table: Court
