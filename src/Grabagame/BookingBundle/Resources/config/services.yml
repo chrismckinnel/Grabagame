@@ -1,0 +1,7 @@
+parameters:
+#    grabagame_booking.example.class: Grabagame\BookingBundle\Example
+
+services:
+#    grabagame_booking.example:
+#        class: %grabagame_booking.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

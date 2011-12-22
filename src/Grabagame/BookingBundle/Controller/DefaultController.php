@@ -1,6 +1,6 @@
 <?php
 
-namespace Grabagame\Bundle\Controller;
+namespace Grabagame\BookingBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -10,6 +10,6 @@ class DefaultController extends Controller
     
     public function indexAction($name)
     {
-        return $this->render('GrabagameBundle:Default:index.html.twig', array('name' => $name));
+        return $this->render('GrabagameBookingBundle:Default:index.html.twig', array('name' => $name));
     }
 }

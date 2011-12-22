@@ -1,3 +1,0 @@
-GrabagameBundle_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: GrabagameBundle:Default:index }

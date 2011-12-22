@@ -1,0 +1,27 @@
+Grabagame\BookingBundle\Entity\Club:
+    type: entity
+    repositoryClass: Grabagame\BookingBundle\Repository\ClubRepository
+    table: Club
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 100
+        email:
+            type: string
+            length: 50
+        createdDate:
+            type: date
+        bookingIncrement:
+            type: integer
+    oneToMany:
+        courts:
+            targetEntity: Court
+            mappedBy: club
+        members:
+            targetEntity: Member
+            mappedBy: club

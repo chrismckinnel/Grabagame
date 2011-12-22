@@ -1,6 +1,6 @@
 <?php
 
-namespace Grabagame\Bundle\Tests\Controller;
+namespace Grabagame\BookingBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
