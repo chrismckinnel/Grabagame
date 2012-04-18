@@ -1,3 +1,7 @@
-GrabagameBookingBundle_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: GrabagameBookingBundle:Default:index }
+home:
+    pattern:  /
+    defaults: { _controller: GrabagameBookingBundle:Booking:index }
+
+booking:
+    pattern:  /booking/
+    defaults: { _controller: GrabagameBookingBundle:Booking:renderBookingTable }

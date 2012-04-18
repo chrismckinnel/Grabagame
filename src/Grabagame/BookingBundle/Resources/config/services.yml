@@ -1,7 +1,13 @@
 parameters:
-#    grabagame_booking.example.class: Grabagame\BookingBundle\Example
+    base_logging_url: /var/www/grabagame/app/logs
 
 services:
-#    grabagame_booking.example:
-#        class: %grabagame_booking.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    service.loggerAware:
+        class: Grabagame\BookingBundle\Service\LoggerAware
+    
+    service.booking:
+        class: Grabagame\BookingBundle\Service\BookingService
+        parent: service.loggerAware
+        calls:
+            - [ setDoctrine, [@doctrine] ]
+            - [ setLogger, [@logger, %base_logging_url%, 'BookingService'] ]
