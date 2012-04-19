@@ -8,8 +8,10 @@ Grabagame\BookingBundle\Entity\Booking:
             generator:
                 strategy: AUTO
     fields:
-        time:
+        startTime:
             type: datetime
+        slots:
+            type: integer
     manyToOne:
         court:
             targetEntity: Court

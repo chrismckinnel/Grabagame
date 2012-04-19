@@ -15,9 +15,14 @@ class Booking
     private $id;
 
     /**
-     * @var datetime $time
+     * @var datetime $startTime
      */
-    private $time;
+    private $startTime;
+
+    /**
+     * @var integer $slots
+     */
+    private $slots = 1;
 
     /**
      * @var Grabagame\BookingBundle\Entity\Court
@@ -41,23 +46,43 @@ class Booking
     }
 
     /**
-     * Set time
+     * Set start time
      *
-     * @param datetime $time
+     * @param datetime $startTime
      */
-    public function setTime($time)
+    public function setStartTime($startTime)
     {
-        $this->time = $time;
+        $this->startTime = $startTime;
     }
 
     /**
-     * Get time
+     * Get start time
      *
      * @return datetime 
      */
-    public function getTime()
+    public function getStartTime()
     {
-        return $this->time;
+        return $this->startTime;
+    }
+
+    /**
+     * Set slots
+     *
+     * @param integer $slots
+     */
+    public function setSlots($slots)
+    {
+        $this->slots = $slots;
+    }
+
+    /**
+     * Get slots
+     *
+     * @return integer 
+     */
+    public function getSlots()
+    {
+        return $this->slots;
     }
 
     /**

@@ -11,3 +11,10 @@ services:
         calls:
             - [ setDoctrine, [@doctrine] ]
             - [ setLogger, [@logger, %base_logging_url%, 'BookingService'] ]
+
+    service.club:
+        class: Grabagame\BookingBundle\Service\ClubService
+        parent: service.loggerAware
+        calls:
+            - [ setDoctrine, [@doctrine] ]
+            - [ setLogger, [@logger, %base_logging_url%, 'ClubService'] ]
