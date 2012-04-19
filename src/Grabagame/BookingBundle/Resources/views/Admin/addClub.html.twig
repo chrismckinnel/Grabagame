@@ -1,0 +1,25 @@
+{% extends 'GrabagameBookingBundle::layout.html.twig' %}
+
+{% block boxes %}{% endblock %}
+
+{% block body %}
+
+    {% if app.session.hasFlash('noticeSuccess') %}
+        <div class="alert alert-block alert-success">
+            {{ app.session.flash('noticeSuccess') }}
+        </div>
+    {% elseif app.session.hasFlash('noticeFailed') %}
+        <div class="alert alert-block alert-failed">
+            {{ app.session.flash('noticeFailed') }}
+        </div>
+    {% endif %}
+
+    <h1>Add a club</h1>
+
+    <form name="add_club_form" method="post" action="{{ path('submit_add_club') }}">
+        {{ form_widget(club_form) }}
+        <button type="submit">Save club</button>
+    </form>
+{% endblock %}
+
+{% block sidebar %}{% endblock %}

@@ -5,27 +5,36 @@ namespace Grabagame\BookingBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Grabagame\BookingBundle\Entity\Court
+ * Court entity
+ *
+ * @ORM\Entity(repositoryClass="Grabagame\BookingBundle\Entity\Court")
+ * @ORM\Table( name="court" )
  */
 class Court
 {
     /**
-     * @var integer $id
+     * @ORM\Id
+     * @ORM\Column(type="integer", name="id")
+     * @ORM\GeneratedValue(strategy="AUTO")    
      */
     private $id;
 
     /**
-     * @var integer $number
+     * @ORM\Column(type="integer")
      */
     private $number;
 
     /**
-     * @var Grabagame\BookingBundle\Entity\Booking
+     * Bidirectional - one-to-many
+     *
+     * @ORM\OneToMany(targetEntity="Booking", mappedBy="court")     
      */
     private $bookings;
 
     /**
-     * @var Grabagame\BookingBundle\Entity\Club
+     * Bidirectional - many-to-one
+     *
+     * @ORM\ManyToOne(targetEntity="Club", inversedBy="courts")     
      */
     private $club;
 
