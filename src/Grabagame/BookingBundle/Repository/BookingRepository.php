@@ -18,14 +18,17 @@ class BookingRepository extends EntityRepository
     public function getBookingsByDate($club, $date)
     {
         $startDate = $date->format('Y-m-d 00:00:00');
+        $endDate = $date->format('Y-m-d 23:59:59');
+
         $em = $this->getEntityManager();
         $query = $em->createQuery('
-            SELECT b 
-            FROM GrabagameBookingBundle:Booking p 
-            WHERE b.startDate = :date
-            AND p.Status <> \'DRAFT\'
-            AND p.Status <> \'DECLINED\'');
-        $query->setParameter('query', '%'.$searchTerm.'%');
-        return $query->getArrayResult();        
+            SELECT b
+            FROM GrabagameBookingBundle:Booking b
+            WHERE b.startDate BETWEEN "'.$startDate.'" AND "'.$endDate.'"
+            AND b.club = :club'
+        );
+        $query->setParameter('club', $club);
+
+        return $query->getResult();
     }
 }
