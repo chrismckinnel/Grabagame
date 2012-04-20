@@ -5,3 +5,11 @@ home:
 booking:
     pattern:  /booking/
     defaults: { _controller: GrabagameBookingBundle:Booking:renderBookingTable }
+
+add_club:
+    pattern:  /add-club/
+    defaults: { _controller: Grabagame\BookingBundle\Controller\Admin\ClubController::addClubAction }
+
+submit_add_club:
+    pattern:  /submit-add-club/
+    defaults: { _controller: Grabagame\BookingBundle\Controller\Admin\ClubController::submitAddClubAction }

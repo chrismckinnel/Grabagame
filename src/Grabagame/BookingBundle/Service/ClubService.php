@@ -38,4 +38,19 @@ class ClubService extends LoggerAware {
 
         return $club;
     }
+    
+    /**
+     * @param Club $club
+     *
+     * @return $club
+     */
+    public function saveClub($club)
+    {
+        $entityManager = $this->doctrine->getEntityManager();
+        $entityManager->persist($club);
+        $entityManager->flush();
+
+        return $club;
+    }
+
 }

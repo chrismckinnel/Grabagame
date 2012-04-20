@@ -2,52 +2,68 @@
 
 namespace Grabagame\BookingBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping as ORM,
+    Grabagame\BookingBundle\Entity\Court;
 
 /**
- * Grabagame\BookingBundle\Entity\Club
+ * Club entity
+ *
+ * @ORM\Entity(repositoryClass="Grabagame\BookingBundle\Entity\Club")
+ * @ORM\Table( name="club" )
  */
 class Club
 {
     /**
-     * @var integer $id
+     * @ORM\Id
+     * @ORM\Column(type="integer", name="id")
+     * @ORM\GeneratedValue(strategy="AUTO")    
      */
     private $id;
 
     /**
-     * @var string $name
+     * @ORM\Column(type="string")
      */
     private $name;
 
     /**
-     * @var string $email
+     * @ORM\Column(type="string")
      */
     private $email;
 
     /**
-     * @var date $createdDate
+     * @ORM\Column(type="datetime")
      */
     private $createdDate;
 
     /**
-     * @var integer $bookingIncrement
+     * @ORM\Column(type="integer")
      */
     private $bookingIncrement;
 
     /**
-     * @var Grabagame\BookingBundle\Entity\Court
+     * Bidirectional - one-to-many
+     *
+     * @ORM\OneToMany(targetEntity="Court", mappedBy="club", cascade={"persist"})     
      */
     private $courts;
 
     /**
-     * @var Grabagame\BookingBundle\Entity\Member
+     * @var integer
+     */
+    private $numberOfCourts;
+
+    /**
+     * Bidirectional - one-to-many
+     *
+     * @ORM\OneToMany(targetEntity="Member", mappedBy="club")     
      */
     private $members;
 
     public function __construct()
     {
         $this->courts = new \Doctrine\Common\Collections\ArrayCollection();
-    $this->members = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->members = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->createdDate = new \DateTime('now');
     }
     
     /**
@@ -93,7 +109,7 @@ class Club
     /**
      * Get email
      *
-     * @return string 
+     * @return stringGrabagame\BookingBundle\Entity\Court 
      */
     public function getEmail()
     {
@@ -138,6 +154,31 @@ class Club
     public function getBookingIncrement()
     {
         return $this->bookingIncrement;
+    }
+
+    /**
+     * Set numberOfCourts
+     *
+     * @param integer $numberOfCourts
+     */
+    public function setNumberOfCourts($numberOfCourts)
+    {
+        for ($i = 1; $i <= $numberOfCourts; $i++) {
+            $court = new Court();
+            $court->setNumber($i);
+            $court->setClub($this);
+            $this->addCourt($court);
+        }
+    }
+
+    /**
+     * Get numberOfCourts
+     *
+     * @return integer 
+     */
+    public function getNumberOfCourts()
+    {
+        return count($this->courts);
     }
 
     /**

@@ -5,47 +5,56 @@ namespace Grabagame\BookingBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Grabagame\BookingBundle\Entity\Member
+ * Member entity
+ *
+ * @ORM\Entity(repositoryClass="Grabagame\BookingBundle\Entity\Member")
+ * @ORM\Table( name="member" )
  */
 class Member
 {
     /**
-     * @var integer $id
+     * @ORM\Id
+     * @ORM\Column(type="integer", name="id")
+     * @ORM\GeneratedValue(strategy="AUTO")    
      */
     private $id;
 
     /**
-     * @var string $firstName
+     * @ORM\Column(type="string")
      */
     private $firstName;
 
     /**
-     * @var string $lastName
+     * @ORM\Column(type="string")
      */
     private $lastName;
 
     /**
-     * @var string $email
+     * @ORM\Column(type="string")
      */
     private $email;
 
     /**
-     * @var date $createdDate
+     * @ORM\Column(type="datetime")
      */
     private $createdDate;
 
     /**
-     * @var boolean $verified
+     * @ORM\Column(type="boolean")
      */
     private $verified;
 
     /**
-     * @var Grabagame\BookingBundle\Entity\Booking
+     * Bidirectional - one-to-many
+     *
+     * @ORM\OneToMany(targetEntity="Booking", mappedBy="member")     
      */
     private $bookings;
 
     /**
-     * @var Grabagame\BookingBundle\Entity\Club
+     * Bidirectional - many-to-one
+     *
+     * @ORM\ManyToOne(targetEntity="Club", inversedBy="members")     
      */
     private $club;
 
