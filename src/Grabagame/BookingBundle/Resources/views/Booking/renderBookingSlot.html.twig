@@ -1,10 +1,13 @@
 {% if Booking is not null %}
-    <td class="booked">
-        {% set Member = Booking.getMember %}
-        {{ Member.getFirstName }} {{ Member.getLastName }}
+    {% set Member = Booking.getMember %}
+    <td>
+        <a href="" class="booked">
+        {{ SlotTime.format('G:i') }}<br />
+        {{ Member.getNameForBookingTable }}
+        </a>
     </td>
 {% else %}
     <td>
-    {{ SlotTime.format('G:i') }}
+    <a href="">{{ SlotTime.format('G:i') }}</a>
     </td>
 {% endif %}

@@ -25,9 +25,9 @@ class BookingCollection extends ArrayCollection
 
             if ($booking->getSlots() > 1) {
                 for ($i = 2; $i <= $booking->getSlots(); $i++) {
-                    $nextSlotTime = $this->getStartTime()
-                                         ->add(new \DateInterval('PT1H'))
-                                         ->format($this->startTimeFormat);
+                    $nextSlotTime = $booking->getStartTime()
+                                            ->add(new \DateInterval('PT1H'))
+                                            ->format($this->startTimeFormat);
 
                     $this->bookingKeys[$courtNumber.'_'.$nextSlotTime] = $booking;
                 }

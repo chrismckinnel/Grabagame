@@ -33,7 +33,7 @@ class BookingController extends Controller
 
             $club = $clubService->getClubById('3');
             $startTimes = $clubService->getStartTimes($club);
-            $bookingCollection = $bookingService->getBookingsByDate($club, new \DateTime('now'));
+            $bookingCollection = $bookingService->getBookingsByDate($club, new \DateTime('2012-01-01'));
 
             $bindings = array(
                 'Club' => $club,

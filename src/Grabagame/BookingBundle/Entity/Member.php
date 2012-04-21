@@ -212,4 +212,12 @@ class Member
     {
         return $this->club;
     }
+
+    /**
+     * @return string
+     */
+    public function getNameForBookingTable()
+    {
+        return strtoupper(substr($this->getFirstName(), 0, 1)).'. '.$this->getLastName();
+    }
 }
