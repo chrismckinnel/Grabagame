@@ -2,7 +2,10 @@
 namespace Grabagame\BookingBundle\Service;
 
 use Monolog\Handler\StreamHandler,
-    Grabagame\BookingBundle\Entity\Booking;
+    Grabagame\BookingBundle\Entity\Booking,
+    Grabagame\BookingBundle\Exception\BookingException,
+    Grabagame\BookingBundle\Entity\BookingCollection;
+
 
  /**
   * Booking service
@@ -107,5 +110,23 @@ class BookingService extends LoggerAware {
         $entityManager = $this->doctrine->getEntityManager();
         $entityManager->remove($booking);
         $entityManager->flush();
+    }
+
+    /**
+     * @param Club     $club Club object
+     * @param DateTime $date Date to get bookings for
+     * 
+     * @return BookingCollection
+     */
+    public function getBookingsByDate($club, $date)
+    {
+        $bookings = $this->doctrine
+                         ->getEntityManager()
+                         ->getRepository('GrabagameBookingBundle:Booking')
+                         ->getBookingsByDate($club, $date);
+
+        $bookingCollection = ($bookings) ? new BookingCollection($bookings) : new BookingCollection();
+        
+        return $bookingCollection;
     }
 }

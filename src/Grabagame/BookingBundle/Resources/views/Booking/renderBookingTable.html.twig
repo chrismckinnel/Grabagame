@@ -4,6 +4,22 @@
 
 {% block body %}
     <h1>Booking table</h1>
+
+    <table>
+    {% for Court in Club.getCourts %}
+        <th>Court {{ Court.getNumber }}</th>
+    {% endfor %}
+
+    {% for StartTime in StartTimes %}
+        <tr>
+        {% for Court in Club.getCourts %}
+                {% set Booking = BookingCollection.getForCourtAndStartTime(Court, StartTime) %} 
+                {% render 'GrabagameBookingBundle:Booking:renderBookingSlot' with {'booking': Booking, 'slotTime': StartTime } %}
+        {% endfor %}
+        </tr>
+    {% endfor %}
+    </table>
+                
 {% endblock %}
 
 {% block sidebar %}{% endblock %}

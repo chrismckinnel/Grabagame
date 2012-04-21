@@ -1,0 +1,10 @@
+{% if Booking is not null %}
+    <td class="booked">
+        {% set Member = Booking.getMember %}
+        {{ Member.getFirstName }} {{ Member.getLastName }}
+    </td>
+{% else %}
+    <td>
+    {{ SlotTime.format('G:i') }}
+    </td>
+{% endif %}

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM,
 /**
  * Club entity
  *
- * @ORM\Entity(repositoryClass="Grabagame\BookingBundle\Entity\Club")
+ * @ORM\Entity()
  * @ORM\Table( name="club" )
  */
 class Club
@@ -29,6 +29,11 @@ class Club
      * @ORM\Column(type="string")
      */
     private $email;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $firstBookingTime;
 
     /**
      * @ORM\Column(type="datetime")
@@ -57,6 +62,13 @@ class Club
      *
      * @ORM\OneToMany(targetEntity="Member", mappedBy="club")     
      */
+    private $club;
+
+    /**
+     * Bidirectional - one-to-many
+     *
+     * @ORM\OneToMany(targetEntity="Member", mappedBy="club")     
+     */
     private $members;
 
     public function __construct()
@@ -64,6 +76,7 @@ class Club
         $this->courts = new \Doctrine\Common\Collections\ArrayCollection();
         $this->members = new \Doctrine\Common\Collections\ArrayCollection();
         $this->createdDate = new \DateTime('now');
+        $this->firstBookingTime = new \DateTime('2012-01-01 10:00:00');
     }
     
     /**
@@ -114,6 +127,26 @@ class Club
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * Set firstBookingTime
+     *
+     * @param string $firstBookingTime
+     */
+    public function setFirstBookingTime($firstBookingTime)
+    {
+        $this->firstBookingTime = $firstBookingTime;
+    }
+
+    /**
+     * Get firstBookingTime
+     *
+     * @return string
+     */
+    public function getFirstBookingTime()
+    {
+        return $this->firstBookingTime;
     }
 
     /**
@@ -219,5 +252,25 @@ class Club
     public function getMembers()
     {
         return $this->members;
+    }
+
+    /**
+     * Add bookings
+     *
+     * @param Grabagame\BookingBundle\Entity\Booking $bookings
+     */
+    public function addBookings(\Grabagame\BookingBundle\Entity\Booking $booking)
+    {
+        $this->bookings[] = $bookings;
+    }
+
+    /**
+     * Get bookings
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getBookings()
+    {
+        return $this->bookings;
     }
 }

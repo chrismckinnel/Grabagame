@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Booking entity
  *
- * @ORM\Entity(repositoryClass="Grabagame\BookingBundle\Entity\Booking")
+ * @ORM\Entity(repositoryClass="Grabagame\BookingBundle\Repository\BookingRepository")
  * @ORM\Table( name="booking" )
  */
 class Booking
@@ -28,6 +28,13 @@ class Booking
      * @ORM\Column(type="integer")
      */
     private $slots = 1;
+
+    /**
+     * Bidirectional - many-to-one
+     *
+     * @ORM\ManyToOne(targetEntity="Club", inversedBy="bookings")     
+     */
+    private $club;
 
     /**
      * Bidirectional - many-to-one
@@ -92,6 +99,26 @@ class Booking
     public function getSlots()
     {
         return $this->slots;
+    }
+
+    /**
+     * Set club
+     *
+     * @param Grabagame\BookingBundle\Entity\Club $club
+     */
+    public function setClub(\Grabagame\BookingBundle\Entity\Club $club)
+    {
+        $this->club = $club;
+    }
+
+    /**
+     * Get club
+     *
+     * @return Grabagame\BookingBundle\Entity\Club 
+     */
+    public function getClub()
+    {
+        return $this->club;
     }
 
     /**

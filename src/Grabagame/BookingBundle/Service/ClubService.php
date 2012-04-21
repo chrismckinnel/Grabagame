@@ -38,6 +38,26 @@ class ClubService extends LoggerAware {
 
         return $club;
     }
+
+    /**
+     * @param integer $clubId
+     *
+     * @return $club
+     */
+    public function getClubById($clubId)
+    {
+        $club = $this->doctrine
+                     ->getEntityManager()
+                     ->getRepository('GrabagameBookingBundle:Club')
+                     ->find($clubId);
+
+        if (!$club) {
+            throw new \Exception('No club exists with the ID '.$clubId);
+        }
+
+        return $club;
+    }
+
     
     /**
      * @param Club $club
@@ -51,6 +71,28 @@ class ClubService extends LoggerAware {
         $entityManager->flush();
 
         return $club;
+    }
+
+    /**
+     * @param Club $club
+     *
+     * @return array
+     */
+    public function getStartTimes($club)
+    {
+        $startTimes = array();
+        $startTime = $club->getFirstBookingTime();
+        $increment = $club->getBookingIncrement();
+        
+        $currentTime = $startTime;
+        $finishTime = new \DateTime($startTime->format('Y-m-d 23:59:59'));
+
+        while ($currentTime < $finishTime) {
+            $startTimes[] = new \DateTime($currentTime->format('Y-m-d G:i:s'));
+            $currentTime->add(new \DateInterval('PT'.$increment.'M'));
+        }
+    
+        return $startTimes;
     }
 
 }

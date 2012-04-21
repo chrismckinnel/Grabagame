@@ -11,9 +11,10 @@ use Doctrine\ORM\EntityRepository,
 class BookingRepository extends EntityRepository
 {
     /**
-     * @param Court $court
+     * @param Club $club
+     * @param DateTime $date
      *
-     * @return BookingCollection
+     * @return Collection
      */
     public function getBookingsByDate($club, $date)
     {
@@ -21,12 +22,13 @@ class BookingRepository extends EntityRepository
         $endDate = $date->format('Y-m-d 23:59:59');
 
         $em = $this->getEntityManager();
-        $query = $em->createQuery('
+        $query = $em->createQuery("
             SELECT b
             FROM GrabagameBookingBundle:Booking b
-            WHERE b.startDate BETWEEN "'.$startDate.'" AND "'.$endDate.'"
-            AND b.club = :club'
+            WHERE b.startTime BETWEEN '".$startDate."' AND '".$endDate."'
+            AND b.club = :club"
         );
+
         $query->setParameter('club', $club);
 
         return $query->getResult();
