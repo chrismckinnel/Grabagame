@@ -2,22 +2,22 @@
 
 namespace Grabagame\BookingBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
+use Doctrine\ORM\Mapping as ORM,
+    FOS\UserBundle\Entity\User as BaseUser;
 /**
  * Member entity
  *
  * @ORM\Entity()
  * @ORM\Table( name="member" )
  */
-class Member
+class Member extends BaseUser
 {
     /**
      * @ORM\Id
      * @ORM\Column(type="integer", name="id")
      * @ORM\GeneratedValue(strategy="AUTO")    
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\Column(type="string")
@@ -28,11 +28,6 @@ class Member
      * @ORM\Column(type="string")
      */
     private $lastName;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $email;
 
     /**
      * @ORM\Column(type="datetime")
@@ -111,26 +106,6 @@ class Member
     public function getLastName()
     {
         return $this->lastName;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string 
-     */
-    public function getEmail()
-    {
-        return $this->email;
     }
 
     /**

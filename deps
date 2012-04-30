@@ -61,10 +61,7 @@
     target=/bundles/Symfony/Bundle/AsseticBundle
     version=v1.0.1
 
-[doctrine-migrations]
-    git=http://github.com/doctrine/migrations.git
-
-[DoctrineMigrationsBundle]
-    git=http://github.com/symfony/DoctrineMigrationsBundle.git
-    target=/bundles/Symfony/Bundle/DoctrineMigrationsBundle
-    version=origin/2.0
+[FOSUserBundle]
+    git=git://github.com/FriendsOfSymfony/FOSUserBundle.git
+    target=bundles/FOS/UserBundle
+    version=1.2.0
