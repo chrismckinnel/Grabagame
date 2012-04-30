@@ -13,8 +13,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller,
 class BookingController extends Controller
 {
     /**
-     * @param 
-     * 
+     * @param
+     *
      * @return Response
      */
     public function indexAction()
@@ -25,15 +25,20 @@ class BookingController extends Controller
     /**
      * @return Response
      */
-    public function renderBookingTableAction()
+    public function renderBookingTableAction($today = null)
     {
         try {
             $clubService = $this->get('service.club');
             $bookingService = $this->get('service.booking');
 
-            $club = $clubService->getClubById('3');
-            $startTimes = $clubService->getStartTimes($club);
-            $bookingCollection = $bookingService->getBookingsByDate($club, new \DateTime('2012-01-01'));
+            if ($today == null) {
+                $today = new \DateTime("now");
+            }
+
+            $club = $clubService->getClubById('1');
+            $startTimes = $clubService->getStartTimes($club, $today);
+
+            $bookingCollection = $bookingService->getBookingsByDate($club, $today);
 
             $bindings = array(
                 'Club' => $club,
@@ -45,24 +50,43 @@ class BookingController extends Controller
         } catch (\Exception $e) {
             $logger = $this->get('logger');
             $logger->err($e);
-            
+
             return $this->render('GrabagameBookingBundle::exception.html.twig');
         }
     }
 
     /**
-     * @param Booking  $booking  Current booking
-     * @param DateTime $slotTime Time of slot
+     * @param string   $bookingKey
+     * @param DateTime $startTime
      *
      * @return Response
      */
-    public function renderBookingSlotAction($booking, $slotTime)
+    public function makeBookingAction($court, $startTime)
     {
-        $bindings = array(
-            'Booking' => $booking,
-            'SlotTime' => $slotTime,
-        );
+        try {
+            $startTime = htmlentities($startTime);
+            $bookingService = $this->get('service.booking');
+            $memberService  = $this->get('service.member');
 
-        return $this->render('GrabagameBookingBundle:Booking:renderBookingSlot.html.twig', $bindings);
+            $member = $memberService->getLoggedInMember();
+            $club = $member->getClub();
+            $court = $clubService->getCourtByNumber($club, $court);
+
+            $booking = $bookingService->createBooking($court, $member, $startTime);
+            $booking_form = $this->createForm(new BookingType(), $booking);
+
+            $bindings = array(
+                'form'    => $booking_form,
+                'booking' => $booking,
+            );
+
+            return $this->render('GrabagameBookingBundle::Booking:makeBooking.html.twig');
+        } catch (\Exception $e) {
+            $logger = $this->get('logger');
+            $logger->err($e);
+
+            return $this->render('GrabagameBookingBundle::exception.html.twig');
+        }
     }
+
 }

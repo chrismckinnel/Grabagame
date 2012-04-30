@@ -1,0 +1,14 @@
+{% extends 'GrabagameBookingBundle::layout.html.twig' %}
+
+{% block boxes %}{% endblock %}
+
+{% block body %}
+    <h1>Make a booking</h1>
+
+    <p><strong>Details of your booking</strong></p>
+
+    {{ form_widget(booking_form) }}
+
+{% endblock %}
+
+{% block sidebar %}{% endblock %}

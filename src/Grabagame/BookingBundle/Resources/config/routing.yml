@@ -6,6 +6,10 @@ booking:
     pattern:  /booking/
     defaults: { _controller: GrabagameBookingBundle:Booking:renderBookingTable }
 
+makeBooking:
+    pattern:  /make-booking/{court}/{startTime}/
+    defaults: { _controller: GrabagameBookingBundle:Booking:makeBooking }
+
 add_club:
     pattern:  /add-club/
     defaults: { _controller: Grabagame\BookingBundle\Controller\Admin\ClubController::addClubAction }

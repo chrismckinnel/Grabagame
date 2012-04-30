@@ -9,27 +9,38 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class BookingCollection extends ArrayCollection
 {
-    private $bookingKeys;
+    private $bookingKeys = array();
     private $startTimeFormat = 'Y-m-d G:i:s';
+
+    /**
+     * @param 
+     *
+     * @return void
+     */
+    private function makeBookingKey($court, $startTime)
+    {
+        return $court->getNumber().'_'.$startTime->format($this->startTimeFormat);
+    }
 
     /**
      * @param Collection $bookingCollection
      */
     public function __construct($bookings = array())
     {
-        foreach ($bookings as $booking) {
-            $courtNumber = $booking->getCourt()->getNumber();
-            $startTime = $booking->getStartTime()->format($this->startTimeFormat);
+        parent::__construct($bookings);
 
-            $this->bookingKeys[$courtNumber.'_'.$startTime] = $booking;
+        foreach ($bookings as $booking) {
+            $startTime = $booking->getStartTime();
+            $court = $booking->getCourt();
+
+            $this->bookingKeys[$this->makeBookingKey($court, $startTime)] = $booking;
 
             if ($booking->getSlots() > 1) {
                 for ($i = 2; $i <= $booking->getSlots(); $i++) {
                     $nextSlotTime = $booking->getStartTime()
-                                            ->add(new \DateInterval('PT1H'))
-                                            ->format($this->startTimeFormat);
+                                            ->add(new \DateInterval('PT1H'));
 
-                    $this->bookingKeys[$courtNumber.'_'.$nextSlotTime] = $booking;
+                    $this->bookingKeys[$this->makeBookingKey($court, $nextSlotTime)] = $booking;
                 }
             }
         }
@@ -41,15 +52,12 @@ class BookingCollection extends ArrayCollection
      *
      * @return Booking
      */
-    public function getForCourtAndStartTime($court, $startTime)
+    public function getForCourtAndStartTime($court, \DateTime $startTime)
     {
-        if (!empty($this->bookingKeys)) {
-            $courtNumber = $court->getNumber();
-            $startTime = $startTime->format($this->startTimeFormat);
+        $key = $this->makeBookingKey($court, $startTime);
 
-            if (array_key_exists($courtNumber.'_'.$startTime, $this->bookingKeys)) {
-                return $this->bookingKeys[$courtNumber.'_'.$startTime];
-            }
+        if (array_key_exists($key, $this->bookingKeys)) {
+            return $this->bookingKeys[$key];
         }
 
         return null;

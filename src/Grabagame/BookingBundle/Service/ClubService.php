@@ -74,18 +74,19 @@ class ClubService extends LoggerAware {
     }
 
     /**
-     * @param Club $club
+     * @param Club     $club
+     * @param DateTime $today
      *
      * @return array
      */
-    public function getStartTimes($club)
+    public function getStartTimes($club, $today)
     {
         $startTimes = array();
         $startTime = $club->getFirstBookingTime();
         $increment = $club->getBookingIncrement();
         
-        $currentTime = $startTime;
-        $finishTime = new \DateTime($startTime->format('Y-m-d 23:59:59'));
+        $currentTime = new \DateTime($today->format('Y-m-d').$startTime->format(' H:i:s'));
+        $finishTime = new \DateTime($today->format('Y-m-d 23:59:59'));
 
         while ($currentTime < $finishTime) {
             $startTimes[] = new \DateTime($currentTime->format('Y-m-d G:i:s'));

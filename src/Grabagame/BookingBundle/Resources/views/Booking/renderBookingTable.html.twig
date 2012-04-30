@@ -13,8 +13,17 @@
     {% for StartTime in StartTimes %}
         <tr>
         {% for Court in Club.getCourts %}
-                {% set Booking = BookingCollection.getForCourtAndStartTime(Court, StartTime) %} 
-                {% render 'GrabagameBookingBundle:Booking:renderBookingSlot' with {'booking': Booking, 'slotTime': StartTime } %}
+            {% set Booking = BookingCollection.getForCourtAndStartTime(Court, StartTime) %} 
+            {% if Booking is not null %}
+                {% set Member = Booking.getMember %}
+                <td>
+                    <a href="" class="booked">{{ StartTime.format('G:i') }}<br />{{ Member.getNameForBookingTable }}</a>
+                </td>
+            {% else %}
+                <td>
+                <a href="{{ path('makeBooking', { 'court': Court.getNumber, 'startTime': StartTime.format('G:i:s') }) }}">{{ StartTime.format('G:i') }}</a>
+                </td>
+            {% endif %}                
         {% endfor %}
         </tr>
     {% endfor %}
