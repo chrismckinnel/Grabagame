@@ -20,12 +20,12 @@ class Member extends BaseUser
     protected $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $firstName;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $lastName;
 
@@ -37,7 +37,7 @@ class Member extends BaseUser
     /**
      * @ORM\Column(type="boolean")
      */
-    private $verified;
+    private $verified = 1;
 
     /**
      * Bidirectional - one-to-many
@@ -55,6 +55,8 @@ class Member extends BaseUser
 
     public function __construct()
     {
+        parent::__construct();
+        $this->setCreatedDate(new \DateTime("now"));
         $this->bookings = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
