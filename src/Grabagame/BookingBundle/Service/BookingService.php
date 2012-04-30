@@ -63,15 +63,17 @@ class BookingService extends LoggerAware {
      * @param Court    $court     Court object
      * @param Member   $member    Member object
      * @param DateTime $startTime Time the booking starts
+     * @param slots    $slots     Amount of slots
      *
      * @return Booking
      */
-    public function createBooking($court, $member, $startTime)
+    public function createBooking($court, $member, $startTime, $slots = 1)
     {
         $booking = new Booking();
         $booking->setCourt($court);
         $booking->setMember($member);
         $booking->setStartTime($startTime);
+        $booking->setSlots($slots);
 
         return $booking;
     }
@@ -129,4 +131,5 @@ class BookingService extends LoggerAware {
         
         return $bookingCollection;
     }
+
 }
