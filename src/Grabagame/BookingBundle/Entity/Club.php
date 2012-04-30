@@ -273,4 +273,20 @@ class Club
     {
         return $this->bookings;
     }
+
+    /**
+     * @param integer $courtNumber
+     * 
+     * @return Court
+     */
+    public function getCourtByNumber($courtNumber)
+    {
+        foreach ($this->courts as $court) {
+            if ($court->getNumber() == $courtNumber) {
+                return $court;
+            }
+        }
+
+        throw new \Exception('Court number '.$courtNumber.' doesn\'t exist for this club');
+    }
 }

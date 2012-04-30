@@ -2,7 +2,9 @@
 namespace Grabagame\BookingBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller,
-    Symfony\Component\HttpFoundation\Request;
+    Symfony\Component\HttpFoundation\Request,
+    Grabagame\BookingBundle\Form\Type\BookingType,
+    JMS\SecurityExtraBundle\Annotation\Secure;
 
 /**
  * Controller for booking management
@@ -56,37 +58,34 @@ class BookingController extends Controller
     }
 
     /**
-     * @param string   $bookingKey
+     * @param integer  $courtNumber
      * @param DateTime $startTime
+     * @Secure(roles="ROLE_USER")
      *
      * @return Response
      */
-    public function makeBookingAction($court, $startTime)
+    public function makeBookingAction($courtNumber, $startTime)
     {
-        try {
             $startTime = htmlentities($startTime);
+            $newStartTime = new \DateTime("now");
+            $startTime = $newStartTime->format('Y-m-d '.$startTime);
+
             $bookingService = $this->get('service.booking');
             $memberService  = $this->get('service.member');
 
             $member = $memberService->getLoggedInMember();
             $club = $member->getClub();
-            $court = $clubService->getCourtByNumber($club, $court);
+            $court = $club->getCourtByNumber($courtNumber);
 
             $booking = $bookingService->createBooking($court, $member, $startTime);
             $booking_form = $this->createForm(new BookingType(), $booking);
 
             $bindings = array(
-                'form'    => $booking_form,
-                'booking' => $booking,
+                'booking_form' => $booking_form->createView(),
+                'booking'      => $booking,
             );
-
-            return $this->render('GrabagameBookingBundle::Booking:makeBooking.html.twig');
-        } catch (\Exception $e) {
-            $logger = $this->get('logger');
-            $logger->err($e);
-
-            return $this->render('GrabagameBookingBundle::exception.html.twig');
-        }
+        
+        return $this->render('GrabagameBookingBundle:Booking:makeBooking.html.twig', $bindings);
     }
 
 }

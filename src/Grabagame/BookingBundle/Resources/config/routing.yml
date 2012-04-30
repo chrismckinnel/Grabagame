@@ -7,7 +7,7 @@ booking:
     defaults: { _controller: GrabagameBookingBundle:Booking:renderBookingTable }
 
 makeBooking:
-    pattern:  /make-booking/{court}/{startTime}/
+    pattern:  /make-booking/{courtNumber}/{startTime}/
     defaults: { _controller: GrabagameBookingBundle:Booking:makeBooking }
 
 add_club:
