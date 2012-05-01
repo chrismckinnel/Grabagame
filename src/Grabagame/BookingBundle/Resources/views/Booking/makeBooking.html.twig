@@ -7,7 +7,11 @@
 
     <p><strong>Details of your booking</strong></p>
 
-    {{ form_widget(booking_form) }}
+    <p><strong>Start time:</strong> {{ booking.getStartTime.format('d F G:i a') }}</p>
+    <form action="{{ path('submitMakeBooking') }}" method="post">
+        {{ form_widget(booking_form) }}
+        <button type="submit">Make booking</button>
+    </form>
 
 {% endblock %}
 

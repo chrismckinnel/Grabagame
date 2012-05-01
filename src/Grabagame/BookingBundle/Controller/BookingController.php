@@ -4,6 +4,7 @@ namespace Grabagame\BookingBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller,
     Symfony\Component\HttpFoundation\Request,
     Grabagame\BookingBundle\Form\Type\BookingType,
+    Grabagame\BookingBundle\Entity\Booking,
     JMS\SecurityExtraBundle\Annotation\Secure;
 
 /**
@@ -23,8 +24,7 @@ class BookingController extends Controller
     {
         return $this->render('GrabagameBookingBundle::layout.html.twig');
     }
-
-    /**
+/**
      * @return Response
      */
     public function renderBookingTableAction($today = null)
@@ -37,7 +37,7 @@ class BookingController extends Controller
                 $today = new \DateTime("now");
             }
 
-            $club = $clubService->getClubById('3');
+            $club = $clubService->getClubById('1');
             $startTimes = $clubService->getStartTimes($club, $today);
 
             $bookingCollection = $bookingService->getBookingsByDate($club, $today);
@@ -60,15 +60,17 @@ class BookingController extends Controller
     /**
      * @param integer  $courtNumber
      * @param DateTime $startTime
+     *
      * @Secure(roles="ROLE_USER")
      *
      * @return Response
      */
     public function makeBookingAction($courtNumber, $startTime)
     {
+        try {
             $startTime = htmlentities($startTime);
             $newStartTime = new \DateTime("now");
-            $startTime = $newStartTime->format('Y-m-d '.$startTime);
+            $startTime = new \DateTime($newStartTime->format('Y-m-d '.$startTime));
 
             $bookingService = $this->get('service.booking');
             $memberService  = $this->get('service.member');
@@ -84,8 +86,49 @@ class BookingController extends Controller
                 'booking_form' => $booking_form->createView(),
                 'booking'      => $booking,
             );
-        
-        return $this->render('GrabagameBookingBundle:Booking:makeBooking.html.twig', $bindings);
+
+            return $this->render('GrabagameBookingBundle:Booking:makeBooking.html.twig', $bindings);
+        } catch (\Exception $e) {
+            $logger = $this->get('logger');
+            $logger->err($e);
+
+            return $this->render('GrabagameBookingBundle::exception.html.twig');
+        }
     }
 
+    /**
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function submitMakeBookingAction(Request $request)
+    {
+        try {
+            if ($request->getMethod() == 'POST') {
+                $bookingService = $this->get('service.booking');
+                $memberService  = $this->get('service.member');
+                $member = $memberService->getLoggedInMember();
+
+                $booking = new Booking();
+                $bookingForm = $this->createForm(new BookingType(), $booking);
+                $bookingForm->bindRequest($request);
+
+                if ($bookingForm->isValid()) {
+                    $bookingService->saveBooking($booking);
+                    $flashMessage = $this->renderView('GrabagameBookingBundle:Booking:bookingSuccessful');
+
+                    $this->get('app.session')->setFlash('notice', $flashMessage);
+                } else {
+                    //@todo figure out what to do here 
+                }
+            }
+
+            return $this->render('GrabagameBookingBundle:Booking:renderBookingTable.html.twig');
+        } catch (\Exception $e) {
+            $logger = $this->get('logger');
+            $logger->err($e);
+
+            return $this->render('GrabagameBookingBundle::exception.html.twig');
+        }
+    }
 }

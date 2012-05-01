@@ -21,7 +21,7 @@
                 </td>
             {% else %}
                 <td>
-                <a href="{{ path('makeBooking', { 'court': Court.getNumber, 'startTime': StartTime.format('G:i:s') }) }}">{{ StartTime.format('G:i') }}</a>
+                <a href="{{ path('makeBooking', { 'courtNumber': Court.getNumber, 'startTime': StartTime.format('G:i:s') }) }}">{{ StartTime.format('G:i') }}</a>
                 </td>
             {% endif %}                
         {% endfor %}

@@ -50,7 +50,7 @@ class BookingService extends LoggerAware {
      *
      * @return $booking
      */
-    private function saveBooking($booking)
+    public function saveBooking($booking)
     {
         $entityManager = $this->doctrine->getEntityManager();
         $entityManager->persist($booking);
