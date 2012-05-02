@@ -66,6 +66,7 @@ class Member extends BaseUser
         parent::__construct();
         $this->setCreatedDate(new \DateTime("now"));
         $this->bookings = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->addRole('ROLE_USER');
     }
     
     /**

@@ -23,11 +23,13 @@ class RegistrationType extends BaseType
                 'type' => 'password',
                 'required' => true,
                 'invalid_message' => 'The password fields must match',
-                'options' => array('label' => 'Password'),
                 'first_name' => 'Password',
-                'second_name' => 'Verify password',
-            )
-        );
+                'second_name' => 'Verify password',))
+            ->add('club', 'entity', array(
+                'class' => 'GrabagameBookingBundle:Club',
+                'label' => 'Which club do you belong to?',
+                'property' => 'name',
+            ));
     }
 
     public function getName()

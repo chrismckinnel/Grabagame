@@ -36,7 +36,7 @@ class BookingController extends Controller
                 $today = new \DateTime("now");
             }
 
-            $club = $clubService->getClubById('1');
+            $club = $clubService->getClubById('3');
             $startTimes = $clubService->getStartTimes($club, $today);
 
             $bookingCollection = $bookingService->getBookingsByDate($club, $today);
