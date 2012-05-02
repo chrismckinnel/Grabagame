@@ -37,7 +37,7 @@ class BookingController extends Controller
                 $today = new \DateTime("now");
             }
 
-            $club = $clubService->getClubById('1');
+            $club = $clubService->getClubById('3');
             $startTimes = $clubService->getStartTimes($club, $today);
 
             $bookingCollection = $bookingService->getBookingsByDate($club, $today);
@@ -84,7 +84,8 @@ class BookingController extends Controller
 
             $bindings = array(
                 'booking_form' => $booking_form->createView(),
-                'booking'      => $booking,
+                'Booking'      => $booking,
+                'Club'         => $club,
             );
 
             return $this->render('GrabagameBookingBundle:Booking:makeBooking.html.twig', $bindings);
@@ -113,17 +114,28 @@ class BookingController extends Controller
                 $bookingForm = $this->createForm(new BookingType(), $booking);
                 $bookingForm->bindRequest($request);
 
+                var_dump($booking);
+                die();
+
                 if ($bookingForm->isValid()) {
                     $bookingService->saveBooking($booking);
-                    $flashMessage = $this->renderView('GrabagameBookingBundle:Booking:bookingSuccessful');
+                    $flashMessage = $this->renderView('GrabagameBookingBundle:Booking:bookingSuccessful.html.twig');
 
                     $this->get('app.session')->setFlash('notice', $flashMessage);
                 } else {
-                    //@todo figure out what to do here 
+                    $bindings = array(
+                        'booking_form' => $bookingForm->createView(),
+                        'Booking'      => $booking,
+                        'Club'         => $booking->getClub(),
+                    );
+
+                    return $this->render('GrabagameBookingBundle:Booking:makeBooking.html.twig', $bindings);
                 }
             }
 
-            return $this->render('GrabagameBookingBundle:Booking:renderBookingTable.html.twig');
+            $bindings = array('today' => $booking->getStartTime());
+
+            return $this->redirect($this->generateUrl('booking', $bindings));
         } catch (\Exception $e) {
             $logger = $this->get('logger');
             $logger->err($e);

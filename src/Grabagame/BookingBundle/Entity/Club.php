@@ -46,6 +46,11 @@ class Club
     private $bookingIncrement;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $maxSlots;
+
+    /**
      * Bidirectional - one-to-many
      *
      * @ORM\OneToMany(targetEntity="Court", mappedBy="club", cascade={"persist"})     
@@ -187,6 +192,26 @@ class Club
     public function getBookingIncrement()
     {
         return $this->bookingIncrement;
+    }
+
+    /**
+     * Set maxSlots
+     *
+     * @param integer $maxSlots
+     */
+    public function setMaxSlots($maxSlots)
+    {
+        $this->maxSlots = $maxSlots;
+    }
+
+    /**
+     * Get maxSlots
+     *
+     * @return integer 
+     */
+    public function getMaxSlots()
+    {
+        return $this->maxSlots;
     }
 
     /**

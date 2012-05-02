@@ -6,10 +6,21 @@
     <h1>Make a booking</h1>
 
     <p><strong>Details of your booking</strong></p>
+    
+    {{ form_errors(booking_form) }}
 
-    <p><strong>Start time:</strong> {{ booking.getStartTime.format('d F G:i a') }}</p>
+    <p><strong>Start time:</strong> {{ Booking.getStartTime.format('d F G:i a') }}</p>
+    <p><strong>Court number:</strong> {{ Booking.getCourt.getNumber }}</p>
     <form action="{{ path('submitMakeBooking') }}" method="post">
-        {{ form_widget(booking_form) }}
+        <label>
+            <strong>Duration:</strong>
+            <select name="duration">
+            {{ Club.getMaxSlots }}
+            {% for slotNumber in 1..Club.getMaxSlots %}
+                <option value="{{ slotNumber }}">{{ Club.getBookingIncrement*slotNumber }} minutes</option>
+            {% endfor %}
+            </select>
+        </label>
         <button type="submit">Make booking</button>
     </form>
 
