@@ -16,15 +16,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller,
 class BookingController extends Controller
 {
     /**
-     * @param
-     *
      * @return Response
      */
     public function indexAction()
     {
         return $this->render('GrabagameBookingBundle::layout.html.twig');
     }
-/**
+
+    /**
      * @return Response
      */
     public function renderBookingTableAction($today = null)
@@ -37,7 +36,7 @@ class BookingController extends Controller
                 $today = new \DateTime("now");
             }
 
-            $club = $clubService->getClubById('3');
+            $club = $clubService->getClubById('1');
             $startTimes = $clubService->getStartTimes($club, $today);
 
             $bookingCollection = $bookingService->getBookingsByDate($club, $today);

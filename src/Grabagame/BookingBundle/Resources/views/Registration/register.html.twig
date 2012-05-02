@@ -1,0 +1,11 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+{% block boxes %}{% endblock boxes %}
+{% block body %}
+    <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register">
+        {{ form_widget(form) }}
+        <div>
+            <button type="submit">Register</button>
+        </div>
+    </form>
+{% endblock body %}
+{% block sidebar %}{% endblock sidebar %}

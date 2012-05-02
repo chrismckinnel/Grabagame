@@ -26,3 +26,9 @@ services:
             - [ setDoctrine, [@doctrine] ]
             - [ setSecurityContext, [@security.context] ]
             - [ setLogger, [@logger, %base_logging_url%, 'MemberService'] ]
+
+    service.registration.form.type:
+        class: Grabagame\BookingBundle\Form\Type\RegistrationType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: grabagame_user_registration }

@@ -3,7 +3,9 @@
 namespace Grabagame\BookingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM,
-    FOS\UserBundle\Entity\User as BaseUser;
+    FOS\UserBundle\Entity\User as BaseUser,
+    Symfony\Component\Validator\Constraints as Assert;
+    
 /**
  * Member entity
  *
@@ -21,11 +23,17 @@ class Member extends BaseUser
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Assert\NotBlank(message="Please enter your first name.", groups={"Registration", "Profile"})
+     * @Assert\MinLength(limit="3", message="The first name you entered is too short.", groups={"Registration", "Profile"})
+     * @Assert\MaxLength(limit="100", message="The first name you entered is too long.", groups={"Registration", "Profile"})     
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Assert\NotBlank(message="Please enter your last name.", groups={"Registration", "Profile"})
+     * @Assert\MinLength(limit="3", message="The last name you entered is too short.", groups={"Registration", "Profile"})
+     * @Assert\MaxLength(limit="100", message="The last name you entered is too long.", groups={"Registration", "Profile"})     
      */
     private $lastName;
 

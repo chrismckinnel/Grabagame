@@ -63,3 +63,6 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: Grabagame\BookingBundle\Entity\Member
+    registration:
+        form:
+            type: grabagame_user_registration

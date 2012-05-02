@@ -5,6 +5,12 @@
 {% block body %}
     <h1>Booking table</h1>
 
+    {% if app.session.hasFlash('fos_user_success') %} 
+        <div class="flash-notice">
+            {{ app.session.flash('fos_user_success') }} 
+        </div>
+    {% endif %}
+
     <table id="timetable">
     {% for Court in Club.getCourts %}
         <th>Court {{ Court.getNumber }}</th>
