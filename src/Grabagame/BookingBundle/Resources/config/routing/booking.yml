@@ -1,0 +1,19 @@
+booking:
+    pattern:  /
+    defaults: { _controller: GrabagameBookingBundle:Booking:renderBookingTable }
+
+makeBooking:
+    pattern:  /new/{courtNumber}/{startTime}/
+    defaults: { _controller: GrabagameBookingBundle:Booking:makeBooking }
+
+submitMakeBooking:
+    pattern:  /new/complete/
+    defaults: { _controller: GrabagameBookingBundle:Booking:submitMakeBooking }
+
+cancel:
+    pattern: /cancel/{bookingId}/
+    defaults: { _controller: GrabagameBookingBundle:Booking:cancel }
+
+submitCancel:
+    pattern: /cancelled/{bookingId}/
+    defaults: { _controller: GrabagameBookingBundle:Booking:submitCancel }

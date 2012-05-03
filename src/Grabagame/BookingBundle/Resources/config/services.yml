@@ -11,6 +11,7 @@ services:
         calls:
             - [ setDoctrine, [@doctrine] ]
             - [ setLogger, [@logger, %base_logging_url%, 'BookingService'] ]
+            - [ setMemberService, [@service.member] ]
 
     service.club:
         class: Grabagame\BookingBundle\Service\ClubService

@@ -33,4 +33,36 @@ class BookingRepository extends EntityRepository
 
         return $query->getResult();
     }
+
+    /**
+     * @param Club  $club
+     * @param Court $court
+     * @param array $startTimes
+     *
+     * @return Collection
+     */
+    public function findByStartTimes($club, $court, $startTimes)
+    {
+        $formattedStartTime = array();
+        foreach ($startTimes as $startTime) {
+            $formattedStartTime[] = $startTime->format('Y-m-d G:i:s');
+        }
+
+        $formattedStartTime = "'".implode("','", $formattedStartTime)."'";
+
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("
+            SELECT b
+            FROM GrabagameBookingBundle:Booking b
+            WHERE b.startTime IN (".$formattedStartTime.")
+            AND b.court = :court
+            AND b.club = :club"
+        );
+
+        $query->setParameter('court', $court);
+        $query->setParameter('club', $club);
+
+        return $query->getResult();
+       
+    }
 }

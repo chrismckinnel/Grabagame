@@ -11,6 +11,12 @@
         </div>
     {% endif %}
 
+    {% if app.session.hasFlash('notice') %} 
+        <div class="flash-notice">
+            {{ app.session.flash('notice') }}
+        </div>
+    {% endif %}
+
     <table id="timetable">
     {% for Court in Club.getCourts %}
         <th>Court {{ Court.getNumber }}</th>
@@ -23,7 +29,7 @@
             {% if Booking is not null %}
                 {% set Member = Booking.getMember %}
                 <td>
-                    <a href="" class="booked">{{ StartTime.format('G:i') }}<br />{{ Member.getNameForBookingTable }}</a>
+                    <a href="{{ path('cancel', { 'bookingId': Booking.getId }) }}" class="booked">{{ StartTime.format('G:i') }}<br />{{ Member.getNameForBookingTable }}</a>
                 </td>
             {% else %}
                 <td>

@@ -16,6 +16,7 @@ use Monolog\Handler\StreamHandler,
 class BookingService extends LoggerAware {
 
     protected $doctrine;
+    protected $memberService;
     protected $logger;
     
     /**
@@ -24,6 +25,29 @@ class BookingService extends LoggerAware {
     public function setDoctrine($doctrine)
     {
         $this->doctrine = $doctrine;
+    }
+
+    /**
+     * @param Registry $memberService
+     */
+    public function setMemberService($memberService)
+    {
+        $this->memberService = $memberService;
+    }
+
+    /**
+     * @param Booking $booking
+     *
+     * @return boolean
+     */
+    private function canManageBooking($booking)
+    {
+        $member = $this->memberService->getLoggedInMember();
+        if ($member->hasRole('ROLE_ADMIN') || $member === $booking->getMember()) {
+            return true;   
+        } else {
+            return false;   
+        }
     }
 
     /**
@@ -101,7 +125,24 @@ class BookingService extends LoggerAware {
      */
     public function isSlotAvailable($booking)
     {
-        
+        $club = $booking->getClub();
+        $bookingIncrement = $club->getBookingIncrement();
+        $court = $booking->getCourt();
+
+        $startTimes = array();
+        $startTime = clone $booking->getStartTime();
+
+        for ($i = 0; $i < $booking->getSlots(); $i++) {
+            $startTimes[] = $booking->getStartTime();
+            $startTime = $startTime->add(new \DateInterval('PT'.$bookingIncrement.'M'));
+        }
+
+        $bookings = $this->doctrine
+                         ->getEntityManager()
+                         ->getRepository('GrabagameBookingBundle:Booking')
+                         ->findByStartTimes($club, $court, $startTimes);
+
+        return empty($bookings) ? true : false;
     }
 
     /**
@@ -109,9 +150,16 @@ class BookingService extends LoggerAware {
      */
     public function cancelBooking($booking)
     {
-        $entityManager = $this->doctrine->getEntityManager();
-        $entityManager->remove($booking);
-        $entityManager->flush();
+        if ($this->canManageBooking($booking)) {
+            $entityManager = $this->doctrine->getEntityManager();
+            $entityManager->remove($booking);
+            $entityManager->flush();
+        } else {
+            $member = $this->memberService->getLoggedInMember();
+            $this->logger->info('Security alert');
+            $this->logger->info('User ID: '.$member->getId.'('.$member->getFirstName().' '.$member->getLastName().' just tried to cancel another members booking');
+            throw new AccessDeniedException('Nice try, but you can only cancel your own bookings.');
+        }
     }
 
     /**
@@ -131,5 +179,4 @@ class BookingService extends LoggerAware {
         
         return $bookingCollection;
     }
-
 }

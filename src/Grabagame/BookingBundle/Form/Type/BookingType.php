@@ -32,7 +32,7 @@ class BookingType extends AbstractType
      */
     public function buildForm(FormBuilder $builder, array $options)
     {
-        $builder->add('slots', 'choice', array('choices' => array('1' => '1', '2' => '2', '3' => '3')));
+        
     }
 
     /**
