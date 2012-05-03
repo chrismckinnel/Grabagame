@@ -37,7 +37,7 @@ class BookingController extends Controller
                 $today = new \DateTime("now");
             }
 
-            $club = $clubService->getClubById('1');
+            $club = $clubService->getClubById('3');
             $startTimes = $clubService->getStartTimes($club, $today);
 
             $bookingCollection = $bookingService->getBookingsByDate($club, $today);
@@ -83,12 +83,15 @@ class BookingController extends Controller
             $court = $club->getCourtByNumber($courtNumber);
 
             $booking = $bookingService->createBooking($court, $member, $startTime);
+            $booking->setClub($club);
+            $maxSlots = $bookingService->getMaxSlots($booking);
             $booking_form = $this->createForm(new BookingType(), $booking);
 
             $bindings = array(
                 'booking_form' => $booking_form->createView(),
                 'Booking'      => $booking,
                 'Club'         => $club,
+                'MaxSlots'     => $maxSlots,
             );
 
             return $this->render('GrabagameBookingBundle:Booking:makeBooking.html.twig', $bindings);
@@ -138,7 +141,7 @@ class BookingController extends Controller
                     $slots = $request->get('duration');
                     $booking->setSlots($slots);
 
-                    if ($bookingService->isSlotAvailable($booking) === true) {
+                    if ($bookingService->isSlotAvailable($booking) == true) {
 
                         $bookingService->saveBooking($booking);
                         $this->setBookingSuccessfulFlash($member, $booking);

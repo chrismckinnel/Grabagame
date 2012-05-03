@@ -23,7 +23,15 @@
         <label>
             <strong>Duration:</strong>
             <select name="duration">
-            {% for slotNumber in 1..Club.getMaxSlots %}
+            {% if MaxSlots is defined %}
+                {% if MaxSlots > Club.getMaxSlots %}
+                    {% set MaxSlots = Club.getMaxSlots %}
+                {% endif %}
+            {% else %}
+                {% set MaxSlots = Club.getMaxSlots %}
+            {% endif %}
+
+            {% for slotNumber in 1..MaxSlots %}
                 <option value="{{ slotNumber }}">{{ Club.getBookingIncrement*slotNumber }} minutes</option>
             {% endfor %}
             </select>

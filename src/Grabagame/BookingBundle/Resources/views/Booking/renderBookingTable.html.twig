@@ -28,8 +28,15 @@
             {% set Booking = BookingCollection.getForCourtAndStartTime(Court, StartTime) %} 
             {% if Booking is not null %}
                 {% set Member = Booking.getMember %}
+                {% if app.user.username is defined %}
+                    {% if app.user.username == Member.getUsername %}
+                        {% set CurrentUser = 'you' %}
+                    {% else %}
+                        {% set CurrentUser = '' %}
+                    {% endif %}
+                {% endif %}
                 <td>
-                    <a href="{{ path('cancel', { 'bookingId': Booking.getId }) }}" class="booked">{{ StartTime.format('G:i') }}<br />{{ Member.getNameForBookingTable }}</a>
+                    <a href="{{ path('cancel', { 'bookingId': Booking.getId }) }}" class="booked {% if CurrentUser is defined %}{{ CurrentUser }}{% endif %}">{{ StartTime.format('G:i') }}<br />{{ Member.getNameForBookingTable }}</a>
                 </td>
             {% else %}
                 <td>

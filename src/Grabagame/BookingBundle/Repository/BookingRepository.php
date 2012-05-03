@@ -25,10 +25,12 @@ class BookingRepository extends EntityRepository
         $query = $em->createQuery("
             SELECT b
             FROM GrabagameBookingBundle:Booking b
-            WHERE b.startTime BETWEEN '".$startDate."' AND '".$endDate."'
+            WHERE b.startTime BETWEEN :startDate AND :endDate 
             AND b.club = :club"
         );
 
+        $query->setParameter('startDate', $startDate);
+        $query->setParameter('endDate', $endDate);
         $query->setParameter('club', $club);
 
         return $query->getResult();
@@ -63,6 +65,30 @@ class BookingRepository extends EntityRepository
         $query->setParameter('club', $club);
 
         return $query->getResult();
-       
+    }
+
+    /**
+     * @param Booking $booking
+     * 
+     * @return void
+     */
+    public function findNextBooking($booking)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("
+            SELECT b
+            FROM GrabagameBookingBundle:Booking b
+            WHERE b.startTime > :startTime
+            AND b.court = :court
+            AND b.club = :club
+            ORDER BY b.startTime ASC"
+        );
+
+        $query->setParameter('startTime', $booking->getStartTime());
+        $query->setParameter('court', $booking->getCourt());
+        $query->setParameter('club', $booking->getClub());
+        $query->setMaxResults(1);
+        
+        return $query->getOneOrNullResult();
     }
 }

@@ -133,10 +133,10 @@ class BookingService extends LoggerAware {
         $startTime = clone $booking->getStartTime();
 
         for ($i = 0; $i < $booking->getSlots(); $i++) {
-            $startTimes[] = $booking->getStartTime();
+            $startTimes[] = clone $startTime;
             $startTime = $startTime->add(new \DateInterval('PT'.$bookingIncrement.'M'));
         }
-
+        
         $bookings = $this->doctrine
                          ->getEntityManager()
                          ->getRepository('GrabagameBookingBundle:Booking')
@@ -178,5 +178,42 @@ class BookingService extends LoggerAware {
         $bookingCollection = ($bookings) ? new BookingCollection($bookings) : new BookingCollection();
         
         return $bookingCollection;
+    }
+
+    /**
+     * @param Booking $booking
+     * 
+     * @return integer
+     */
+    public function getMaxSlots($booking)
+    {
+        $nextBooking = $this->doctrine
+                            ->getEntityManager()
+                            ->getRepository('GrabagameBookingBundle:Booking')
+                            ->findNextBooking($booking);
+
+        $startTime = $booking->getStartTime();
+
+        if (!empty($nextBooking)) {
+            $bookingIncrement = $booking->getClub()->getBookingIncrement();
+    
+            $timeDifference = $startTime->diff($nextBooking->getStartTime(), true);
+            $hours = $timeDifference->format('%h');
+            $minutes = $timeDifference->format('%i');
+
+            if ($hours > 0) {
+                if ($minutes > 0) {
+                    $minutes = $hours * $minutes;
+                } else {
+                    $minutes = $hours * 60;
+                }
+            }             
+
+            $maxSlots = $minutes / $bookingIncrement;
+        } else {
+            $maxSlots = 99;
+        }
+
+        return $maxSlots;
     }
 }
