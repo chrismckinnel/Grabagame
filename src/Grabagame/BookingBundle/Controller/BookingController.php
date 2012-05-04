@@ -37,7 +37,7 @@ class BookingController extends Controller
                 $today = new \DateTime("now");
             }
 
-            $club = $clubService->getClubById('3');
+            $club = $clubService->getClubById('1');
             $startTimes = $clubService->getStartTimes($club, $today);
 
             $bookingCollection = $bookingService->getBookingsByDate($club, $today);
@@ -53,10 +53,8 @@ class BookingController extends Controller
 
             return $this->renderBookingException($e);
         } catch (\Exception $e) {
-            $logger = $this->get('logger');
-            $logger->err($e);
 
-            return $this->render('GrabagameBookingBundle::exception.html.twig');
+            return $this->renderException($e);
         }
     }
 
@@ -99,10 +97,8 @@ class BookingController extends Controller
 
             return $this->renderBookingException($e);
         } catch (\Exception $e) {
-            $logger = $this->get('logger');
-            $logger->err($e);
 
-            return $this->render('GrabagameBookingBundle::exception.html.twig');
+            return $this->renderException($e);
         }
     }
 
@@ -177,10 +173,8 @@ class BookingController extends Controller
 
             return $this->renderBookingException($e);
         } catch (\Exception $e) {
-            $logger = $this->get('logger');
-            $logger->err($e);
 
-            return $this->render('GrabagameBookingBundle::exception.html.twig');
+            return $this->renderException($e);
         }
     }
 
@@ -238,10 +232,8 @@ class BookingController extends Controller
 
             return $this->renderBookingException($e);
         } catch (\Exception $e) {
-            $logger = $this->get('logger');
-            $logger->err($e);
 
-            return $this->render('GrabagameBookingBundle::exception.html.twig');
+            return $this->renderException($e);
         }
     }
 
@@ -265,10 +257,8 @@ class BookingController extends Controller
 
             return $this->renderBookingException($e);
         } catch (\Exception $e) {
-            $logger = $this->get('logger');
-            $logger->err($e);
 
-            return $this->render('GrabagameBookingBundle::exception.html.twig');
+            return $this->renderException($e);
         }
     }
 
@@ -287,5 +277,18 @@ class BookingController extends Controller
         );
 
         return $this->render('GrabagameBookingBundle::exception.html.twig', $bindings);
+    }
+
+    /**
+     * @param Exception $e
+     *
+     * @return Response
+     */
+    private function throwException($e)
+    {
+        $logger = $this->get('logger');
+        $logger->err($e->getMessage());
+
+        return $this->render('GrabagameBookingBundle::exception.html.twig');
     }
 }

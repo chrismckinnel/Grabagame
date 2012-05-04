@@ -16,6 +16,7 @@ $loader->registerNamespaces(array(
     'Metadata'                   => __DIR__.'/../vendor/metadata/src',
     'FOS'                        => __DIR__.'/../vendor/bundles',
     'Doctrine\\DBAL\\Migrations' => __DIR__.'/../vendor/doctrine-migrations/lib',
+    'DoctrineExtensions'         => __DIR__.'/../vendor/DoctrineExtensions/lib',
 ));
 
 $loader->registerPrefixes(array(

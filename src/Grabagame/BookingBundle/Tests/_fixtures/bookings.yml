@@ -1,0 +1,29 @@
+booking:
+  -
+    id: 1
+    startTime: "2012-05-03 06:00:00"
+    slots: 3
+    club_id: 1
+    court_id: 2
+    member_id: 2
+  -
+    id: 2 
+    startTime: "2012-05-03 10:00:00"
+    slots: 1
+    club_id: 1
+    court_id: 2
+    member_id: 2
+  -
+    id: 3 
+    startTime: "2012-05-04 10:00:00"
+    slots: 1
+    club_id: 1
+    court_id: 2
+    member_id: 2
+  -
+    id: 4 
+    startTime: "2012-05-04 09:00:00"
+    slots: 2 
+    club_id: 1
+    court_id: 4 
+    member_id: 2
