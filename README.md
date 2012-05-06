@@ -1,4 +1,4 @@
 Grab a game
 ===========
 
-Build status: ![alt text](https://secure.travis-ci.org/chrismckinnel/Grabagame.png "Build status")
+[![Build Status](https://secure.travis-ci.org/chrismckinnel/Grabagame.png?branch=develop)](http://travis-ci.org/chrismckinnel/Grabagame)
