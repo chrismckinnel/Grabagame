@@ -1,5 +1,7 @@
 #! /bin/bash
-sudo pear install phpunit/DbUnit
+pyrus install http://phptal.org/latest.tar.gz
+phpenv rehash
+pyrus install phpunit/DbUnit
 cd src
 mv app/config/parameters.ini.dist src/app/config/parameters.ini
 php bin/vendors install
