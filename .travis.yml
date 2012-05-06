@@ -2,7 +2,7 @@ language: php
 php:
   - 5.3
   - 5.4
-script: ./build/build.sh
+script: phpunit -c src/app
 before_script:
   - mysql -e 'create database Grabagame;'
   - ./deployment/project-setup.sh

@@ -6,7 +6,7 @@
     database_host     = localhost
     database_port     =
     database_name     = Grabagame
-    database_user     = 
+    database_user     = root
     database_password = 
 
     mailer_transport  = smtp
