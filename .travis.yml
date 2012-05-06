@@ -3,7 +3,9 @@ php:
   - 5.3
   - 5.4
 script: ./build/build.sh
-before_script: ./deployment/project-setup.sh
+before_script:
+  - mysql -e 'create database Grabagame;'
+  - ./deployment/project-setup.sh
 branches:
   only:
     - develop
