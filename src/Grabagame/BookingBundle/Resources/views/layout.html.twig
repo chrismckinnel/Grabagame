@@ -12,19 +12,19 @@
         <div id="background_texture">
             <div id="header">
                 <div id="logo">
-                    <a href="/"><img src="{{ asset('bundles/grabagamebooking/images/grabagame.gif') }}" alt="logo" /></a>
+                    <a href="{{ path('home') }}"><img src="{{ asset('bundles/grabagamebooking/images/grabagame.gif') }}" alt="logo" /></a>
                 </div>
             </div>
 
             <div id="menu_container">
                 <ul>
                     <li> <a href="{{ path('home') }}" class="m1">Home</a> </li>
-                    <li> <a href="" class="m2">About Us</a> </li>
-                    <li> <a href="" class="m3">Booking</a> </li>
+                    <li> <a href="{{ path('about') }}" class="m2">About Us</a> </li>
+                    <li> <a href="{{ path('bookingDefault') }}" class="m3">Booking</a> </li>
                 </ul>
                 <div id="search">
                     <form action="" method="post">
-                        <a href=""><img class="button" src="{{ asset('bundles/grabagamebooking/images/button_login.gif') }}" /></a>
+                        <a href="{{ path('fos_user_security_login') }}"><img class="button" src="{{ asset('bundles/grabagamebooking/images/button_login.gif') }}" /></a>
                     </form>
                 </div>
             </div>
@@ -64,10 +64,6 @@
                     {% block sidebar %}
                     <div class="right">
                         <!--start news-->
-                        <div class="quick_poll">
-                            <p align="center"><img src="{{ asset('bundles/grabagamebooking/images/title_quick_poll.gif') }}" alt="Quick Poll" border="0" /></p>
-                        </div>
-
                         <div class="news_bubble">
                             <div class="text">
                                 <p align="center"><img src="{{ asset('bundles/grabagamebooking/images/title_suggestions.gif') }}" alt="Latest News" border="0" /></p>
@@ -82,9 +78,9 @@
                         <div class="contact_box">
                             <div class="text">
                                 <p><img src="{{ asset('bundles/grabagamebooking/images/title_contact.gif') }}" alt="Latest News" border="0" /></p>
-                                <p>&nbsp;</p>
-                                <p>
-                                    <img src="{{ asset('bundles/grabagamebooking/images/icon_email.gif') }}" alt="Email" width="18" height="18" align="top" class="icon" /><a href="mailto:chris@grabagame.co.nz">chris@grabagame.co.nz</a></p>
+                                <p><img src="{{ asset('bundles/grabagamebooking/images/icon_email.gif') }}" alt="Email" width="18" height="18" align="top" class="icon" /><a href="mailto:chris@grabagame.co.nz">chris@grabagame.co.nz</a></p>
+                                <p>Twitter: <a href="http://www.twitter.com/chrismckinnel">@chrismckinnel</a></p>
+                                <p><a href="http://www.linkedin.com/pub/chris-mckinnel/21/420/502">Linked in</a></p>
                             </div>
                         </div>
                         <!--end contact-->

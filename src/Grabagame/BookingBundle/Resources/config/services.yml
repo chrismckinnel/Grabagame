@@ -1,5 +1,5 @@
 parameters:
-    base_logging_url: /var/www/grabagame/app/logs
+    base_logging_url: /var/www/grabagame/src/app/logs
 
 services:
     service.loggerAware:

@@ -4,4 +4,4 @@ home:
 
 about:
     pattern: /about/
-    defaults: { _controller: GrabagamebookingBundle:Home:about }
+    defaults: { _controller: GrabagameBookingBundle:Home:about }
