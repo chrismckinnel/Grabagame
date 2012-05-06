@@ -423,6 +423,11 @@ hr {
   text-align: center;
 }
 
+#suggestion_paragraph textarea {
+    border: 1px solid #ccc;
+    resize: none;
+}
+
 #booking_rules {
 	padding: 0;
 	margin: 0;
