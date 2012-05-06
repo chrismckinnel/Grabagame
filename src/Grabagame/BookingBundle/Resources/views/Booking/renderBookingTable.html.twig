@@ -17,6 +17,30 @@
         </div>
     {% endif %}
 
+    <h3>{{ DayToDisplay.format('F d Y') }}</h3>
+
+    <ul id="day_nav">
+        <li id="yesterday"><a href="{{ path('booking', { 'dayToDisplay': Yesterday.format('Y-m-d') }) }}">Yesterday</a></li>
+        <li id="tomorrow"><a href="{{ path('booking', { 'dayToDisplay': Tomorrow.format('Y-m-d') }) }}">Tomorrow</a></li>
+    </ul>
+
+    <table id="legend">
+      <tr>
+        <td>
+          You: <img src="{{ asset('bundles/grabagamebooking/images/book_you.jpg') }}" />
+        </td>
+        <td>
+          Someone else: <img src="{{ asset('bundles/grabagamebooking/images/book_other.jpg') }}" />
+        </td>
+        <td>
+          Event: <img src="{{ asset('bundles/grabagamebooking/images/book_event.jpg') }}" />
+        </td>
+        <td>
+          At courts: <img src="{{ asset('bundles/grabagamebooking/images/checked_in.jpg') }}" />
+        </td>
+      </tr>
+    </table>
+
     <table id="timetable">
     {% for Court in Club.getCourts %}
         <th>Court {{ Court.getNumber }}</th>

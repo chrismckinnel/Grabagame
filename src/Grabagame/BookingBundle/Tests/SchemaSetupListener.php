@@ -1,6 +1,6 @@
 <?php
 
-namespace Labour\CampaignDbBundle\Tests;
+namespace Grabagame\BookingBundle\Tests;
 
 use DoctrineExtensions\PHPUnit\Event\EntityManagerEventArgs,
     Doctrine\ORM\Tools\SchemaTool,

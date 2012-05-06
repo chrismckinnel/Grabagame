@@ -25,27 +25,32 @@ class BookingController extends Controller
     }
 
     /**
+     * @param string $dayToDisplay
+     *
      * @return Response
      */
-    public function renderBookingTableAction($today = null)
+    public function renderBookingTableAction($dayToDisplay = null)
     {
         try {
             $clubService = $this->get('service.club');
             $bookingService = $this->get('service.booking');
 
-            if ($today == null) {
-                $today = new \DateTime("now");
-            }
+            $dayToDisplay = $bookingService->getDayToDisplay($dayToDisplay);
+            $yesterday = $bookingService->getYesterday($dayToDisplay);
+            $tomorrow = $bookingService->getTomorrow($dayToDisplay);
 
-            $club = $clubService->getClubById('1');
-            $startTimes = $clubService->getStartTimes($club, $today);
+            $club = $clubService->getClubById('3');
+            $startTimes = $clubService->getStartTimes($club, $dayToDisplay);
 
-            $bookingCollection = $bookingService->getBookingsByDate($club, $today);
+            $bookingCollection = $bookingService->getBookingsByDate($club, $dayToDisplay);
 
             $bindings = array(
-                'Club' => $club,
-                'StartTimes' => $startTimes,
+                'Club'              => $club,
+                'StartTimes'        => $startTimes,
                 'BookingCollection' => $bookingCollection,
+                'DayToDisplay'      => $dayToDisplay,
+                'Tomorrow'          => $tomorrow,
+                'Yesterday'         => $yesterday,
             );
 
             return $this->render('GrabagameBookingBundle:Booking:renderBookingTable.html.twig', $bindings);
@@ -166,9 +171,10 @@ class BookingController extends Controller
                 }
             }
 
-            $bindings = array('today' => $booking->getStartTime());
+            $dayToDisplay = $booking->getStartTime()->format('Y-m-d G:i');
+            $bindings = array('DayToDisplay' => $dayToDisplay);
 
-            return $this->redirect($this->generateUrl('booking', $bindings));
+            return $this->forward('GrabagameBookingBundle:Booking:renderBookingTable', $bindings);
         } catch (BookingException $e) {
 
             return $this->renderBookingException($e);
@@ -284,7 +290,7 @@ class BookingController extends Controller
      *
      * @return Response
      */
-    private function throwException($e)
+    private function renderException($e)
     {
         $logger = $this->get('logger');
         $logger->err($e->getMessage());

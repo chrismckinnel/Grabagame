@@ -1,6 +1,6 @@
 <?php
 
-namespace Labour\CampaignDbBundle\Tests\Entity;
+namespace Grabagame\BookingBundle\Tests\Entity;
 
 use Grabagame\BookingBundle\Tests\DatabaseTestCase,
     Grabagame\BookingBundle\Entity\Booking,
@@ -33,7 +33,7 @@ class BookingRepositoryTest extends DatabaseTestCase
     {
         $repo = $this->em->getRepository('GrabagameBookingBundle:Booking');
 
-        $booking = $repo->findById(1);
+        $booking = $repo->find(1);
         $nextBooking = $repo->findNextBooking($booking);
 
         $this->assertEquals('2012-05-03 10:00:00', $nextBooking->getStartTime()->format('Y-m-d G:i:s'));

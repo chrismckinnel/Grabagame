@@ -19,6 +19,9 @@ class DefaultControllerTest extends WebTestCase
         $this->bookingService = $client->getContainer()->get('service.booking');
     }
 
+    /**
+     * Test create booking
+     */
     public function testCreateBooking()
     {
         $court = new Court();
@@ -35,12 +38,20 @@ class DefaultControllerTest extends WebTestCase
     }
 
     /**
-     * @param 
-     *
-     * @expectedException Exception
+     * Test get day to display
      */
-    public function testCreateBookingFail()
+    public function testGetDayToDisplay()
     {
-        $booking = $this->bookingService->createBooking();
+        $input = null;
+        $dayToDisplay = $this->bookingService->getDayToDisplay($input);
+        $expectedDayToDisplay = new \DateTime('now');
+        $expectedDayToDisplay = $expectedDayToDisplay->format('Y-m-d');
+
+        $this->assertEquals($expectedDayToDisplay, $dayToDisplay->format('Y-m-d'));
+
+        $input = '2012-05-04';
+        $dayToDisplay = $this->bookingService->getDayToDisplay($input);
+
+        $this->assertEquals('2012-05-04', $dayToDisplay->format('Y-m-d'));
     }
 }

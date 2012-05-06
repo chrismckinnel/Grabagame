@@ -6,6 +6,10 @@ booking:
     resource: "@GrabagameBookingBundle/Resources/config/routing/booking.yml"
     prefix: /booking
 
+club:
+    resource: "@GrabagameBookingBundle/Resources/config/routing/club.yml"
+    prefix: /club
+
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 

@@ -216,4 +216,37 @@ class BookingService extends LoggerAware {
 
         return $maxSlots;
     }
+
+    /**
+     * @param string $dayToDisplay
+     * 
+     * @return DateTime
+     */
+    public function getDayToDisplay($dayToDisplay)
+    {
+        $dayToDisplay = ($dayToDisplay == null) ? "now" : $dayToDisplay;
+        return new \DateTime($dayToDisplay);
+    }
+
+    /**
+     * @param string $dayToDisplay
+     * 
+     * @return DateTime
+     */
+    public function getYesterday($dayToDisplay)
+    {
+        $tempDayToDisplay = clone $dayToDisplay;
+        return $tempDayToDisplay->sub(new \DateInterval('P1D'));
+    }
+
+    /**
+     * @param string $dayToDisplay
+     * 
+     * @return DateTime
+     */
+    public function getTomorrow($dayToDisplay)
+    {
+        $tempDayToDisplay = clone $dayToDisplay;
+        return $tempDayToDisplay->add(new \DateInterval('P1D'));
+    }
 }

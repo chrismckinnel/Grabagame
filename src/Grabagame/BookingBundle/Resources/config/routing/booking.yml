@@ -1,5 +1,9 @@
-booking:
+bookingDefault:
     pattern:  /
+    defaults: { _controller: GrabagameBookingBundle:Booking:renderBookingTable }
+
+booking:
+    pattern:  /{dayToDisplay}/
     defaults: { _controller: GrabagameBookingBundle:Booking:renderBookingTable }
 
 makeBooking:

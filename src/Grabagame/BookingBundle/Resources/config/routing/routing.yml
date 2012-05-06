@@ -1,11 +1,7 @@
 home:
     pattern:  /
-    defaults: { _controller: GrabagameBookingBundle:Booking:index }
+    defaults: { _controller: GrabagameBookingBundle:Home:index }
 
-add_club:
-    pattern:  /add-club/
-    defaults: { _controller: Grabagame\BookingBundle\Controller\Admin\ClubController::addClubAction }
-
-submit_add_club:
-    pattern:  /submit-add-club/
-    defaults: { _controller: Grabagame\BookingBundle\Controller\Admin\ClubController::submitAddClubAction }
+about:
+    pattern: /about/
+    defaults: { _controller: GrabagamebookingBundle:Home:about }
