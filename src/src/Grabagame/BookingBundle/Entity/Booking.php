@@ -29,6 +29,7 @@ class Booking
      */
     private $slots = 1;
 
+
     /**
      * Bidirectional - many-to-one
      *
