@@ -8,7 +8,7 @@ use Grabagame\BookingBundle\Tests\DatabaseTestCase,
     Grabagame\BookingBundle\Entity\Member,
     Grabagame\BookingBundle\Entity\Booking;
 
-class DefaultControllerTest extends DatabaseTestCase
+class BookingServiceTest extends DatabaseTestCase
 {
     /** 
      * @var Doctrine\ORM\EntityManager 
