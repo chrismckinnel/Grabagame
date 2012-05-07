@@ -15,9 +15,13 @@
     
     {{ form_errors(booking_form) }}
 
-    <p><strong>Start time:</strong> {{ Booking.getStartTime.format('d F G:i a') }}</p>
-    <p><strong>Court number:</strong> {{ Booking.getCourt.getNumber }}</p>
     <form action="{{ path('submitMakeBooking') }}" method="post">
+        {% if Booking.getType == 'onBehalf' %}
+            <p>If you're booking on behalf of someone else, enter their name below.</p>
+            <p><input type="text" name="firstName" placeholder="First name" required="required"> <input type="text" name="lastName" placeholder="Last name" required="required"></p>
+        {% endif %}
+        <p><strong>Start time:</strong> {{ Booking.getStartTime.format('d F G:i a') }}</p>
+        <p><strong>Court number:</strong> {{ Booking.getCourt.getNumber }}</p>
         <input type="hidden" name="startTime" value="{{ Booking.getStartTime.format('Y-m-d G:i') }}">
         <input type="hidden" name="courtNumber" value="{{ Booking.getCourt.getNumber }}">
         <label>

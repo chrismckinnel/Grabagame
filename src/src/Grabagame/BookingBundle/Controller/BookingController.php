@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller,
     Symfony\Component\HttpFoundation\Request,
     Grabagame\BookingBundle\Form\Type\BookingType,
     Grabagame\BookingBundle\Entity\Booking,
+    Grabagame\BookingBundle\Entity\BookingOnBehalf,
     Grabagame\BookingBundle\Exception\BookingException,
     JMS\SecurityExtraBundle\Annotation\Secure;
 
@@ -18,8 +19,7 @@ class BookingController extends Controller
 {
     /**
      * @return Response
-     */
-    public function indexAction()
+     */ public function indexAction()
     {
         return $this->render('GrabagameBookingBundle::layout.html.twig');
     }
@@ -90,6 +90,10 @@ class BookingController extends Controller
             $maxSlots = $bookingService->getMaxSlots($booking);
             $booking_form = $this->createForm(new BookingType(), $booking);
 
+            if ($member->hasRole('ROLE_BOOK_ON_BEHALF')) {
+                $booking->setType('onBehalf');
+            }
+
             $bindings = array(
                 'booking_form' => $booking_form->createView(),
                 'Booking'      => $booking,
@@ -137,6 +141,7 @@ class BookingController extends Controller
                 $booking->setMember($member);
                 $booking->setClub($member->getClub());
 
+
                 if ($bookingForm->isValid()) {
 
                     $slots = $request->get('duration');
@@ -146,6 +151,22 @@ class BookingController extends Controller
 
                         $bookingService->saveBooking($booking);
                         $this->setBookingSuccessfulFlash($member, $booking);
+
+                        if ($member->hasRole('ROLE_BOOK_ON_BEHALF')) {
+                            $booking->setType('onBehalf');
+    
+                            $firstName = $request->get('firstName');
+                            $lastName = $request->get('lastName');
+
+                            $bookingOnBehalf = new BookingOnBehalf();
+                            $bookingOnBehalf->setFirstName($firstName);
+                            $bookingOnBehalf->setLastName($lastName);
+                            $bookingOnBehalf->setBooking($booking);
+
+                            $bookingOnBehalf = $bookingService->saveBookingOnBehalf($bookingOnBehalf);
+                            $booking->setBookingOnBehalf($bookingOnBehalf);
+                            $bookingService->saveBooking($booking);
+                        }
 
                     } else {
                         
@@ -171,10 +192,10 @@ class BookingController extends Controller
                 }
             }
 
-            $dayToDisplay = $booking->getStartTime()->format('Y-m-d G:i');
-            $bindings = array('DayToDisplay' => $dayToDisplay);
+            $dayToDisplay = $booking->getStartTime()->format('Y-m-d');
+            $bindings = array('dayToDisplay' => $dayToDisplay);
 
-            return $this->forward('GrabagameBookingBundle:Booking:renderBookingTable', $bindings);
+            return $this->redirect($this->generateUrl('booking', $bindings));
         } catch (BookingException $e) {
 
             return $this->renderBookingException($e);
@@ -256,11 +277,18 @@ class BookingController extends Controller
             $booking = $bookingService->getBookingById($bookingId);
 
             $member = $memberService->getLoggedInMember();
+            $flashMessage = '';
+
+            if ($booking->getMember() != $member) {
+                $flashMessage = 'You have successfully cancelled '.$booking->getMember()->getFullName().'\'s booking for '.$booking->getStartTime()->format("l d F"). ' at '.$booking->getStartTime()->format('G:i a').'. He has been sent a notification email.';
+            } else {
+                $flashMessage = 'Your booking has been successfully cancelled';
+            }
+            
             $bookingService->cancelBooking($booking, $member);
+            $this->get('session')->setFlash('notice', $flashMessage);
 
-            $this->get('session')->setFlash('notice', 'Your booking has been successfully cancelled');
-
-            return $this->redirect($this->generateUrl('booking'));
+            return $this->redirect($this->generateUrl('bookingDefault'));
         } catch (BookingException $e) {
 
             return $this->renderBookingException($e);

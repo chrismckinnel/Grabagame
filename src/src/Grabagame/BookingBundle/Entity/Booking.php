@@ -29,6 +29,10 @@ class Booking
      */
     private $slots = 1;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $type = 'normal';
 
     /**
      * Bidirectional - many-to-one
@@ -36,6 +40,13 @@ class Booking
      * @ORM\ManyToOne(targetEntity="Club", inversedBy="bookings")     
      */
     private $club;
+
+    /**
+     * Bidirectional - one-to-one
+     *
+     * @ORM\OneToOne(targetEntity="BookingOnBehalf")
+     */
+    private $bookingOnBehalf;
 
     /**
      * Bidirectional - many-to-one
@@ -50,7 +61,6 @@ class Booking
      * @ORM\ManyToOne(targetEntity="Member", inversedBy="bookings")     
      */
     private $member;
-
 
     /**
      * Get id
@@ -103,6 +113,26 @@ class Booking
     }
 
     /**
+     * Set type
+     *
+     * @param integer $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * Get type
+     *
+     * @return integer 
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
      * Set club
      *
      * @param Grabagame\BookingBundle\Entity\Club $club
@@ -120,6 +150,26 @@ class Booking
     public function getClub()
     {
         return $this->club;
+    }
+
+    /**
+     * Set booking on behalf
+     *
+     * @param Grabagame\BookingBundle\Entity\BookingOnBehalf $bookingOnBehalf
+     */
+    public function setBookingOnBehalf(\Grabagame\BookingBundle\Entity\BookingOnBehalf $bookingOnBehalf)
+    {
+        $this->bookingOnBehalf = $bookingOnBehalf;
+    }
+
+    /**
+     * Get booking on behalf
+     *
+     * @return Grabagame\BookingBundle\Entity\BookingOnBehalf 
+     */
+    public function getBookingOnBehalf()
+    {
+        return $this->bookingOnBehalf;
     }
 
     /**
