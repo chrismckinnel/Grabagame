@@ -200,4 +200,20 @@ abstract class DatabaseTestCase extends OrmTestCase
         }
         return $dataSet;
     }
+
+    /**
+     * @return TestClient
+     */
+    public function getClient()
+    {
+        if (null == static::$kernel) {
+            static::$kernel = static::createKernel(array(
+                'environment' => 'test',
+                'debug' => true
+            ));
+            static::$kernel->boot();
+        }
+
+        return static::$kernel->getContainer()->get('test.client');
+    }
 }

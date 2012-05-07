@@ -252,9 +252,11 @@ class BookingController extends Controller
     {
         try {
             $bookingService = $this->get('service.booking');
+            $memberService = $this->get('service.member');
             $booking = $bookingService->getBookingById($bookingId);
 
-            $bookingService->cancelBooking($booking);
+            $member = $memberService->getLoggedInMember();
+            $bookingService->cancelBooking($booking, $member);
 
             $this->get('session')->setFlash('notice', 'Your booking has been successfully cancelled');
 

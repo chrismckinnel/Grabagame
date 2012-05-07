@@ -36,13 +36,13 @@ class BookingService extends LoggerAware {
     }
 
     /**
+     * @param Member  $member
      * @param Booking $booking
      *
      * @return boolean
      */
-    private function canManageBooking($booking)
+    private function canManageBooking($booking, $member)
     {
-        $member = $this->memberService->getLoggedInMember();
         if ($member->hasRole('ROLE_ADMIN') || $member === $booking->getMember()) {
             return true;   
         } else {
@@ -123,20 +123,32 @@ class BookingService extends LoggerAware {
      *
      * @return boolean
      */
-    public function isSlotAvailable($booking)
+    public function isSlotAvailable(\Grabagame\BookingBundle\Entity\Booking $booking)
     {
         $club = $booking->getClub();
         $bookingIncrement = $club->getBookingIncrement();
         $court = $booking->getCourt();
 
-        $startTimes = array();
-        $startTime = clone $booking->getStartTime();
+        $bookings = array();
+        $bookings[] = $booking;
+        $bookings[] = $this->doctrine
+                           ->getEntityManager()
+                           ->getRepository('GrabagameBookingBundle:Booking')
+                           ->findPreviousBooking($booking);
 
-        for ($i = 0; $i < $booking->getSlots(); $i++) {
-            $startTimes[] = clone $startTime;
-            $startTime = $startTime->add(new \DateInterval('PT'.$bookingIncrement.'M'));
+        $startTimes = array();
+
+        foreach ($bookings as $booking) {
+            if ($booking != null) {
+                $startTime = $booking->getStartTime();
+
+                for ($i = 0; $i < $booking->getSlots(); $i++) {
+                    $startTimes[] = clone $startTime;
+                    $startTime = $startTime->add(new \DateInterval('PT'.$bookingIncrement.'M'));
+                }
+            }
         }
-        
+
         $bookings = $this->doctrine
                          ->getEntityManager()
                          ->getRepository('GrabagameBookingBundle:Booking')
@@ -147,18 +159,18 @@ class BookingService extends LoggerAware {
 
     /**
      * @param Booking $booking
+     * @param Member  $member
      */
-    public function cancelBooking($booking)
+    public function cancelBooking($booking, $member)
     {
-        if ($this->canManageBooking($booking)) {
+        if ($this->canManageBooking($booking, $member)) {
             $entityManager = $this->doctrine->getEntityManager();
             $entityManager->remove($booking);
             $entityManager->flush();
         } else {
-            $member = $this->memberService->getLoggedInMember();
             $this->logger->info('Security alert');
-            $this->logger->info('User ID: '.$member->getId.'('.$member->getFirstName().' '.$member->getLastName().' just tried to cancel another members booking');
-            throw new AccessDeniedException('Nice try, but you can only cancel your own bookings.');
+            $this->logger->info('User ID: '.$member->getId().'('.$member->getFirstName().' '.$member->getLastName().' just tried to cancel another members booking');
+            throw new BookingException('Nice try, but you can only cancel your own bookings.');
         }
     }
 
@@ -191,7 +203,7 @@ class BookingService extends LoggerAware {
                             ->getEntityManager()
                             ->getRepository('GrabagameBookingBundle:Booking')
                             ->findNextBooking($booking);
-
+    
         $startTime = $booking->getStartTime();
 
         if (!empty($nextBooking)) {
