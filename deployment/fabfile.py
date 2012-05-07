@@ -25,7 +25,6 @@ def getUser():
     if not env.user:
         env.user = os.environ['USER']
 
-
 # Main Task
 
 def deploy():
@@ -57,8 +56,6 @@ def deploy():
     # Symlinks to production release
     if env.Environment == 'live':
         set_production_symlinks()
-
-    createParamtersIni()
 
     installVendors()
     updateVendors()
@@ -150,7 +147,7 @@ def create_remote_folder(folder_path):
     sudo('mkdir -p %s' % folder_path)
 
 
-def create_paramters_ini(temp_folder = '/tmp/build_temp'):
+def create_parameters_ini(temp_folder = '/tmp/build_temp'):
     "Creates parameters.ini"
 
     with cd('%s' % temp_folder):
