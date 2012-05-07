@@ -76,7 +76,7 @@ class BookingRepository extends EntityRepository
     {
         $startTime = $booking->getStartTime()->format('Y-m-d G:i:s');
         $endTime = $booking->getStartTime()->format('Y-m-d 23:59:59');
-        
+
         $em = $this->getEntityManager();
         $query = $em->createQuery("
             SELECT b
@@ -84,7 +84,8 @@ class BookingRepository extends EntityRepository
             WHERE b.startTime BETWEEN :startTime AND :endTime
             AND b.court = :court
             AND b.club = :club
-            ORDER BY b.startTime ASC"
+            AND b.club <> :startTime
+            ORDER BY b.startTime DESC"
         );
 
         $query->setParameter('startTime', $startTime);
@@ -113,7 +114,8 @@ class BookingRepository extends EntityRepository
             WHERE b.startTime BETWEEN :startTime AND :endTime
             AND b.court = :court
             AND b.club = :club
-            ORDER BY b.startTime ASC"
+            AND b.startTime <> :endTime
+            ORDER BY b.startTime DESC"
         );
 
         $query->setParameter('startTime', $startTime);
@@ -122,6 +124,29 @@ class BookingRepository extends EntityRepository
         $query->setParameter('club', $booking->getClub());
         $query->setMaxResults(1);
         
+        return $query->getOneOrNullResult();
+    }
+
+    /**
+     * @param Booking $booking
+     * 
+     * @return Booking
+     */
+    public function findBookingByStartTime($booking)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("
+            SELECT b
+            FROM GrabagameBookingBundle:Booking b
+            WHERE b.startTime = :startTime 
+            AND b.court = :court
+            AND b.club = :club"
+        );
+
+        $query->setParameter('startTime', $booking->getStartTime()->format('Y-m-d G:i:s'));
+        $query->setParameter('court', $booking->getCourt());
+        $query->setParameter('club', $booking->getClub());
+
         return $query->getOneOrNullResult();
     }
 }

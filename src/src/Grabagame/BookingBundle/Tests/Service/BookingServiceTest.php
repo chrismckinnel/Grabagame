@@ -28,6 +28,22 @@ class DefaultControllerTest extends DatabaseTestCase
     }
 
     /**
+     * Test get max slots function
+     */
+    public function testGetMaxSlots()
+    {
+        $bookingRepo = $this->em->getRepository('GrabagameBookingBundle:Booking');
+        $booking = $this->makeNewBooking(2, new \DateTime('2012-05-03 12:00:00'), 1);
+        $this->assertEquals(99, $this->bookingService->getMaxSlots($booking));
+
+        $booking->setStartTime(new \DateTime("2012-05-03 09:00:00"));
+        $this->assertEquals(1, $this->bookingService->getMaxSlots($booking));
+
+        $booking->setStartTime(new \DateTime("2012-05-03 06:00:00"));
+        $this->assertEquals(4, $this->bookingService->getMaxSlots($booking));
+    }
+
+    /**
      * Test create booking
      */
     public function testCreateBooking()
@@ -114,25 +130,11 @@ class DefaultControllerTest extends DatabaseTestCase
      */
     public function testSaveBooking()
     {
-        $clubRepo = $this->em->getRepository('GrabagameBookingBundle:Club');
-        $courtRepo = $this->em->getRepository('GrabagameBookingBundle:Court');
-        $memberRepo = $this->em->getRepository('GrabagameBookingBundle:Member');
         $bookingRepo = $this->em->getRepository('GrabagameBookingBundle:Booking');
-
-        $club = $clubRepo->find(1);
-        $court = $courtRepo->find(1);
-        $member = $memberRepo->find(1);
-        $startTime = new \DateTime('now');
-        $slots = 2;
-
-        $booking = new Booking();
-        $booking->setClub($club);
-        $booking->setCourt($court);
-        $booking->setMember($member);
-        $booking->setStartTime($startTime);
-        $booking->setSlots($slots);
-
+        
+        $booking = $this->makeNewBooking(1, new \DateTime('now'), 2);
         $booking = $this->bookingService->saveBooking($booking);
+
         $this->assertEquals($booking, $bookingRepo->find($booking->getId()));
     }
 
@@ -165,34 +167,20 @@ class DefaultControllerTest extends DatabaseTestCase
      */
     public function testIsSlotAvailable()
     {
-        $clubRepo = $this->em->getRepository('GrabagameBookingBundle:Club');
-        $courtRepo = $this->em->getRepository('GrabagameBookingBundle:Court');
-        $memberRepo = $this->em->getRepository('GrabagameBookingBundle:Member');
         $bookingRepo = $this->em->getRepository('GrabagameBookingBundle:Booking');
+        $booking = $this->makeNewBooking(2, new \DateTime('2012-05-03 09:00:00'), 1);
+        $this->assertEquals(true, $this->bookingService->isSlotAvailable($booking));
 
-        $club = $clubRepo->find(1);
-        $court = $courtRepo->find(2);
-        $member = $memberRepo->find(1);
-
-        $booking = new Booking();
-        $booking->setClub($club);
-        $booking->setCourt($court);
-        $booking->setMember($member);
-
-        $booking->setStartTime(new \DateTime('2012-05-03 06:00:00'));
-        $booking->setSlots(1);
+        $booking = $this->makeNewBooking(2, new \DateTime('2012-05-03 06:00:00'), 1);
         $this->assertEquals(false, $this->bookingService->isSlotAvailable($booking));
 
-        $booking->setStartTime(new \DateTime('2012-05-03 07:00:00'));
-        $booking->setSlots(1);
+        $booking = $this->makeNewBooking(2, new \DateTime('2012-05-03 07:00:00'), 1);
         $this->assertEquals(false, $this->bookingService->isSlotAvailable($booking));
 
-        $booking->setStartTime(new \DateTime('2012-05-03 07:00:00'));
-        $booking->setSlots(3);
+        $booking = $this->makeNewBooking(2, new \DateTime('2012-05-03 07:00:00'), 3);
         $this->assertEquals(false, $this->bookingService->isSlotAvailable($booking));
 
-        $booking->setStartTime(new \DateTime('2012-05-03 09:00:00'));
-        $booking->setSlots(1);
+        $booking = $this->makeNewBooking(2, new \DateTime('2012-05-03 12:00:00'), 3);
         $this->assertEquals(true, $this->bookingService->isSlotAvailable($booking));
     }
 
@@ -209,24 +197,6 @@ class DefaultControllerTest extends DatabaseTestCase
     }
 
     /**
-     * Test get max slots function
-     */
-    public function testGetMaxSlots()
-    {
-        $bookingRepo = $this->em->getRepository('GrabagameBookingBundle:Booking');
-        $booking = $bookingRepo->find(1);
-
-        $booking->setStartTime(new \DateTime("2012-05-03 12:00:00"));
-        $this->assertEquals(99, $this->bookingService->getMaxSlots($booking));
-
-        $booking->setStartTime(new \DateTime("2012-05-03 09:00:00"));
-        $this->assertEquals(1, $this->bookingService->getMaxSlots($booking));
-
-        $booking->setStartTime(new \DateTime("2012-05-03 06:00:00"));
-        $this->assertEquals(0, $this->bookingService->getMaxSlots($booking));
-    }
-
-    /**
      * Provides the data set for dbunit
      *
      * @return \PHPUnit_Extensions_Database_DataSet_IDataSet
@@ -234,5 +204,57 @@ class DefaultControllerTest extends DatabaseTestCase
     protected function getDataSet()
     {
         return $this->getYamlDataSet('bookings.yml');
+    }
+
+    /**
+     * @param Court    $court
+     * @param DateTime $startTime
+     * @param integer  $slots
+     *
+     * @return Booking
+     */
+    private function makeNewBooking($court, $startTime, $slots)
+    {
+        $clubRepo = $this->em->getRepository('GrabagameBookingBundle:Club');
+        $courtRepo = $this->em->getRepository('GrabagameBookingBundle:Court');
+        $memberRepo = $this->em->getRepository('GrabagameBookingBundle:Member');
+        $bookingRepo = $this->em->getRepository('GrabagameBookingBundle:Booking');
+
+        $club = $clubRepo->find(1);
+        $court = $courtRepo->find($court);
+        $member = $memberRepo->find(1);
+
+        $booking = new Booking();
+        $booking->setClub($club);
+        $booking->setCourt($court);
+        $booking->setMember($member);
+        $booking->setStartTime($startTime);
+        $booking->setSlots($slots);
+        
+        return $booking;
+    }
+
+    /**
+     * Test get yesterday function
+     */
+    public function testGetYesterday()
+    {
+        $today = new \DateTime('2012-05-03');
+        $expectedYesterday = new \DateTime('2012-05-02');
+
+        $yesterday = $this->bookingService->getYesterday($today);
+        $this->assertEquals($expectedYesterday, $yesterday);
+    }
+
+    /**
+     * Test get tomorrow function
+     */
+    public function testGetTomorrow()
+    {
+        $today = new \DateTime('2012-05-03');
+        $expectedTomorrow = new \DateTime('2012-05-04');
+
+        $tomorrow = $this->bookingService->getTomorrow($today);
+        $this->assertEquals($expectedTomorrow, $tomorrow);
     }
 }
