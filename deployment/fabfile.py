@@ -151,7 +151,7 @@ def create_parameters_ini(temp_folder = '/tmp/build_temp'):
     "Creates parameters.ini"
 
     with cd('%s' % temp_folder):
-        upload_template('src/app/config/parameters.ini.dev', 'parameters.ini', context=env)
+        upload_template('src/app/config/parameters.ini.dev', 'app/config/parameters.ini', context=env)
 
     with cd(env.BuildRoot):
         sudo('rm -f parameters.ini')
