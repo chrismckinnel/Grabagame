@@ -39,7 +39,7 @@ class BookingController extends Controller
             $yesterday = $bookingService->getYesterday($dayToDisplay);
             $tomorrow = $bookingService->getTomorrow($dayToDisplay);
 
-            $club = $clubService->getClubById('1');
+            $club = $clubService->getClubById('2');
             $startTimes = $clubService->getStartTimes($club, $dayToDisplay);
 
             $bookingCollection = $bookingService->getBookingsByDate($club, $dayToDisplay);

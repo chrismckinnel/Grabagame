@@ -32,13 +32,15 @@ class BookingCollection extends ArrayCollection
         foreach ($bookings as $booking) {
             $startTime = $booking->getStartTime();
             $court = $booking->getCourt();
+            $club = $booking->getClub();
+            $minuteIncrement = $club->getBookingIncrement();
 
             $this->bookingKeys[$this->makeBookingKey($court, $startTime)] = $booking;
 
             if ($booking->getSlots() > 1) {
                 for ($i = 2; $i <= $booking->getSlots(); $i++) {
                     $nextSlotTime = $booking->getStartTime()
-                                            ->add(new \DateInterval('PT1H'));
+                                            ->add(new \DateInterval('PT'.$minuteIncrement.'M'));
 
                     $this->bookingKeys[$this->makeBookingKey($court, $nextSlotTime)] = $booking;
                 }
@@ -62,4 +64,5 @@ class BookingCollection extends ArrayCollection
 
         return null;
     }
+
 }
