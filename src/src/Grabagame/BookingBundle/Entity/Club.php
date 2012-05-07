@@ -48,7 +48,7 @@ class Club
     /**
      * @ORM\Column(type="integer")
      */
-    private $maxSlots;
+    private $maxSlots = 3;
 
     /**
      * Bidirectional - one-to-many
