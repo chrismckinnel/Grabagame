@@ -197,7 +197,7 @@ class BookingService extends LoggerAware {
         } else {
             $this->logger->info('Security alert');
             $this->logger->info('User ID: '.$member->getId().'('.$member->getFirstName().' '.$member->getLastName().' just tried to cancel another members booking');
-            throw new BookingException('Nice try, but you can only cancel your own bookings.');
+            throw new BookingException('You are only authorised to cancel your own bookings.');
         }
     }
 
