@@ -31,10 +31,35 @@ member:
     id: 1
     club_id: 1
     username: "chris.mckinnel"
+    username_canonical: "chris.mckinnel"
     email: "chrismckinnel@gmail.com"
+    email_canonical: "chrismckinnel@gmail.com"
     password: "vr7Qbz2C+2YjyjaOEa+kZiGSubhUn1cfOnQphjOXC8S3uTIR4j0V7TqBD/tkne301fzMkW+AxRKMBpOmQAJ77g=="
     firstName: "Chris"
     lastName: "McKinnel"
+    roles: "a:0:{}"
+  -
+    id: 2
+    club_id: 1
+    username: "bob.jones"
+    username_canonical: "bob.jones"
+    email: "bobjones@gmail.com"
+    email_canonical: "bobjones@gmail.com"
+    password: "vr7Qbz2C+2YjyjaOEa+kZiGSubhUn1cfOnQphjOXC8S3uTIR4j0V7TqBD/tkne301fzMkW+AxRKMBpOmQAJ77g=="
+    firstName: "Bob"
+    lastName: "Jones"
+    roles: "a:0:{}"
+  -
+    id: 3
+    club_id: 1
+    username: "bill.admin"
+    username_canonical: "bill.admin"
+    email: "billadmin@gmail.com"
+    email_canonical: "billadmin@gmail.com"
+    password: "vr7Qbz2C+2YjyjaOEa+kZiGSubhUn1cfOnQphjOXC8S3uTIR4j0V7TqBD/tkne301fzMkW+AxRKMBpOmQAJ77g=="
+    firstName: "Bill"
+    lastName: "Admin"
+    roles: 'a:1:{i:0;s:10:"ROLE_ADMIN";}'
 
 booking:
   -
@@ -60,7 +85,28 @@ booking:
     member_id: 1
   -
     id: 4 
-    startTime: "2012-05-04 09:00:00"
+    startTime: "2012-05-04 06:00:00"
+    slots: 2 
+    club_id: 1
+    court_id: 4 
+    member_id: 1
+  -
+    id: 5 
+    startTime: "2012-05-10 06:00:00"
+    slots: 2 
+    club_id: 1
+    court_id: 4 
+    member_id: 1
+  -
+    id: 6 
+    startTime: "2012-05-10 10:00:00"
+    slots: 2 
+    club_id: 1
+    court_id: 4 
+    member_id: 1
+  -
+    id: 7 
+    startTime: "2012-05-10 16:00:00"
     slots: 2 
     club_id: 1
     court_id: 4 
