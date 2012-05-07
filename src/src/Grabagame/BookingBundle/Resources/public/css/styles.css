@@ -437,32 +437,6 @@ hr {
 	left: -25px;
 }
 
-.quick_poll {
-	width:251px; /*301 minus padding*/
-	height:240px; /*171 minus padding*/
-	background:url(../images/qp_bubble_bg.png) no-repeat top;
-	margin-bottom:10px;
-	padding:10px 25px 0px 25px;
-}
-.quick_poll p {
-	margin:0px;
-	padding:0px;
-}
-.quick_poll .text {
-	font-size:11px;
-	line-height:1.4em;
-	width:262px;
-	height:160px;
-	overflow:hidden;
-}
-
-.quick_poll form {
-  margin-top: 10px;
-}
-
-.quick_poll input {
-  margin-top: 5px;
-}
 /*contact box*/
 
 .contact_box {
@@ -629,6 +603,22 @@ hr {
 
 
 /* grab a game styles */
+#day_nav {
+    list-style: none;
+    display: inline;
+}
+
+#day_nav li#yesterday {
+    float: left;
+    margin: 0 0 10px 30px;
+}
+
+#day_nav li#tomorrow {
+    float: right;
+    margin: 0 30px 10px 0;
+    margin-right: 30px;
+}
+
 #timetable {
   width: 95%;
   margin: 15px auto 30px auto;
@@ -782,4 +772,34 @@ a.timetable_event {
 p.error {
   margin: 10px;
   padding-bottom: 15px;
+}
+
+input[type=text], input[type=password], input[type=email] { 
+    -webkit-border-radius: 5px; 
+    -moz-border-radius: 5px; 
+    border-radius: 5px;
+    height: 20px;
+    margin: 10px 0 10px 0;
+}
+
+#fos_user_registration_form label {
+    width: 200px;
+    display: inline-block;
+    text-align: right;
+    margin-right: 20px;
+}
+
+#register-button {
+    margin-left: 220px;
+    margin-top: 5px;
+}
+
+.logout {
+    float: right;
+}
+
+.register {
+    float: right;
+    margin-right: 15px;
+    margin-top: 5px;
 }

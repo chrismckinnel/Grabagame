@@ -43,7 +43,9 @@ class BookingService extends LoggerAware {
      */
     private function canManageBooking($booking, $member)
     {
-        if ($member->hasRole('ROLE_ADMIN') || $member === $booking->getMember()) {
+        if ($member->hasRole('ROLE_ADMIN') || 
+            $member->hasRole('CAN_CANCEL_BOOKINGS') ||
+            $member === $booking->getMember()) {
             return true;   
         } else {
             return false;   
@@ -285,5 +287,19 @@ class BookingService extends LoggerAware {
     {
         $tempDayToDisplay = clone $dayToDisplay;
         return $tempDayToDisplay->add(new \DateInterval('P1D'));
+    }
+
+    /**
+     * @param BookingOnBehalf $bookingOnBehalf
+     * 
+     * @return BookingOnBehalf
+     */
+    public function saveBookingOnBehalf($bookingOnBehalf)
+    {
+        $entityManager = $this->doctrine->getEntityManager();
+        $entityManager->persist($bookingOnBehalf);
+        $entityManager->flush();
+
+        return $bookingOnBehalf;
     }
 }

@@ -111,3 +111,10 @@ booking:
     club_id: 1
     court_id: 4 
     member_id: 1
+
+booking_on_behalf:
+  -
+    id: 1
+    booking_id: 7
+    firstName: "Test"
+    lastName: "User"

@@ -23,9 +23,12 @@
                     <li> <a href="{{ path('bookingDefault') }}" class="m3">Booking</a> </li>
                 </ul>
                 <div id="search">
-                    <form action="" method="post">
-                        <a href="{{ path('fos_user_security_login') }}"><img class="button" src="{{ asset('bundles/grabagamebooking/images/button_login.gif') }}" /></a>
-                    </form>
+                {% if is_granted('ROLE_USER') %}
+                    <a class="logout" href="{{ path('fos_user_security_logout') }}">Logout</a>
+                {% else %}
+                    <a href="{{ path('fos_user_security_login') }}"><img class="button" src="{{ asset('bundles/grabagamebooking/images/button_login.gif') }}" /></a>
+                    <a class="register" href="{{ path('fos_user_registration_register') }}">Register</a>
+                {% endif %}
                 </div>
             </div>
             {% block boxes %}
@@ -56,11 +59,9 @@
             <div id="paper_container">
                 <div class="top"><img src="{{ asset('bundles/grabagamebooking/images/content_top.png') }}" alt="top" /></div>
                 <div id="main_content">
-                    <div class="left">
-                        {% block body %}
-                        <h1>Grab a game</h1>
-                        {% endblock %}
-                    </div>
+                    {% block body %}
+                    <h1>Grab a game</h1>
+                    {% endblock %}
                     {% block sidebar %}
                     <div class="right">
                         <!--start news-->
@@ -79,8 +80,6 @@
                             <div class="text">
                                 <p><img src="{{ asset('bundles/grabagamebooking/images/title_contact.gif') }}" alt="Latest News" border="0" /></p>
                                 <p><img src="{{ asset('bundles/grabagamebooking/images/icon_email.gif') }}" alt="Email" width="18" height="18" align="top" class="icon" /><a href="mailto:chris@grabagame.co.nz">chris@grabagame.co.nz</a></p>
-                                <p>Twitter: <a href="http://www.twitter.com/chrismckinnel">@chrismckinnel</a></p>
-                                <p><a href="http://www.linkedin.com/pub/chris-mckinnel/21/420/502">Linked in</a></p>
                             </div>
                         </div>
                         <!--end contact-->
@@ -93,7 +92,7 @@
             <!-- end main paper-->
             <div id="footer">
                 <div class="left">&copy; Grab a Game 2012</div>
-                <div class="right"><a href="{{ path('about') }}">About Us</a></div>
+                <div class="right"><a href="{{ path('about') }}">About</a></div>
             </div>
         <!--end wrapper-->
     </div>

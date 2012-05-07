@@ -206,4 +206,12 @@ class Member extends BaseUser
     {
         return strtoupper(substr($this->getFirstName(), 0, 1)).'. '.$this->getLastName();
     }
+
+    /**
+     * @return string
+     */
+    public function getFullName()
+    {
+        return $this->firstName . ' ' . $this->lastName;
+    }
 }
