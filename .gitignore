@@ -5,3 +5,5 @@
 /src/vendor/
 /src/app/config/parameters.ini
 /reports
+fabconfig.pyc
+fabfile.pyc
