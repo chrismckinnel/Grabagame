@@ -129,32 +129,57 @@ class BookingService extends LoggerAware {
         $bookingIncrement = $club->getBookingIncrement();
         $court = $booking->getCourt();
 
-        $bookings = array();
-        $bookings[] = $booking;
-        $bookings[] = $this->doctrine
-                           ->getEntityManager()
-                           ->getRepository('GrabagameBookingBundle:Booking')
-                           ->findPreviousBooking($booking);
+        $previousBooking = $this->doctrine
+                                ->getEntityManager()
+                                ->getRepository('GrabagameBookingBundle:Booking')
+                                ->findPreviousBooking($booking);
 
         $startTimes = array();
 
-        foreach ($bookings as $booking) {
-            if ($booking != null) {
-                $startTime = $booking->getStartTime();
+        if ($previousBooking != null) {
+            $startTime = clone $previousBooking->getStartTime();
 
-                for ($i = 0; $i < $booking->getSlots(); $i++) {
-                    $startTimes[] = clone $startTime;
-                    $startTime = $startTime->add(new \DateInterval('PT'.$bookingIncrement.'M'));
+            for ($i = 0; $i < $previousBooking->getSlots(); $i++) {
+                $startTimes[] = clone $startTime;
+                $startTime = $startTime->add(new \DateInterval('PT'.$bookingIncrement.'M'));
+            }
+        }
+
+        if (in_array($booking->getStartTime(), $startTimes)) {
+            return false;
+        }
+
+        $nextBooking = $this->doctrine
+                            ->getEntityManager()
+                            ->getRepository('GrabagameBookingBundle:Booking')
+                            ->findNextBooking($booking);
+
+        $nextBookingStartTimes = array();
+        $currentBookingStartTimes = array();
+
+        if ($nextBooking != null) {
+            $startTime = clone $nextBooking->getStartTime();
+
+            for ($i = 0; $i < $nextBooking->getSlots(); $i++) {
+                $startTimes[] = clone $startTime;
+                $startTime = $startTime->add(new \DateInterval('PT'.$bookingIncrement.'M'));
+            }
+        }
+
+        foreach ($nextBookingStartTimes as $nextBookingStartTime) {
+            foreach ($currentBookingStartTimes as $currentBookingStartTime) {
+                if (in_array($currentBookingStartTime, $nextBookingStartTimes)) {
+                    return false;
                 }
             }
         }
 
-        $bookings = $this->doctrine
-                         ->getEntityManager()
-                         ->getRepository('GrabagameBookingBundle:Booking')
-                         ->findByStartTimes($club, $court, $startTimes);
+        $currentBooking = $this->doctrine
+                               ->getEntityManager()
+                               ->getRepository('GrabagameBookingBundle:Booking')
+                               ->findBookingByStartTime($booking);
 
-        return empty($bookings) ? true : false;
+        return ($currentBooking == null) ? true : false;
     }
 
     /**
@@ -203,7 +228,7 @@ class BookingService extends LoggerAware {
                             ->getEntityManager()
                             ->getRepository('GrabagameBookingBundle:Booking')
                             ->findNextBooking($booking);
-    
+
         $startTime = $booking->getStartTime();
 
         if (!empty($nextBooking)) {

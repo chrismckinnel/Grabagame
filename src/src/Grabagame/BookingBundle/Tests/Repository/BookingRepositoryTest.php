@@ -45,23 +45,42 @@ class BookingRepositoryTest extends DatabaseTestCase
      */
     public function testFindPreviousBooking()
     {
-        $repo = $this->em->getRepository('GrabagameBookingBundle:Booking');
+        $bookingRepo = $this->em->getRepository('GrabagameBookingBundle:Booking');
+        $clubRepo = $this->em->getRepository('GrabagameBookingBundle:Club');
+        $courtRepo = $this->em->getRepository('GrabagameBookingBundle:Court');
+        $memberRepo = $this->em->getRepository('GrabagameBookingBundle:Member');
 
-        $booking = $repo->find(2);
-        $expectedPreviousBooking = $repo->find(1);
+        $club = $clubRepo->find(1);
+        $court = $courtRepo->find(2);
+        $member = $memberRepo->find(1);
+        $startTime = new \DateTime('2012-05-03 09:00:00');
+        $slots = 1;
 
-        $previousBooking = $repo->findPreviousBooking($booking);
+        $booking = new Booking();
+        $booking->setClub($club);
+        $booking->setCourt($court);
+        $booking->setMember($member);
+        $booking->setSlots($slots);
+        $booking->setStartTime($startTime);
+
+        $expectedPreviousBooking = $bookingRepo->find(1);
+        $previousBooking = $bookingRepo->findPreviousBooking($booking);
         $this->assertEquals($expectedPreviousBooking, $previousBooking);
 
-        $booking = $repo->find(7);
-        $expectedPreviousBooking = $repo->find(6);
+        $booking = $bookingRepo->find(2);
+        $expectedPreviousBooking = $bookingRepo->find(1);
 
-        $previousBooking = $repo->findPreviousBooking($booking);
+        $previousBooking = $bookingRepo->findPreviousBooking($booking);
         $this->assertEquals($expectedPreviousBooking, $previousBooking);
 
-        $booking = $repo->find(1);
+        $booking = $bookingRepo->find(7);
+        $expectedPreviousBooking = $bookingRepo->find(6);
 
-        $previousBooking = $repo->findPreviousBooking($booking);
+        $previousBooking = $bookingRepo->findPreviousBooking($booking);
+        $this->assertEquals($expectedPreviousBooking, $previousBooking);
+
+        $booking = $bookingRepo->find(1);
+        $previousBooking = $bookingRepo->findPreviousBooking($booking);
         $this->assertEquals(null, $previousBooking);
     }
 
@@ -132,6 +151,31 @@ class BookingRepositoryTest extends DatabaseTestCase
         $bookings = $bookingRepo->findByStartTimes($club, $court, $startTimes);
 
         $this->assertEquals($expectedBookings, $bookings);
+    }
+
+    /**
+     * Test find by start time
+     */
+    public function testFindByStartTime()
+    {
+        $bookingRepo = $this->em->getRepository('GrabagameBookingBundle:Booking');
+        $booking = $bookingRepo->find(1);
+
+        $booking->setStartTime(new \DateTime('2012-05-03 06:00:00'));
+        $booking = $bookingRepo->findBookingByStartTime($booking);
+
+        $expectedBooking = $bookingRepo->find(1);
+        $this->assertEquals($expectedBooking, $booking);
+
+        $booking->setStartTime(new \DateTime('2012-05-03 10:00:00'));
+        $booking = $bookingRepo->findBookingByStartTime($booking);
+
+        $expectedBooking = $bookingRepo->find(2);
+        $this->assertEquals($expectedBooking, $booking);
+
+        $booking->setStartTime(new \DateTime('2012-05-03 11:00:00'));
+        $booking = $bookingRepo->findBookingByStartTime($booking);
+        $this->assertEquals(null, $booking);
     }
 
     /**
