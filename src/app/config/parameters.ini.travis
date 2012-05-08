@@ -17,4 +17,4 @@
     locale            = en
 
     secret            = Yeux3woo2aihi5ohrohtijup7fieCh7g
-    base_logging_url  = /var/www/grabagame/src/app/logs
+    base_logging_url  = ./src/app/logs
