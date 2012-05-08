@@ -35,6 +35,11 @@ class Booking
     private $type = 'normal';
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $nameHidden = false;
+
+    /**
      * Bidirectional - many-to-one
      *
      * @ORM\ManyToOne(targetEntity="Club", inversedBy="bookings")     
@@ -130,6 +135,26 @@ class Booking
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Set name hidden
+     *
+     * @param boolean $nameHidden
+     */
+    public function setNameHidden($nameHidden)
+    {
+        $this->nameHidden = $nameHidden;
+    }
+
+    /**
+     * Get nameHidden
+     *
+     * @return integer 
+     */
+    public function isNameHidden()
+    {
+        return $this->nameHidden;
     }
 
     /**

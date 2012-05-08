@@ -46,7 +46,7 @@
                     {% set NameForBookingTable = Member.getNameForBookingTable %}
                 {% endif %}
                 <td>
-                    <a href="{{ path('cancel', { 'bookingId': Booking.getId }) }}" class="booked {% if CurrentUser is defined %}{{ CurrentUser }}{% endif %}">{{ StartTime.format('G:i') }}<br />{{ NameForBookingTable }}</a>
+                    <a href="{{ path('cancel', { 'bookingId': Booking.getId }) }}" class="booked {% if CurrentUser is defined %}{{ CurrentUser }}{% endif %}">{{ StartTime.format('G:i') }}<br />{% if not Booking.isNameHidden or CurrentUser == 'you' %}{{ NameForBookingTable }}{% endif %}</a>
                 </td>
             {% else %}
                 <td>
