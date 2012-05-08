@@ -34,12 +34,15 @@ class BookingController extends Controller
         try {
             $clubService = $this->get('service.club');
             $bookingService = $this->get('service.booking');
+            $memberService = $this->get('service.member');
 
             $dayToDisplay = $bookingService->getDayToDisplay($dayToDisplay);
             $yesterday = $bookingService->getYesterday($dayToDisplay);
             $tomorrow = $bookingService->getTomorrow($dayToDisplay);
 
-            $club = $clubService->getClubById('2');
+            $member = $memberService->getLoggedInMember();
+            $club = $member->getClub();
+
             $startTimes = $clubService->getStartTimes($club, $dayToDisplay);
 
             $bookingCollection = $bookingService->getBookingsByDate($club, $dayToDisplay);
@@ -135,12 +138,14 @@ class BookingController extends Controller
 
                 $startTime = new \DateTime($request->get('startTime'));
                 $court = $club->getCourtByNumber($request->get('courtNumber'));
+                if ($request->get('nameHidden')) {
+                    $booking->setNameHidden(1);
+                }
 
                 $booking->setStartTime($startTime);
                 $booking->setCourt($court);
                 $booking->setMember($member);
                 $booking->setClub($member->getClub());
-
 
                 if ($bookingForm->isValid()) {
 
