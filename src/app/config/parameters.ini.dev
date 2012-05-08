@@ -14,4 +14,4 @@
     locale            = en
 
     secret            = %(Secret)s
-    base_logging_url  = /var/www/grabagame/builds/dev/src/app/logs
+    base_logging_url  = /var/www/grabagame/builds/dev/app/logs
