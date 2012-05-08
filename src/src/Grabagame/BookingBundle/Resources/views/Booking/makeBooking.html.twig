@@ -22,6 +22,7 @@
         {% endif %}
         <p><strong>Start time:</strong> {{ Booking.getStartTime.format('d F G:i a') }}</p>
         <p><strong>Court number:</strong> {{ Booking.getCourt.getNumber }}</p>
+        <p><label><strong>Hide my name from this booking</strong> <input type="checkbox" name="nameHidden" value=1 /></label></p>
         <input type="hidden" name="startTime" value="{{ Booking.getStartTime.format('Y-m-d G:i') }}">
         <input type="hidden" name="courtNumber" value="{{ Booking.getCourt.getNumber }}">
         <label>
