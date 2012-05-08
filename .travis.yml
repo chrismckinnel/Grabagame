@@ -4,7 +4,7 @@ php:
   - 5.4
 script: phpunit -c src/app
 before_script:
-  - mysql -e 'create database Grabagame;'
+  - mysql -e 'create database GrabagameTests;'
   - ./deployment/project-setup.sh
 branches:
   only:
