@@ -1,6 +1,3 @@
-parameters:
-    base_logging_url: /var/www/grabagame/src/app/logs
-
 services:
     service.loggerAware:
         class: Grabagame\BookingBundle\Service\LoggerAware
