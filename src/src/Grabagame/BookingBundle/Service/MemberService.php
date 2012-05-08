@@ -1,7 +1,8 @@
 <?php
 namespace Grabagame\BookingBundle\Service;
 
-use Monolog\Handler\StreamHandler;
+use Monolog\Handler\StreamHandler,
+    Grabagame\BookingBundle\Exception\MemberException;
 
  /**
   * Club service
@@ -40,7 +41,7 @@ class MemberService extends LoggerAware {
         if ($token != null) {
             return $token->getUser();
         } else {
-            throw new \Exception('You must be logged in to perform this action.');
+            throw new MemberException('You must be logged in to perform this action.');
         }
     }
 }
