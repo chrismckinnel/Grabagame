@@ -1,0 +1,7 @@
+add_club:
+    pattern:  /add/
+    defaults: { _controller: Grabagame\BookingBundle\Controller\Admin\ClubController::addClubAction }
+
+submit_add_club:
+    pattern:  /add/complete/
+    defaults: { _controller: Grabagame\BookingBundle\Controller\Admin\ClubController::submitAddClubAction }

@@ -1,0 +1,50 @@
+{% extends 'GrabagameBookingBundle::layout.html.twig' %}
+
+{% block boxes %}{% endblock %}
+
+{% block body %}
+    <h1>Make a booking</h1>
+
+    {% if app.session.hasFlash('notice') %} 
+        <div class="flash-notice">
+            {{ app.session.flash('notice') }}
+        </div>
+    {% endif %}
+
+    <p><strong>Details of your booking</strong></p>
+    
+    {{ form_errors(booking_form) }}
+
+    <form action="{{ path('submitMakeBooking') }}" method="post">
+        {% if Booking.getType == 'onBehalf' %}
+            <p>If you're booking on behalf of someone else, enter their name below.</p>
+            <p><input type="text" name="firstName" placeholder="First name" required="required"> <input type="text" name="lastName" placeholder="Last name" required="required"></p>
+        {% endif %}
+        <p><strong>Start time:</strong> {{ Booking.getStartTime.format('d F G:i a') }}</p>
+        <p><strong>Court number:</strong> {{ Booking.getCourt.getNumber }}</p>
+        <p><label><strong>Hide my name from this booking</strong> <input type="checkbox" name="nameHidden" value=1 /></label></p>
+        <input type="hidden" name="startTime" value="{{ Booking.getStartTime.format('Y-m-d G:i') }}">
+        <input type="hidden" name="courtNumber" value="{{ Booking.getCourt.getNumber }}">
+        <label>
+            <strong>Duration:</strong>
+            <select name="duration">
+            {% if MaxSlots is defined %}
+                {% if MaxSlots > Club.getMaxSlots %}
+                    {% set MaxSlots = Club.getMaxSlots %}
+                {% endif %}
+            {% else %}
+                {% set MaxSlots = Club.getMaxSlots %}
+            {% endif %}
+
+            {% for slotNumber in 1..MaxSlots %}
+                <option value="{{ slotNumber }}">{{ Club.getBookingIncrement*slotNumber }} minutes</option>
+            {% endfor %}
+            </select>
+        </label>
+        <button type="submit">Make booking</button>
+        {{ form_rest(booking_form) }}
+    </form>
+
+{% endblock %}
+
+{% block sidebar %}{% endblock %}

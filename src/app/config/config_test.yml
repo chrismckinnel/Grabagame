@@ -1,0 +1,19 @@
+imports:
+    - { resource: config_dev.yml }
+
+framework:
+    test: ~
+    session:
+        storage_id: session.storage.filesystem
+
+doctrine:
+    dbal:
+        dbname: Grabagame_test
+        driver: pdo_mysql
+
+web_profiler:
+    toolbar: false
+    intercept_redirects: false
+
+swiftmailer:
+    disable_delivery: true

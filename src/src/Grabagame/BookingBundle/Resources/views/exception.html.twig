@@ -1,0 +1,16 @@
+{% extends 'GrabagameBookingBundle::layout.html.twig' %}
+
+{% block boxes %}{% endblock %}
+
+{% block body %}
+    <h1>An error has occurred</h1>
+
+    {% if ErrorMessage is defined %}
+        <p>{{ ErrorMessage }}</p>
+    {% else %}
+        <p>Something has gone horribly wrong!</p>
+    {% endif %}
+
+{% endblock %}
+
+{% block sidebar %}{% endblock %}

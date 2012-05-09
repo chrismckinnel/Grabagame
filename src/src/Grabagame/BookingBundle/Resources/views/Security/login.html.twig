@@ -1,0 +1,30 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block boxes %}{% endblock boxes %}
+
+{% block body %}
+    <div class="left">
+        <h2>Login</h2>
+        {% if error %}
+            <div>{{ error }}</div>
+        {% endif %}
+
+        <form action="{{ path("fos_user_security_check") }}" method="post">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+
+            <label for="username">Username: </label>
+            <input type="text" id="username" name="_username" value="{{ last_username }}" />
+            <br />
+
+            <label for="password">Password: </label>
+            <input type="password" id="password" name="_password" />
+
+            <br />
+            <label for="remember_me">Remember me: </label>
+            <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+
+            <br />
+            <button type="submit" id="_submit" name="_submit" />Login</button>
+        </form>
+    </div>
+{% endblock body %}
