@@ -27,7 +27,7 @@ def dev():
     env.BaseUrl = 'http://dev.grabagame.co.nz/'
 
     "Database settings"
-    env.DatabaseName = 'Grabagame'
+    env.DatabaseName = 'Grabagame_dev'
     env.DatabaseUser = 'Grabagame'
     env.DatabasePassword = 'ooge5viej3roo8shoo3voXeoquudaesh'
 
@@ -56,6 +56,11 @@ def test():
     "Domain Settings"
     env.BaseUrl = 'http://test.grabagame.co.nz/'
 
+    "Database settings"
+    env.DatabaseName = 'Grabagame_test'
+    env.DatabaseUser = 'Grabagame'
+    env.DatabasePassword = 'ooge5viej3roo8shoo3voXeoquudaesh'
+
 def live():
     "Live Settings"
 
@@ -77,3 +82,8 @@ def live():
 
     "Domain Settings"
     env.BaseUrl = 'http://grabagame.co.nz/'
+
+    "Database settings"
+    env.DatabaseName = 'Grabagame_live'
+    env.DatabaseUser = 'Grabagame'
+    env.DatabasePassword = 'ooge5viej3roo8shoo3voXeoquudaesh'
