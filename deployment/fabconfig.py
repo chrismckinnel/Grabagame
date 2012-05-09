@@ -21,7 +21,6 @@ def dev():
     env.CacheDir = '/var/cache/grabagame'
     env.LogDir = '/var/log/grabagame'
     env.BuildRoot = '%(AppRoot)s/builds/dev' % env 
-    env.DebugLevel = '1'
 
     "Domain Settings"
     env.BaseUrl = 'http://dev.grabagame.co.nz/'
@@ -51,7 +50,8 @@ def test():
     "Build Settings"
     env.BuildName = 'test'
     env.BuildRoot = '%(AppRoot)s/builds/test' % env 
-    env.DebugLevel = '1'
+    env.CacheDir = '/var/cache/grabagame'
+    env.LogDir = '/var/log/grabagame'
 
     "Domain Settings"
     env.BaseUrl = 'http://test.grabagame.co.nz/'
@@ -82,6 +82,8 @@ def live():
     env.BuildName = 'live'
     env.LastBuildRoot = '%(AppRoot)s/builds/live/latest' % env
     env.BuildRoot = '%(AppRoot)s/builds/live/%(tag)s' % env
+    env.CacheDir = '/var/cache/grabagame'
+    env.LogDir = '/var/log/grabagame'
 
     "Domain Settings"
     env.BaseUrl = 'http://grabagame.co.nz/'
