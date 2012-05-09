@@ -191,7 +191,7 @@ def apply_production_permissions():
 
 def installVendors():
     "Install vendors"
-    sudo('php %(BuildRoot)s/bin/vendors install --reinstall' % env)
+    sudo('php %(BuildRoot)s/bin/vendors install' % env)
 
 def updateVendors():
     "Update vendors"
