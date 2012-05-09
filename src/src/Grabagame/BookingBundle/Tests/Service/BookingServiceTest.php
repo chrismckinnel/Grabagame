@@ -6,7 +6,9 @@ use Grabagame\BookingBundle\Tests\DatabaseTestCase,
     Grabagame\BookingBundle\Entity\Club,
     Grabagame\BookingBundle\Entity\Court,
     Grabagame\BookingBundle\Entity\Member,
-    Grabagame\BookingBundle\Entity\Booking;
+    Grabagame\BookingBundle\Entity\Booking,
+    Grabagame\BookingBundle\Entity\BookingCollection,
+    Grabagame\BookingBundle\Entity\BookingOnBehalf;
 
 class BookingServiceTest extends DatabaseTestCase
 {
@@ -28,19 +30,64 @@ class BookingServiceTest extends DatabaseTestCase
     }
 
     /**
+     * Provides the data set for dbunit
+     *
+     * @return \PHPUnit_Extensions_Database_DataSet_IDataSet
+     */
+    protected function getDataSet()
+    {
+        return $this->getYamlDataSet('bookings.yml');
+    }
+
+    /**
+     * @param Court    $court
+     * @param DateTime $startTime
+     * @param integer  $slots
+     *
+     * @return Booking
+     */
+    private function makeNewBooking($club, $court, $startTime, $slots, $member)
+    {
+        $clubRepo = $this->em->getRepository('GrabagameBookingBundle:Club');
+        $courtRepo = $this->em->getRepository('GrabagameBookingBundle:Court');
+        $memberRepo = $this->em->getRepository('GrabagameBookingBundle:Member');
+        $bookingRepo = $this->em->getRepository('GrabagameBookingBundle:Booking');
+
+        $club = $clubRepo->find($club);
+        $court = $courtRepo->find($court);
+        $member = $memberRepo->find($member);
+
+        $booking = new Booking();
+        $booking->setClub($club);
+        $booking->setCourt($court);
+        $booking->setMember($member);
+        $booking->setStartTime($startTime);
+        $booking->setSlots($slots);
+        
+        return $booking;
+    }
+
+    /**
      * Test get max slots function
      */
     public function testGetMaxSlots()
     {
         $bookingRepo = $this->em->getRepository('GrabagameBookingBundle:Booking');
-        $booking = $this->makeNewBooking(2, new \DateTime('2012-05-03 12:00:00'), 1);
-        $this->assertEquals(99, $this->bookingService->getMaxSlots($booking));
 
-        $booking->setStartTime(new \DateTime("2012-05-03 09:00:00"));
+        $booking = $this->makeNewBooking(1, 2, new \DateTime('2012-05-03 12:00:00'), 1, 1);
+        $this->assertEquals(3, $this->bookingService->getMaxSlots($booking));
+
+        $booking = $this->makeNewBooking(1, 2, new \DateTime('2012-05-03 09:00:00'), 1, 1);
         $this->assertEquals(1, $this->bookingService->getMaxSlots($booking));
 
-        $booking->setStartTime(new \DateTime("2012-05-03 06:00:00"));
+        $booking = $this->makeNewBooking(1, 2, new \DateTime('2012-05-03 06:00:00'), 1, 1);
+        $this->assertEquals(3, $this->bookingService->getMaxSlots($booking));
+
+        $booking = $this->makeNewBooking(2, 5, new \DateTime('2012-05-10 08:00:00'), 2, 4);
         $this->assertEquals(4, $this->bookingService->getMaxSlots($booking));
+
+        $booking = $this->makeNewBooking(2, 5, new \DateTime('2012-05-10 12:00:00'), 2, 4);
+        $this->assertEquals(3, $this->bookingService->getMaxSlots($booking));
     }
 
     /**
@@ -132,7 +179,7 @@ class BookingServiceTest extends DatabaseTestCase
     {
         $bookingRepo = $this->em->getRepository('GrabagameBookingBundle:Booking');
         
-        $booking = $this->makeNewBooking(1, new \DateTime('now'), 2);
+        $booking = $this->makeNewBooking(1, 1, new \DateTime('now'), 2, 1);
         $booking = $this->bookingService->saveBooking($booking);
 
         $this->assertEquals($booking, $bookingRepo->find($booking->getId()));
@@ -168,70 +215,24 @@ class BookingServiceTest extends DatabaseTestCase
     public function testIsSlotAvailable()
     {
         $bookingRepo = $this->em->getRepository('GrabagameBookingBundle:Booking');
-        $booking = $this->makeNewBooking(2, new \DateTime('2012-05-03 09:00:00'), 1);
+
+        $booking = $this->makeNewBooking(1, 2, new \DateTime('2012-05-03 09:00:00'), 2, 1);
+        $this->assertEquals(false, $this->bookingService->isSlotAvailable($booking));
+
+        $booking = $this->makeNewBooking(1, 2, new \DateTime('2012-05-03 09:00:00'), 1, 1);
         $this->assertEquals(true, $this->bookingService->isSlotAvailable($booking));
 
-        $booking = $this->makeNewBooking(2, new \DateTime('2012-05-03 06:00:00'), 1);
+        $booking = $this->makeNewBooking(1, 2, new \DateTime('2012-05-03 06:00:00'), 1, 1);
         $this->assertEquals(false, $this->bookingService->isSlotAvailable($booking));
 
-        $booking = $this->makeNewBooking(2, new \DateTime('2012-05-03 07:00:00'), 1);
+        $booking = $this->makeNewBooking(1, 2, new \DateTime('2012-05-03 07:00:00'), 1, 1);
         $this->assertEquals(false, $this->bookingService->isSlotAvailable($booking));
 
-        $booking = $this->makeNewBooking(2, new \DateTime('2012-05-03 07:00:00'), 3);
+        $booking = $this->makeNewBooking(1, 2, new \DateTime('2012-05-03 07:00:00'), 3, 1);
         $this->assertEquals(false, $this->bookingService->isSlotAvailable($booking));
 
-        $booking = $this->makeNewBooking(2, new \DateTime('2012-05-03 12:00:00'), 3);
+        $booking = $this->makeNewBooking(1, 2, new \DateTime('2012-05-03 12:00:00'), 3, 1);
         $this->assertEquals(true, $this->bookingService->isSlotAvailable($booking));
-    }
-
-    /**
-     * Test move booking function
-     */
-    public function testMoveBooking()
-    {
-        $bookingRepo = $this->em->getRepository('GrabagameBookingBundle:Booking');
-        $booking = $bookingRepo->find(1);
-
-        $booking->setStartTime(new \DateTime('2012-05-03 07:00:00'));
-        $booking->setSlots(1);
-    }
-
-    /**
-     * Provides the data set for dbunit
-     *
-     * @return \PHPUnit_Extensions_Database_DataSet_IDataSet
-     */
-    protected function getDataSet()
-    {
-        return $this->getYamlDataSet('bookings.yml');
-    }
-
-    /**
-     * @param Court    $court
-     * @param DateTime $startTime
-     * @param integer  $slots
-     *
-     * @return Booking
-     */
-    private function makeNewBooking($court, $startTime, $slots)
-    {
-        $clubRepo = $this->em->getRepository('GrabagameBookingBundle:Club');
-        $courtRepo = $this->em->getRepository('GrabagameBookingBundle:Court');
-        $memberRepo = $this->em->getRepository('GrabagameBookingBundle:Member');
-        $bookingRepo = $this->em->getRepository('GrabagameBookingBundle:Booking');
-
-        $club = $clubRepo->find(1);
-        $court = $courtRepo->find($court);
-        $member = $memberRepo->find(1);
-
-        $booking = new Booking();
-        $booking->setClub($club);
-        $booking->setCourt($court);
-        $booking->setMember($member);
-        $booking->setStartTime($startTime);
-        $booking->setSlots($slots);
-        
-        return $booking;
     }
 
     /**
@@ -256,5 +257,153 @@ class BookingServiceTest extends DatabaseTestCase
 
         $tomorrow = $this->bookingService->getTomorrow($today);
         $this->assertEquals($expectedTomorrow, $tomorrow);
+    }
+
+    /**
+     * Test get bookings by date
+     */
+    public function testGetBookingsByDate()
+    {
+        $bookingRepo = $this->em->getRepository('GrabagameBookingBundle:Booking');
+        $clubRepo = $this->em->getRepository('GrabagameBookingBundle:Club');
+        $club = $clubRepo->find(1);
+       
+        $expectedBookings = array(
+            $bookingRepo->find(1),
+            $bookingRepo->find(2),
+        );
+
+        $returnedBookings = $this->bookingService->getBookingsByDate($club, new \DateTime("2012-05-03"));
+
+        $this->assertEquals($expectedBookings, $returnedBookings);
+
+        $expectedBookings = array(
+            $bookingRepo->find(5),
+            $bookingRepo->find(6),
+            $bookingRepo->find(7),
+        );
+
+        $returnedBookings = $this->bookingService->getBookingsByDate($club, new \DateTime("2012-05-10"));
+
+        $this->assertEquals($expectedBookings, $returnedBookings);
+    }
+
+    /**
+     * Test get bookings by date failing
+     */
+    public function testGetBookingsByDateFailing()
+    {
+        $bookingRepo = $this->em->getRepository('GrabagameBookingBundle:Booking');
+        $clubRepo = $this->em->getRepository('GrabagameBookingBundle:Club');
+        $club = $clubRepo->find(1);
+       
+        $expectedBookings = array(
+            $bookingRepo->find(3),
+            $bookingRepo->find(2),
+        );
+
+        $returnedBookings = $this->bookingService->getBookingsByDate($club, new \DateTime("2012-05-03"));
+
+        $this->assertNotEquals($expectedBookings, $returnedBookings);
+    }
+
+    /**
+     * Test get booking slots for bookings
+     */
+    public function testGetBookedSlotsForBookings()
+    {
+        $bookingRepo = $this->em->getRepository('GrabagameBookingBundle:Booking');
+       
+        $bookings = array(
+            $bookingRepo->find(1),
+            $bookingRepo->find(2),
+        );
+
+        $expectedBookedSlots = new BookingCollection($bookings);
+        $returnedBookedSlots = $this->bookingService->getBookedSlotsForBookings($bookings);
+
+        $this->assertEquals($expectedBookedSlots, $returnedBookedSlots);
+
+        $returnedBookedSlots = $this->bookingService->getBookedSlotsForBookings();
+        $this->assertEquals(new BookingCollection(), $returnedBookedSlots);
+    }
+
+    /**
+     * Test get booking slots for bookings failing
+     */
+    public function testGetBookedSlotsForBookingsFailing()
+    {
+        $bookingRepo = $this->em->getRepository('GrabagameBookingBundle:Booking');
+       
+        $bookings = array(
+            $bookingRepo->find(1),
+            $bookingRepo->find(2),
+        );
+
+        $randomBookings = array(
+            $bookingRepo->find(4),
+            $bookingRepo->find(6),
+        );
+
+        $expectedBookedSlots = new BookingCollection($randomBookings);
+        $returnedBookedSlots = $this->bookingService->getBookedSlotsForBookings($bookings);
+
+        $this->assertNotEquals($expectedBookedSlots, $returnedBookedSlots);
+    }
+
+    /**
+     * Test move booking
+     */
+    public function testMoveBooking()
+    {
+        $bookingRepo = $this->em->getRepository('GrabagameBookingBundle:Booking');
+        
+        $bookingToMove = $bookingRepo->find(1);
+        $newStartTime = new \DateTime('2012-05-03 12:00:00');
+        $bookingToMove->setStartTime($newStartTime);
+
+        $this->bookingService->moveBooking($bookingToMove);
+
+        $bookingToMove = $bookingRepo->find(2);
+        $newStartTime = new \DateTime('2012-05-03 06:00:00');
+        $bookingToMove->setStartTime($newStartTime);
+
+        $this->bookingService->moveBooking($bookingToMove);
+    }
+
+    /**
+     * Test move booking failing
+     *
+     * @expectedException Grabagame\BookingBundle\Exception\BookingException
+     */
+    public function testMoveBookingFails()
+    {
+        $bookingRepo = $this->em->getRepository('GrabagameBookingBundle:Booking');
+        
+        $bookingToMove = $bookingRepo->find(1);
+        $newStartTime = new \DateTime('2012-05-03 09:00:00');
+        $bookingToMove->setStartTime($newStartTime);
+
+        $this->bookingService->moveBooking($bookingToMove);
+    }
+
+    /**
+     * Test save booking on behalf
+     */
+    public function testSaveBookingOnBehalf()
+    {
+        $booking = $this->makeNewBooking(2, 5, new \DateTime('2012-01-01 06:00:00'), 2, 4);
+        $this->bookingService->saveBooking($booking);
+
+        $bookingOnBehalf = new BookingOnBehalf();
+        $bookingOnBehalf->setFirstName('Test');
+        $bookingOnBehalf->setLastName('User');
+        $bookingOnBehalf->setBooking($booking);
+
+        $bookingOnBehalf = $this->bookingService->saveBookingOnBehalf($bookingOnBehalf);
+
+        $this->assertEquals('T. User', $bookingOnBehalf->getNameForBookingTable());
+        $this->assertEquals('Test User', $bookingOnBehalf->getFullName());
+        $this->assertEquals(2, $bookingOnBehalf->getId());
     }
 }

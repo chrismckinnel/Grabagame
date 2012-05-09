@@ -37,10 +37,10 @@ class BookingCollection extends ArrayCollection
 
             $this->bookingKeys[$this->makeBookingKey($court, $startTime)] = $booking;
 
+            $startTime = clone $booking->getStartTime();
             if ($booking->getSlots() > 1) {
                 for ($i = 2; $i <= $booking->getSlots(); $i++) {
-                    $nextSlotTime = $booking->getStartTime()
-                                            ->add(new \DateInterval('PT'.$minuteIncrement.'M'));
+                    $nextSlotTime = $startTime->add(new \DateInterval('PT'.$minuteIncrement.'M'));
 
                     $this->bookingKeys[$this->makeBookingKey($court, $nextSlotTime)] = $booking;
                 }

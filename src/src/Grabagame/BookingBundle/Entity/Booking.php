@@ -236,4 +236,21 @@ class Booking
     {
         return $this->member;
     }
+
+    /**
+     * @return array
+     */
+    public function getAllSlots()
+    {
+        $slots = array();
+        $startTime = clone $this->getStartTime();
+        $minuteIncrement = $this->getClub()->getBookingIncrement();
+
+        for ($i = 0; $i < $this->getSlots(); $i++) {
+            $slots[] = clone $startTime;
+            $startTime = $startTime->add(new \DateInterval('PT'.$minuteIncrement.'M'));
+        }
+
+        return $slots;
+    }
 }
