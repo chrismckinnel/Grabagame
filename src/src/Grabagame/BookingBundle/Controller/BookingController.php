@@ -45,12 +45,13 @@ class BookingController extends Controller
 
             $startTimes = $clubService->getStartTimes($club, $dayToDisplay);
 
-            $bookingCollection = $bookingService->getBookingsByDate($club, $dayToDisplay);
+            $bookings = $bookingService->getBookingsByDate($club, $dayToDisplay);
+            $bookedSlots = $bookingService->getBookedSlotsForBookings($bookings);
 
             $bindings = array(
                 'Club'              => $club,
                 'StartTimes'        => $startTimes,
-                'BookingCollection' => $bookingCollection,
+                'BookingCollection' => $bookedSlots,
                 'DayToDisplay'      => $dayToDisplay,
                 'Tomorrow'          => $tomorrow,
                 'Yesterday'         => $yesterday,

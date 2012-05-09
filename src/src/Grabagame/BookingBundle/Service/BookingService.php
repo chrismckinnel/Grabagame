@@ -111,7 +111,7 @@ class BookingService extends LoggerAware {
      */
     public function moveBooking($booking)
     {
-        if ($this->isSlotAvailable()) {
+        if ($this->isSlotAvailable($booking)) {
             $this->saveBooking($booking);
         } else {
             throw new BookingException('That booking slot is not available');
@@ -137,7 +137,6 @@ class BookingService extends LoggerAware {
                                 ->findPreviousBooking($booking);
 
         $startTimes = array();
-
         if ($previousBooking != null) {
             $startTime = clone $previousBooking->getStartTime();
 
@@ -156,23 +155,10 @@ class BookingService extends LoggerAware {
                             ->getRepository('GrabagameBookingBundle:Booking')
                             ->findNextBooking($booking);
 
-        $nextBookingStartTimes = array();
-        $currentBookingStartTimes = array();
-
+        $startTimes = array();
         if ($nextBooking != null) {
-            $startTime = clone $nextBooking->getStartTime();
-
-            for ($i = 0; $i < $nextBooking->getSlots(); $i++) {
-                $startTimes[] = clone $startTime;
-                $startTime = $startTime->add(new \DateInterval('PT'.$bookingIncrement.'M'));
-            }
-        }
-
-        foreach ($nextBookingStartTimes as $nextBookingStartTime) {
-            foreach ($currentBookingStartTimes as $currentBookingStartTime) {
-                if (in_array($currentBookingStartTime, $nextBookingStartTimes)) {
-                    return false;
-                }
+            if (in_array($nextBooking->getStartTime(), $booking->getAllSlots())) {
+                return false;
             }
         }
 
@@ -205,7 +191,7 @@ class BookingService extends LoggerAware {
      * @param Club     $club Club object
      * @param DateTime $date Date to get bookings for
      * 
-     * @return BookingCollection
+     * @return array
      */
     public function getBookingsByDate($club, $date)
     {
@@ -214,9 +200,17 @@ class BookingService extends LoggerAware {
                          ->getRepository('GrabagameBookingBundle:Booking')
                          ->getBookingsByDate($club, $date);
 
-        $bookingCollection = ($bookings) ? new BookingCollection($bookings) : new BookingCollection();
-        
-        return $bookingCollection;
+        return $bookings;
+    }
+
+    /**
+     * @param array $bookings
+     *
+     * @return BookingCollection
+     */
+    public function getBookedSlotsForBookings($bookings = array())
+    {
+        return ($bookings) ? new BookingCollection($bookings) : new BookingCollection();
     }
 
     /**
@@ -226,6 +220,7 @@ class BookingService extends LoggerAware {
      */
     public function getMaxSlots($booking)
     {
+        $clubMaxSlots = $booking->getClub()->getMaxSlots();
         $nextBooking = $this->doctrine
                             ->getEntityManager()
                             ->getRepository('GrabagameBookingBundle:Booking')
@@ -242,15 +237,19 @@ class BookingService extends LoggerAware {
 
             if ($hours > 0) {
                 if ($minutes > 0) {
-                    $minutes = $hours * $minutes;
+                    $minutesToAdd = $hours * 60;
+                    $minutes += $minutesToAdd;
                 } else {
                     $minutes = $hours * 60;
                 }
             }             
 
             $maxSlots = $minutes / $bookingIncrement;
+            if ($maxSlots > $clubMaxSlots) {
+                $maxSlots = $clubMaxSlots;
+            }
         } else {
-            $maxSlots = 99;
+            $maxSlots = $clubMaxSlots;
         }
 
         return $maxSlots;
