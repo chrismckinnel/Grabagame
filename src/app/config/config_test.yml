@@ -9,7 +9,7 @@ framework:
 doctrine:
     dbal:
         dbname: GrabagameTests
-        driver:   pdo_mysql
+        driver: pdo_mysql
 
 web_profiler:
     toolbar: false
