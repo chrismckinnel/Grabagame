@@ -84,8 +84,8 @@ class BookingRepository extends EntityRepository
             WHERE b.startTime BETWEEN :startTime AND :endTime
             AND b.court = :court
             AND b.club = :club
-            AND b.club <> :startTime
-            ORDER BY b.startTime DESC"
+            AND b.startTime <> :startTime
+            ORDER BY b.startTime ASC"
         );
 
         $query->setParameter('startTime', $startTime);

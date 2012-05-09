@@ -31,12 +31,24 @@ class BookingRepositoryTest extends DatabaseTestCase
      */
     public function testFindNextBooking()
     {
-        $repo = $this->em->getRepository('GrabagameBookingBundle:Booking');
+        $bookingRepo = $this->em->getRepository('GrabagameBookingBundle:Booking');
 
-        $booking = $repo->find(1);
-        $expectedBooking = $repo->find(2);
+        $booking = $bookingRepo->find(1);
+        $expectedBooking = $bookingRepo->find(2);
 
-        $nextBooking = $repo->findNextBooking($booking);
+        $nextBooking = $bookingRepo->findNextBooking($booking);
+        $this->assertEquals($expectedBooking, $nextBooking);
+
+        $booking = $bookingRepo->find(8);
+        $expectedBooking = $bookingRepo->find(9);
+
+        $nextBooking = $bookingRepo->findNextBooking($booking);
+        $this->assertEquals($expectedBooking, $nextBooking);
+
+        $booking = $bookingRepo->find(9);
+        $expectedBooking = $bookingRepo->find(10);
+
+        $nextBooking = $bookingRepo->findNextBooking($booking);
         $this->assertEquals($expectedBooking, $nextBooking);
     }
 
