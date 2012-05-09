@@ -153,7 +153,7 @@ def create_parameters_ini(temp_folder = '/tmp/build_temp'):
     if env.Environment == 'live':
         with cd('%s' % temp_folder):
             upload_template('src/app/config/parameters.ini.live', 'parameters.ini', context=env)
-    else
+    else:
         with cd('%s' % temp_folder):
             upload_template('src/app/config/parameters.ini.dist', 'parameters.ini', context=env)
 
