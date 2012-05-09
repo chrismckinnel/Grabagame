@@ -150,8 +150,12 @@ def create_remote_folder(folder_path):
 def create_parameters_ini(temp_folder = '/tmp/build_temp'):
     "Creates parameters.ini"
 
-    with cd('%s' % temp_folder):
-        upload_template('src/app/config/parameters.ini.dev', 'parameters.ini', context=env)
+    if env.Environment == 'live':
+        with cd('%s' % temp_folder):
+            upload_template('src/app/config/parameters.ini.live', 'parameters.ini', context=env)
+    else
+        with cd('%s' % temp_folder):
+            upload_template('src/app/config/parameters.ini.dist', 'parameters.ini', context=env)
 
     with cd(env.BuildRoot):
         sudo('rm -f parameters.ini')
