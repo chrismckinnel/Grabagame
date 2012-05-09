@@ -61,6 +61,9 @@ def test():
     env.DatabaseUser = 'Grabagame'
     env.DatabasePassword = 'ooge5viej3roo8shoo3voXeoquudaesh'
 
+    "Other settings"
+    env.Secret = 'Yeux3woo2aihi5ohrohtijup7fieCh7g'
+
 def live():
     "Live Settings"
 
@@ -87,3 +90,6 @@ def live():
     env.DatabaseName = 'Grabagame_live'
     env.DatabaseUser = 'Grabagame'
     env.DatabasePassword = 'ooge5viej3roo8shoo3voXeoquudaesh'
+
+    "Other settings"
+    env.Secret = 'Yeux3woo2aihi5ohrohtijup7fieCh7g'
