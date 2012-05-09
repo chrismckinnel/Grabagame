@@ -203,7 +203,7 @@ def installAssets():
 
 def rename_robots():
     "Renaming robots.txt file"
-    sudo('mv %s/web/robots.txt.%s %s/web/robots.txt' % (env.BuildRoot, env.Environment, env.BuildRoot))
+    sudo('mv %s/app/config/robots.txt.%s %s/web/robots.txt' % (env.BuildRoot, env.Environment, env.BuildRoot))
 
 def make_cache_and_log_dirs():
     sudo('if [ ! -d "%(CacheDir)s" ]; then mkdir %(CacheDir)s; fi' % env)
