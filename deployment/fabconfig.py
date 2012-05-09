@@ -6,7 +6,7 @@ from fabric.operations import prompt
 def dev():
     "Development Settings"
 
-    env.hosts = ['69.55.55.190']             # One or multiple server addresses in format ip:port
+    env.hosts = ['69.55.55.190']
     env.Environment = 'dev'
 
     "Git Repository Settings"
@@ -37,7 +37,7 @@ def dev():
 def test():
     "Test Settings"
 
-    env.hosts = ['69.55.55.190']             # One or multiple server addresses in format ip:port
+    env.hosts = ['69.55.55.190']
     env.Environment = 'test'
 
     "Git Repository Settings"
@@ -59,9 +59,8 @@ def test():
 def live():
     "Live Settings"
 
-    env.hosts = ['69.55.55.190']             # One or multiple server addresses in format ip:port
+    env.hosts = ['69.55.55.190']
     env.Environment = 'live'
-    env.LuceneEnv = 'prod'
 
     "Git Repository Settings"
     env.tag = prompt('Which release version do you want to deploy? [e.g: v1.1]')
@@ -75,8 +74,6 @@ def live():
     env.BuildName = 'live'
     env.LastBuildRoot = '%(AppRoot)s/builds/live/latest' % env
     env.BuildRoot = '%(AppRoot)s/builds/live/%(tag)s' % env
-    env.DebugLevel = '1'
 
     "Domain Settings"
     env.BaseUrl = 'http://grabagame.co.nz/'
-
