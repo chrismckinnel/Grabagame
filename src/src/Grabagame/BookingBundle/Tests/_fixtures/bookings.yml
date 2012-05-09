@@ -1,0 +1,204 @@
+club:
+  -
+    id: 1
+    name: "Test club"
+    email: "chrismckinnel@gmail.com"
+    firstBookingTime: "2012-01-01 06:00:00"
+    createdDate: "2012-04-07 06:00:00"
+    bookingIncrement: 60
+    maxSlots: 3
+  -
+    id: 2
+    name: "Test club 2"
+    email: "chrismckinnel@gmail.com"
+    firstBookingTime: "2012-01-01 06:00:00"
+    createdDate: "2012-04-07 06:00:00"
+    bookingIncrement: 30
+    maxSlots: 4
+
+court:
+  -
+    id: 1
+    club_id: 1
+    number: 1
+  -
+    id: 2
+    club_id: 1
+    number: 2
+  -
+    id: 3
+    club_id: 1
+    number: 3
+  -
+    id: 4
+    club_id: 1
+    number: 4
+  -
+    id: 5
+    club_id: 2
+    number: 1
+
+member:
+  -
+    id: 1
+    club_id: 1
+    username: "chris.mckinnel"
+    username_canonical: "chris.mckinnel"
+    enabled: 1
+    locked: 0
+    expired: 0
+    credentials_expired: 0
+    createdDate: "2012-01-01 10:00:00"
+    verified: 1
+    credentials_expired: 0
+    email: "chrismckinnel@gmail.com"
+    email_canonical: "chrismckinnel@gmail.com"
+    password: "vr7Qbz2C+2YjyjaOEa+kZiGSubhUn1cfOnQphjOXC8S3uTIR4j0V7TqBD/tkne301fzMkW+AxRKMBpOmQAJ77g=="
+    salt: "12345"
+    firstName: "Chris"
+    lastName: "McKinnel"
+    roles: "a:0:{}"
+  -
+    id: 2
+    club_id: 1
+    username: "bob.jones"
+    username_canonical: "bob.jones"
+    enabled: 1
+    locked: 0
+    expired: 0
+    credentials_expired: 0
+    createdDate: "2012-01-01 10:00:00"
+    verified: 1
+    email: "bobjones@gmail.com"
+    email_canonical: "bobjones@gmail.com"
+    password: "vr7Qbz2C+2YjyjaOEa+kZiGSubhUn1cfOnQphjOXC8S3uTIR4j0V7TqBD/tkne301fzMkW+AxRKMBpOmQAJ77g=="
+    salt: "12345"
+    firstName: "Bob"
+    lastName: "Jones"
+    roles: "a:0:{}"
+  -
+    id: 3
+    club_id: 1
+    username: "bill.admin"
+    username_canonical: "bill.admin"
+    enabled: 1
+    locked: 0
+    expired: 0
+    credentials_expired: 0
+    createdDate: "2012-01-01 10:00:00"
+    verified: 1
+    email: "billadmin@gmail.com"
+    email_canonical: "billadmin@gmail.com"
+    password: "vr7Qbz2C+2YjyjaOEa+kZiGSubhUn1cfOnQphjOXC8S3uTIR4j0V7TqBD/tkne301fzMkW+AxRKMBpOmQAJ77g=="
+    salt: "12345"
+    firstName: "Bill"
+    lastName: "Admin"
+    roles: 'a:1:{i:0;s:10:"ROLE_ADMIN";}'
+  -
+    id: 4
+    club_id: 2
+    username: "chris.mckinnel2"
+    username_canonical: "chris.mckinnel2"
+    enabled: 1
+    locked: 0
+    expired: 0
+    credentials_expired: 0
+    createdDate: "2012-01-01 10:00:00"
+    verified: 1
+    credentials_expired: 0
+    email: "chrismckinnel@gmail.com2"
+    email_canonical: "chrismckinnel@gmail.com2"
+    password: "vr7Qbz2C+2YjyjaOEa+kZiGSubhUn1cfOnQphjOXC8S3uTIR4j0V7TqBD/tkne301fzMkW+AxRKMBpOmQAJ77g=="
+    salt: "12345"
+    firstName: "Chris"
+    lastName: "McKinnel"
+    roles: "a:0:{}"
+
+booking:
+  -
+    id: 1
+    startTime: "2012-05-03 06:00:00"
+    slots: 3
+    club_id: 1
+    court_id: 2
+    member_id: 1
+    type: "normal"
+  -
+    id: 2 
+    startTime: "2012-05-03 10:00:00"
+    slots: 1
+    club_id: 1
+    court_id: 2
+    member_id: 1
+    type: "normal"
+  -
+    id: 3 
+    startTime: "2012-05-04 10:00:00"
+    slots: 1
+    club_id: 1
+    court_id: 2
+    member_id: 1
+    type: "normal"
+  -
+    id: 4 
+    startTime: "2012-05-04 06:00:00"
+    slots: 2 
+    club_id: 1
+    court_id: 4 
+    member_id: 1
+    type: "normal"
+  -
+    id: 5 
+    startTime: "2012-05-10 06:00:00"
+    slots: 2 
+    club_id: 1
+    court_id: 4 
+    member_id: 1
+    type: "normal"
+  -
+    id: 6 
+    startTime: "2012-05-10 10:00:00"
+    slots: 2 
+    club_id: 1
+    court_id: 4 
+    member_id: 1
+    type: "normal"
+  -
+    id: 7 
+    startTime: "2012-05-10 16:00:00"
+    slots: 2 
+    club_id: 1
+    court_id: 4 
+    member_id: 1
+    type: "normal"
+  -
+    id: 8 
+    startTime: "2012-05-10 08:00:00"
+    slots: 2 
+    club_id: 2
+    court_id: 5 
+    member_id: 4
+    type: "normal"
+  -
+    id: 9 
+    startTime: "2012-05-10 12:00:00"
+    slots: 2
+    club_id: 2
+    court_id: 5
+    member_id: 4
+    type: "normal"
+  -
+    id: 10 
+    startTime: "2012-05-10 13:30:00"
+    slots: 1
+    club_id: 2
+    court_id: 5
+    member_id: 4
+    type: "normal"
+
+booking_on_behalf:
+  -
+    id: 1
+    booking_id: 7
+    firstName: "Test"
+    lastName: "User"

@@ -1,0 +1,63 @@
+{% extends 'GrabagameBookingBundle::layout.html.twig' %}
+
+{% block boxes %}{% endblock %}
+
+{% block body %}
+    {% if app.session.hasFlash('fos_user_success') %} 
+        <div class="flash-notice">
+            {{ app.session.flash('fos_user_success') }}
+        </div>
+    {% endif %}
+
+    {% if app.session.hasFlash('notice') %} 
+        <div class="flash-notice">
+            {{ app.session.flash('notice') }}
+        </div>
+    {% endif %}
+
+    <h1>{{ DayToDisplay.format('F d Y') }}</h1>
+
+    <ul id="day_nav">
+        <li id="yesterday"><a href="{{ path('booking', { 'dayToDisplay': Yesterday.format('Y-m-d') }) }}">Yesterday</a></li>
+        <li id="tomorrow"><a href="{{ path('booking', { 'dayToDisplay': Tomorrow.format('Y-m-d') }) }}">Tomorrow</a></li>
+    </ul>
+
+    <table id="timetable">
+    {% for Court in Club.getCourts %}
+        <th>Court {{ Court.getNumber }}</th>
+    {% endfor %}
+
+    {% for StartTime in StartTimes %}
+        <tr>
+        {% for Court in Club.getCourts %}
+            {% set Booking = BookingCollection.getForCourtAndStartTime(Court, StartTime) %} 
+            {% if Booking is not null %}
+                {% set Member = Booking.getMember %}
+                {% if app.user.username is defined %}
+                    {% if app.user.username == Member.getUsername %}
+                        {% set CurrentUser = 'you' %}
+                    {% else %}
+                        {% set CurrentUser = '' %}
+                    {% endif %}
+                {% endif %}
+                {% if Booking.getType == 'onBehalf' %}
+                    {% set NameForBookingTable = Booking.getBookingOnBehalf.getNameForBookingTable %}
+                {% else %}
+                    {% set NameForBookingTable = Member.getNameForBookingTable %}
+                {% endif %}
+                <td>
+                    <a href="{{ path('cancel', { 'bookingId': Booking.getId }) }}" class="booked {% if CurrentUser is defined %}{{ CurrentUser }}{% endif %}">{{ StartTime.format('G:i') }}<br />{% if not Booking.isNameHidden or CurrentUser == 'you' %}{{ NameForBookingTable }}{% endif %}</a>
+                </td>
+            {% else %}
+                <td>
+                <a href="{{ path('makeBooking', { 'courtNumber': Court.getNumber, 'startTime': StartTime.format('G:i:s') }) }}">{{ StartTime.format('G:i') }}</a>
+                </td>
+            {% endif %}                
+        {% endfor %}
+        </tr>
+    {% endfor %}
+    </table>
+                
+{% endblock %}
+
+{% block sidebar %}{% endblock %}

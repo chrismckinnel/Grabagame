@@ -1,0 +1,19 @@
+{% extends 'GrabagameBookingBundle::layout.html.twig' %}
+
+{% block boxes %}{% endblock %}
+
+{% block body %}
+    <h1>Cancel your booking</h1>
+
+    <p><strong>Details of your booking</strong></p>
+    
+    <p><strong>Start time:</strong> {{ Booking.getStartTime.format('d F G:i a') }}</p>
+    <p><strong>Court number:</strong> {{ Booking.getCourt.getNumber }}</p>
+    <p><strong>Duration:</strong> {{ Booking.getSlots*Club.getBookingIncrement }} minutes</p>
+    <form action="{{ path('submitCancel', { 'bookingId': Booking.getId }) }}" method="post">
+        <input type="hidden" name="bookingId" value="{{ Booking.getId }}">
+        <button type="submit">Cancel booking</button>
+    </form>
+{% endblock %}
+
+{% block sidebar %}{% endblock %}

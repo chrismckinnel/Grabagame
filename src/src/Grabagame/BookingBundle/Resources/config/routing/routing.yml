@@ -1,0 +1,7 @@
+home:
+    pattern:  /
+    defaults: { _controller: GrabagameBookingBundle:Home:index }
+
+about:
+    pattern: /about/
+    defaults: { _controller: GrabagameBookingBundle:Home:about }

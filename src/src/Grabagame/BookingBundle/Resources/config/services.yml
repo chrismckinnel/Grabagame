@@ -1,0 +1,32 @@
+services:
+    service.loggerAware:
+        class: Grabagame\BookingBundle\Service\LoggerAware
+    
+    service.booking:
+        class: Grabagame\BookingBundle\Service\BookingService
+        parent: service.loggerAware
+        calls:
+            - [ setDoctrine, [@doctrine] ]
+            - [ setLogger, [@logger, %base_logging_url%, 'BookingService'] ]
+            - [ setMemberService, [@service.member] ]
+
+    service.club:
+        class: Grabagame\BookingBundle\Service\ClubService
+        parent: service.loggerAware
+        calls:
+            - [ setDoctrine, [@doctrine] ]
+            - [ setLogger, [@logger, %base_logging_url%, 'ClubService'] ]
+
+    service.member:
+        class: Grabagame\BookingBundle\Service\MemberService
+        parent: service.loggerAware
+        calls:
+            - [ setDoctrine, [@doctrine] ]
+            - [ setSecurityContext, [@security.context] ]
+            - [ setLogger, [@logger, %base_logging_url%, 'MemberService'] ]
+
+    service.registration.form.type:
+        class: Grabagame\BookingBundle\Form\Type\RegistrationType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: grabagame_user_registration }

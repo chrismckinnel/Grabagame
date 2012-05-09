@@ -1,0 +1,16 @@
+{% extends 'GrabagameBookingBundle::layout.html.twig' %}
+
+{% block boxes %}{% endblock %}
+
+{% block body %}
+    <h1>Successfully added a club</h1>
+
+    <h3>Details</h3>
+    <strong>Name:</strong> {{ Club.getName }}
+    <strong>Email:</strong> {{ Club.getEmail }}
+    <strong>Booking increment:</strong> {{ Club.getBookingIncrement }}
+    <strong>Number of courts:</strong> {{ Club.getNumberOfCourts }}
+
+{% endblock %}
+
+{% block sidebar %}{% endblock %}

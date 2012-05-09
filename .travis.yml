@@ -1,0 +1,14 @@
+language: php
+php:
+  - 5.3
+  - 5.4
+script: phpunit -c src/app
+before_script:
+  - mysql -e 'create database Grabagame_test;'
+  - ./deployment/project-setup.sh
+branches:
+  only:
+    - develop
+notifications:
+  email:
+    - chrismckinnel@gmail.com
