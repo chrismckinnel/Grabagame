@@ -50,10 +50,13 @@ doctrine:
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport: %mailer_transport%
-    host:      %mailer_host%
-    username:  %mailer_user%
-    password:  %mailer_password%
+    transport:  %mailer_transport%
+    host:       %mailer_host%
+    username:   %mailer_user%
+    password:   %mailer_password%
+    encryption: %encryption%
+    port:       %port%
+    auth_mode:  %auth_mode%
 
 jms_security_extra:
     secure_controllers:  true
@@ -66,3 +69,26 @@ fos_user:
     registration:
         form:
             type: grabagame_user_registration
+
+monolog:
+    handlers:
+        main:
+            type:         fingers_crossed
+            action_level: error
+            handler:      grouped
+        grouped:
+            type:    group
+            members: [streamed, buffered]
+        streamed:
+            type:  stream
+            path:  "%kernel.logs_dir%/%kernel.environment%.log"
+            level: debug
+        buffered:
+            type:    buffer
+            handler: swift
+        swift:
+            type:       swift_mailer
+            from_email: no-reply@grabagame.co.nz
+            to_email:   chrismckinnel@gmail.com
+            subject:    An Error Occurred!
+            level:      debug
