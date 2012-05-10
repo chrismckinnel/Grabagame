@@ -2,7 +2,6 @@
 
 /*Template Layout*/
 body {
-	background-color:#edf7ff;
 	background-image:url(../images/page_bg.jpg);
 	background-position:top;
 	background-repeat:repeat-x;
@@ -10,7 +9,6 @@ body {
 	padding:0px;
 	color:#838383;
 	font-family:Arial, Helvetica, sans-serif;
-	font-size:13px;
 	line-height:1.5em; /* vertical spacing between your lines of text*/
 }
 a, a:link, a:visited {
