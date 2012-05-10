@@ -7,9 +7,12 @@
     database_password = V7F9LHZcQjzMHnnw
 
     mailer_transport  = smtp
-    mailer_host       = localhost
-    mailer_user       =
-    mailer_password   =
+    mailer_host       = smtp.gmail.com
+    mailer_user       = no-reply@grabagame.co.nz
+    mailer_password   = Aeceenahng4ahr9ahh3dei3aa9ahlaCe
+    encryption        = ssl
+    port              = 465
+    auth_mode         = login
 
     locale            = en
 
