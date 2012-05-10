@@ -19,7 +19,8 @@ class BookingController extends Controller
 {
     /**
      * @return Response
-     */ public function indexAction()
+     */ 
+    public function indexAction()
     {
         return $this->render('GrabagameBookingBundle::layout.html.twig');
     }
