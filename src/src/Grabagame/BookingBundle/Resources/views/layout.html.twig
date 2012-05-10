@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{% block title %}Home{% endblock %}</title>
+    <title>{% block title %}Home{% endblock %} - Grabagame</title>
     <meta content="Online sports court booking system" http-equiv="description" />
     <meta content="sport booking, court booking, booking system, booking" http-equiv="keywords" />
     <link href="{{ asset('bundles/grabagamebooking/css/bootstrap.css') }}" rel="stylesheet" type="text/css" />
@@ -101,5 +101,10 @@
 </div>
 </div>
 <!--end cloud-->
+{% block analytics %}
+    {% if app.environment == 'prod' %} 
+        {% include "GrabagameBookingBundle:Other:google-analytics.html.twig" %}
+    {% endif %}
+{% endblock %}
 </body>
 </html>

@@ -35,6 +35,7 @@ class ClubType extends AbstractType
         $builder->add('name', 'text', array('label' => 'Club name: '));
         $builder->add('email', 'text', array('label' => 'Email address: '));
         $builder->add('bookingIncrement', 'text', array('label' => 'Booking increment: '));
+        $builder->add('maxSlots', 'text', array('label' => 'Maximum booking slots allowed: '));
         $builder->add('numberOfCourts', 'text', array('label' => 'Number of courts: '));
     }
 

@@ -1,19 +1,10 @@
 {% extends 'GrabagameBookingBundle::layout.html.twig' %}
 
+{% block title %}Bookings{% endblock %}
+
 {% block boxes %}{% endblock %}
 
 {% block body %}
-    {% if app.session.hasFlash('fos_user_success') %} 
-        <div class="alert alert-success">
-            {{ app.session.flash('fos_user_success') }}
-        </div>
-    {% endif %}
-
-    {% if app.session.hasFlash('notice') %} 
-        <div class="alert alert-info">
-            {{ app.session.flash('notice') }}
-        </div>
-    {% endif %}
 
     <h1>{{ DayToDisplay.format('F d Y') }}</h1>
 
@@ -21,6 +12,24 @@
         <li id="yesterday"><a href="{{ path('booking', { 'dayToDisplay': Yesterday.format('Y-m-d') }) }}">Yesterday</a></li>
         <li id="tomorrow"><a href="{{ path('booking', { 'dayToDisplay': Tomorrow.format('Y-m-d') }) }}">Tomorrow</a></li>
     </ul>
+
+    {% if app.session.hasFlash('alert-success') %} 
+        <div class="alert alert-success">
+            {{ app.session.flash('alert-success') }}
+        </div>
+    {% endif %}
+
+    {% if app.session.hasFlash('alert-info') %} 
+        <div class="alert alert-info">
+            {{ app.session.flash('alert-info') }}
+        </div>
+    {% endif %}
+
+    {% if app.session.hasFlash('alert-error') %} 
+        <div class="alert alert-error">
+            {{ app.session.flash('alert-error') }}
+        </div>
+    {% endif %}
 
     <table id="timetable">
     {% for Court in Club.getCourts %}
