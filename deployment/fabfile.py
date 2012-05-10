@@ -150,8 +150,12 @@ def create_remote_folder(folder_path):
 def create_parameters_ini(temp_folder = '/tmp/build_temp'):
     "Creates parameters.ini"
 
-    with cd('%s' % temp_folder):
-        upload_template('src/app/config/parameters.ini.dev', 'parameters.ini', context=env)
+    if env.Environment == 'live':
+        with cd('%s' % temp_folder):
+            upload_template('src/app/config/parameters.ini.live', 'parameters.ini', context=env)
+    else
+        with cd('%s' % temp_folder):
+            upload_template('src/app/config/parameters.ini.dist', 'parameters.ini', context=env)
 
     with cd(env.BuildRoot):
         sudo('rm -f parameters.ini')
@@ -191,7 +195,7 @@ def apply_production_permissions():
 
 def installVendors():
     "Install vendors"
-    sudo('php %(BuildRoot)s/bin/vendors install --reinstall' % env)
+    sudo('php %(BuildRoot)s/bin/vendors install' % env)
 
 def updateVendors():
     "Update vendors"
@@ -203,7 +207,7 @@ def installAssets():
 
 def rename_robots():
     "Renaming robots.txt file"
-    sudo('mv %s/web/robots.txt.%s %s/web/robots.txt' % (env.BuildRoot, env.Environment, env.BuildRoot))
+    sudo('mv %s/app/config/robots.txt.%s %s/web/robots.txt' % (env.BuildRoot, env.Environment, env.BuildRoot))
 
 def make_cache_and_log_dirs():
     sudo('if [ ! -d "%(CacheDir)s" ]; then mkdir %(CacheDir)s; fi' % env)
