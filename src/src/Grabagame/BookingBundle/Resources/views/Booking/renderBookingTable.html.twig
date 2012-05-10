@@ -4,13 +4,13 @@
 
 {% block body %}
     {% if app.session.hasFlash('fos_user_success') %} 
-        <div class="flash-notice">
+        <div class="alert alert-success">
             {{ app.session.flash('fos_user_success') }}
         </div>
     {% endif %}
 
     {% if app.session.hasFlash('notice') %} 
-        <div class="flash-notice">
+        <div class="alert alert-info">
             {{ app.session.flash('notice') }}
         </div>
     {% endif %}
