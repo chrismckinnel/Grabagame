@@ -2,8 +2,6 @@
 
 {% block title %}Make a booking{% endblock %}
 
-{% block boxes %}{% endblock %}
-
 {% block body %}
     <h1>Make a booking</h1>
 
@@ -43,7 +41,7 @@
             {% endfor %}
             </select>
         </label>
-        <button type="submit">Make booking</button>
+        <button class="btn btn-primary" type="submit">Make booking</button>
         {{ form_rest(booking_form) }}
     </form>
 

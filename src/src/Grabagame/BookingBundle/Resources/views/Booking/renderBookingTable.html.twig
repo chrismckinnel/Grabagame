@@ -2,25 +2,25 @@
 
 {% block title %}Bookings{% endblock %}
 
-{% block boxes %}{% endblock %}
-
 {% block body %}
 
     <h1>{{ DayToDisplay.format('F d Y') }}</h1>
 
-    <ul id="day_nav">
-        <li id="yesterday"><a href="{{ path('booking', { 'dayToDisplay': Yesterday.format('Y-m-d') }) }}">Yesterday</a></li>
-        <li id="tomorrow"><a href="{{ path('booking', { 'dayToDisplay': Tomorrow.format('Y-m-d') }) }}">Tomorrow</a></li>
+    <ul class="pager">
+        <li class="previous"><a href="{{ path('booking', { 'dayToDisplay': Yesterday.format('Y-m-d') }) }}">&larr; Yesterday</a></li>
+        <li class="next"><a href="{{ path('booking', { 'dayToDisplay': Tomorrow.format('Y-m-d') }) }}">Tomorrow &rarr;</a></li>
     </ul>
 
     {% if app.session.hasFlash('alert-success') %} 
         <div class="alert alert-success">
+            <button class="close" data-dismiss="alert">×</button>
             {{ app.session.flash('alert-success') }}
         </div>
     {% endif %}
 
     {% if app.session.hasFlash('alert-info') %} 
         <div class="alert alert-info">
+            <button class="close" data-dismiss="alert">×</button>
             {{ app.session.flash('alert-info') }}
         </div>
     {% endif %}
