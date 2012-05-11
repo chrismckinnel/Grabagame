@@ -70,7 +70,5 @@ fos_user:
         address: no-reply@grabagame.co.nz
         sender_name: Grabagame
     registration:
-        confirmation:
-            enabled: true
         form:
             type: grabagame_user_registration
