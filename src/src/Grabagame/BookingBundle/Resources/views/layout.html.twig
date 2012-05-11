@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{% block title %}Home{% endblock %}</title>
+    <title>{% block title %}Home{% endblock %} - Grabagame</title>
     <meta content="Online sports court booking system" http-equiv="description" />
     <meta content="sport booking, court booking, booking system, booking" http-equiv="keywords" />
+    <link href="{{ asset('bundles/grabagamebooking/css/bootstrap.css') }}" rel="stylesheet" type="text/css" />
+    <script src="{{ asset('bundles/grabagamebooking/css/bootstrap.js') }}"></script>
     <link href="{{ asset('bundles/grabagamebooking/css/styles.css') }}" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -22,39 +24,16 @@
                     <li> <a href="{{ path('about') }}" class="m2">About Us</a> </li>
                     <li> <a href="{{ path('bookingDefault') }}" class="m3">Booking</a> </li>
                 </ul>
-                <div id="search">
-                {% if is_granted('ROLE_USER') %}
-                    <a class="logout" href="{{ path('fos_user_security_logout') }}">Logout</a>
-                {% else %}
-                    <a href="{{ path('fos_user_security_login') }}"><img class="button" src="{{ asset('bundles/grabagamebooking/images/button_login.gif') }}" /></a>
-                    <a class="register" href="{{ path('fos_user_registration_register') }}">Register</a>
-                {% endif %}
-                </div>
+            {% if is_granted('ROLE_USER') %}
+                <form class="form-inline logout-nav" action="{{ path('fos_user_security_logout') }}" method="post">
+                    <button type="submit" class="btn btn-danger" name="_submit" />
+                    <i class="icon-off icon-white"></i>
+                    Logout</button>
+                </form>
+            {% else %}
+                {% render 'GrabagameBookingBundle:Home:signInForm' %}
+            {% endif %}
             </div>
-            {% block boxes %}
-            <div class="three_boxes">
-                <div class="post-it" style="margin-right:10px;">
-                    <div class="pin"><img src="{{ asset('bundles/grabagamebooking/images/icon_pin_blue.png') }}" alt="pin" /></div>
-                    <div class="title"><img src="{{ asset('bundles/grabagamebooking/images/title_1.gif') }}" alt="title1" /></div>
-                    <div class="post-it_text">Try <a href="#">logging in as our Demo User</a> to see what all the fuss is about!<br /><br />We also offer a <strong>fully functional 30 day free trial</strong>.    </div>
-                    <div class="image"><img src="{{ asset('bundles/grabagamebooking/images/icon_new.png') }}" alt="new" /></div>
-                    <div class="button"><a href="#"><img src="{{ asset('bundles/grabagamebooking/images/button_learn_more.gif') }}" alt="Learn More" width="96" height="27" border="0" /></a></div>
-                </div>
-                <div class="post-it" style="margin-right:10px;">
-                    <div class="pin"><img src="{{ asset('bundles/grabagamebooking/images/icon_pin_red.png') }}" alt="pin" /></div>
-                    <div class="title"><img src="{{ asset('bundles/grabagamebooking/images/title_2.png') }}" alt="title1" /></div>
-                    <div class="post-it_text">Grabagame is completely open source and free to use!</div>
-                    <div class="image"><img src="{{ asset('bundles/grabagamebooking/images/icon_paper.png') }}" alt="new" /></div>
-                    <div class="button"><a href="#"><img src="{{ asset('bundles/grabagamebooking/images/button_learn_more.gif') }}" alt="Learn More" width="96" height="27" border="0" /></a></div>
-                </div>
-
-                <div class="post-it" id="facebook">
-                    <div class="pin"><img src="{{ asset('bundles/grabagamebooking/images/icon_pin_light_blue.png') }}" alt="pin" /></div>
-                    <div class="title"><img src="{{ asset('bundles/grabagamebooking/images/title_3.gif') }}" alt="title3" /></div>
-                    <div class="post-it_text">Stay connected with the latest updates by following us on Twitter / Facebook!<br /><a target="_new" href="http://twitter.com/grabagame"><img src="{{ asset('bundles/grabagamebooking/images/twitter.png') }}" alt="Twitter" /></a><a target="_new" href="http://www.facebook.com/profile.php?id=100000438650584#/profile.php?id=100000438650584&v=wall"><img id="test" src="{{ asset('bundles/grabagamebooking/images/facebook.png') }}" alt="Facebook" /></a></div>
-                </div>
-            </div>
-            {% endblock %}
 
             <div id="paper_container">
                 <div class="top"><img src="{{ asset('bundles/grabagamebooking/images/content_top.png') }}" alt="top" /></div>
@@ -70,7 +49,7 @@
                                 <p align="center"><img src="{{ asset('bundles/grabagamebooking/images/title_suggestions.gif') }}" alt="Latest News" border="0" /></p>
                                 <p id="suggestion_paragraph"><strong>We would love to hear your great ideas!</strong><br />
                                 <textarea name="suggestion" id="suggestion" rows="2" cols="28"></textarea>
-                                <input type="button" name="submit_suggestion" value="Suggest it!" onclick="submit_suggestion()" />
+                                <input class="btn btn-primary" type="button" name="submit_suggestion" value="Suggest it!" onclick="submit_suggestion()" />
                                 </p>
                             </div>
                         </div>
@@ -99,5 +78,10 @@
 </div>
 </div>
 <!--end cloud-->
+{% block analytics %}
+    {% if app.environment == 'prod' %} 
+        {% include "GrabagameBookingBundle:Other:google-analytics.html.twig" %}
+    {% endif %}
+{% endblock %}
 </body>
 </html>

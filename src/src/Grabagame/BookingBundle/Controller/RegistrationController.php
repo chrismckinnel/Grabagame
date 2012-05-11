@@ -28,7 +28,7 @@ class RegistrationController extends BaseController
             }
 
             $registrationFlashMessage = $this->renderView('FOSUserBundle:Registration:'.$view.'.html.twig', $bindings);
-            $this->setFlash('fos_user_success', $registrationFlashMessage);
+            $this->setFlash('alert-success', $registrationFlashMessage);
             $url = $this->container->get('router')->generate($route);
 
             return new RedirectResponse($url);

@@ -28,4 +28,18 @@ class HomeController extends Controller
     {
         return $this->render('GrabagameBookingBundle:Home:about.html.twig');
     }
+
+    /**
+     * @return Response
+     */
+    public function signInFormAction()
+    {
+        $csrfToken = $this->get('form.csrf_provider')->generateCsrfToken('authenticate');
+
+        $bindings = array(
+            'csrfToken' => $csrfToken,
+        );
+
+        return $this->render('GrabagameBookingBundle:Home:signInForm.html.twig', $bindings);
+    }
 }
