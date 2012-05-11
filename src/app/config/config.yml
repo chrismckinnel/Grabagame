@@ -50,10 +50,13 @@ doctrine:
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport: %mailer_transport%
-    host:      %mailer_host%
-    username:  %mailer_user%
-    password:  %mailer_password%
+    transport:  %mailer_transport%
+    host:       %mailer_host%
+    username:   %mailer_user%
+    password:   %mailer_password%
+    encryption: %encryption%
+    port:       %port%
+    auth_mode:  %auth_mode%
 
 jms_security_extra:
     secure_controllers:  true
@@ -63,6 +66,9 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: Grabagame\BookingBundle\Entity\Member
+    from_email:
+        address: no-reply@grabagame.co.nz
+        sender_name: Grabagame
     registration:
         form:
             type: grabagame_user_registration

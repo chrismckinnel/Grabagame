@@ -19,7 +19,8 @@ class BookingController extends Controller
 {
     /**
      * @return Response
-     */ public function indexAction()
+     */ 
+    public function indexAction()
     {
         return $this->render('GrabagameBookingBundle::layout.html.twig');
     }
@@ -223,7 +224,7 @@ class BookingController extends Controller
         );
 
         $flashMessage = $this->renderView('GrabagameBookingBundle:Booking:bookingSuccessful.html.twig', $bindings);
-        $this->get('session')->setFlash('notice', $flashMessage);
+        $this->get('session')->setFlash('alert-success', $flashMessage);
     }
 
     /**
@@ -240,7 +241,7 @@ class BookingController extends Controller
         );
 
         $flashMessage = $this->renderView('GrabagameBookingBundle:Booking:slotNotAvailable.html.twig', $bindings);
-        $this->get('session')->setFlash('notice', $flashMessage);
+        $this->get('session')->setFlash('alert-error', $flashMessage);
     }
 
     /**
@@ -292,7 +293,7 @@ class BookingController extends Controller
             }
             
             $bookingService->cancelBooking($booking, $member);
-            $this->get('session')->setFlash('notice', $flashMessage);
+            $this->get('session')->setFlash('alert-success', $flashMessage);
 
             return $this->redirect($this->generateUrl('bookingDefault'));
         } catch (BookingException $e) {

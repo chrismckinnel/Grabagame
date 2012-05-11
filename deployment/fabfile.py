@@ -63,6 +63,9 @@ def deploy():
     
     rename_robots()
 
+    clear_caches()
+    set_cache_and_log_permissions()
+
     # Change Permissions
     if env.Environment == 'live':
         apply_production_permissions()
@@ -204,6 +207,11 @@ def updateVendors():
 def installAssets():
     "Install assets to web"
     sudo('php %(BuildRoot)s/app/console assets:install %(BuildRoot)s/web' % env)
+
+def clear_caches():
+    "Clear caches"
+    sudo('php %(BuildRoot)s/app/console cache:clear --env=dev --no-debug' % env)
+    sudo('php %(BuildRoot)s/app/console cache:clear --env=prod --no-debug' % env)
 
 def rename_robots():
     "Renaming robots.txt file"
