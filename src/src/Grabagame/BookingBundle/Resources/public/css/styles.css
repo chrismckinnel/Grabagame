@@ -680,6 +680,11 @@ a.timetable_event {
   color: #1e3d5a;
 }
 
+#timetable a.onBehalf {
+  background-color: #ffff88;
+  color: #1e3d5a;
+}
+
 #timetable tr {
   text-align: center;
   vertical-align: top;
