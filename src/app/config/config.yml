@@ -66,7 +66,11 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: Grabagame\BookingBundle\Entity\Member
+    from_email:
+        address: no-reply@grabagame.co.nz
+        sender_name: Grabagame
     registration:
+        confirmation:
+            enabled: true
         form:
             type: grabagame_user_registration
-
