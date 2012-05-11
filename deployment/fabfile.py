@@ -210,8 +210,8 @@ def installAssets():
 
 def clear_caches():
     "Clear caches"
-    sudo('php %(BuildRoot)s/app/console cache:clear --env=prod --no-debug' % env)
     sudo('php %(BuildRoot)s/app/console cache:clear --env=dev --no-debug' % env)
+    sudo('php %(BuildRoot)s/app/console cache:clear --env=prod --no-debug' % env)
 
 def rename_robots():
     "Renaming robots.txt file"
