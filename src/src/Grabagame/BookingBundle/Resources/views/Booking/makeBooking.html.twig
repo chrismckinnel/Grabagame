@@ -1,6 +1,6 @@
 {% extends 'GrabagameBookingBundle::layout.html.twig' %}
 
-{% block boxes %}{% endblock %}
+{% block title %}Make a booking{% endblock %}
 
 {% block body %}
     <h1>Make a booking</h1>
@@ -41,7 +41,7 @@
             {% endfor %}
             </select>
         </label>
-        <button type="submit">Make booking</button>
+        <button class="btn btn-primary" type="submit">Make booking</button>
         {{ form_rest(booking_form) }}
     </form>
 

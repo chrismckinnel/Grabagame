@@ -1,6 +1,6 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
 
-{% block boxes %}{% endblock boxes %}
+{% block title %}Login{% endblock %}
 
 {% block body %}
     <div class="left">
@@ -13,18 +13,22 @@
             <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
 
             <label for="username">Username: </label>
-            <input type="text" id="username" name="_username" value="{{ last_username }}" />
+            <input type="text" id="username" name="_username" />
             <br />
 
             <label for="password">Password: </label>
             <input type="password" id="password" name="_password" />
 
             <br />
-            <label for="remember_me">Remember me: </label>
-            <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+            <label class="checkbox inline" for="remember_me">
+                Remember me:
+                <input class="checkbox inline" type="checkbox" name="_remember_me" />
+            </label>
 
             <br />
-            <button type="submit" id="_submit" name="_submit" />Login</button>
+            <button type="submit" id="_submit" name="_submit" />
+            <i class="icon-check"></i>
+            Sign in</button>
         </form>
     </div>
 {% endblock body %}

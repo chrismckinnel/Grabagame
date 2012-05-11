@@ -1,26 +1,35 @@
 {% extends 'GrabagameBookingBundle::layout.html.twig' %}
 
-{% block boxes %}{% endblock %}
+{% block title %}Bookings{% endblock %}
 
 {% block body %}
-    {% if app.session.hasFlash('fos_user_success') %} 
-        <div class="flash-notice">
-            {{ app.session.flash('fos_user_success') }}
-        </div>
-    {% endif %}
-
-    {% if app.session.hasFlash('notice') %} 
-        <div class="flash-notice">
-            {{ app.session.flash('notice') }}
-        </div>
-    {% endif %}
 
     <h1>{{ DayToDisplay.format('F d Y') }}</h1>
 
-    <ul id="day_nav">
-        <li id="yesterday"><a href="{{ path('booking', { 'dayToDisplay': Yesterday.format('Y-m-d') }) }}">Yesterday</a></li>
-        <li id="tomorrow"><a href="{{ path('booking', { 'dayToDisplay': Tomorrow.format('Y-m-d') }) }}">Tomorrow</a></li>
+    <ul class="pager">
+        <li class="previous"><a href="{{ path('booking', { 'dayToDisplay': Yesterday.format('Y-m-d') }) }}">&larr; Yesterday</a></li>
+        <li class="next"><a href="{{ path('booking', { 'dayToDisplay': Tomorrow.format('Y-m-d') }) }}">Tomorrow &rarr;</a></li>
     </ul>
+
+    {% if app.session.hasFlash('alert-success') %} 
+        <div class="alert alert-success">
+            <button class="close" data-dismiss="alert">×</button>
+            {{ app.session.flash('alert-success') }}
+        </div>
+    {% endif %}
+
+    {% if app.session.hasFlash('alert-info') %} 
+        <div class="alert alert-info">
+            <button class="close" data-dismiss="alert">×</button>
+            {{ app.session.flash('alert-info') }}
+        </div>
+    {% endif %}
+
+    {% if app.session.hasFlash('alert-error') %} 
+        <div class="alert alert-error">
+            {{ app.session.flash('alert-error') }}
+        </div>
+    {% endif %}
 
     <table id="timetable">
     {% for Court in Club.getCourts %}
@@ -35,18 +44,19 @@
                 {% set Member = Booking.getMember %}
                 {% if app.user.username is defined %}
                     {% if app.user.username == Member.getUsername %}
-                        {% set CurrentUser = 'you' %}
+                        {% set BookingClass = 'you' %}
                     {% else %}
-                        {% set CurrentUser = '' %}
+                        {% set BookingClass = 'booked' %}
                     {% endif %}
                 {% endif %}
                 {% if Booking.getType == 'onBehalf' %}
                     {% set NameForBookingTable = Booking.getBookingOnBehalf.getNameForBookingTable %}
+                    {% set BookingClass = 'onBehalf' %}
                 {% else %}
                     {% set NameForBookingTable = Member.getNameForBookingTable %}
                 {% endif %}
                 <td>
-                    <a href="{{ path('cancel', { 'bookingId': Booking.getId }) }}" class="booked {% if CurrentUser is defined %}{{ CurrentUser }}{% endif %}">{{ StartTime.format('G:i') }}<br />{% if not Booking.isNameHidden or CurrentUser == 'you' %}{{ NameForBookingTable }}{% endif %}</a>
+                    <a href="{{ path('cancel', { 'bookingId': Booking.getId }) }}" class="{% if BookingClass is defined %}{{ BookingClass }}{% endif %}">{{ StartTime.format('G:i') }}<br />{% if not Booking.isNameHidden or BookingClass == 'you' %}{{ NameForBookingTable }}{% endif %}</a>
                 </td>
             {% else %}
                 <td>

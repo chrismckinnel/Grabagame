@@ -1,0 +1,11 @@
+                <form class="form-inline login-nav" action="{{ path('fos_user_security_check') }}" method="post">
+                    <input type="hidden" name="_csrf_token" value="{{ csrfToken }}" />
+                    <input type="text" class="input-small" name="_username" placeholder="Username">
+                    <input type="password" class="input-small" name="_password" placeholder="Password" />
+                    <button type="submit" class="btn" name="_submit" />
+                    <i class="icon-check"></i>
+                    Sign in</button>
+                    <a href="{{ path('fos_user_registration_register') }}" class="btn btn-primary">
+                    <i class="icon-user icon-white"></i>
+                    Register</a>
+                </form>
