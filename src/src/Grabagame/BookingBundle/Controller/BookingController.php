@@ -80,8 +80,7 @@ class BookingController extends Controller
     {
         try {
             $startTime = htmlentities($startTime);
-            $newStartTime = new \DateTime("now");
-            $startTime = new \DateTime($newStartTime->format('Y-m-d '.$startTime));
+            $startTime = new \DateTime($startTime);
 
             $bookingService = $this->get('service.booking');
             $memberService  = $this->get('service.member');
