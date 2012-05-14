@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM,
 /**
  * Member entity
  *
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Grabagame\BookingBundle\Repository\MemberRepository")
  * @ORM\Table( name="member" )
  */
 class Member extends BaseUser
@@ -61,6 +61,20 @@ class Member extends BaseUser
      */
     private $club;
 
+    /**
+     * Bidirectional - many-to-many
+     *
+     * @ORM\ManyToMany(targetEntity="Grabagame\BookingBundle\Entity\Group")
+     * @ORM\JoinTable(name="grabagame_user_group",
+     *      joinColumns={@ORM\JoinColumn(name="member_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
+     * )
+     */
+    protected $groups;    
+
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         parent::__construct();
@@ -213,5 +227,39 @@ class Member extends BaseUser
     public function getFullName()
     {
         return $this->firstName . ' ' . $this->lastName;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRoles()
+    {
+        $groups = parent::getGroups();
+        $roles = $this->roles;
+
+        if (count($groups)) {
+            foreach ($groups as $group) {
+                if ($group->isActive()) {
+                    $groupRoles = $group->getRoles();
+                    if (count($groupRoles)) {
+                        foreach ($groupRoles as $role) {
+                            if (!in_array($role, $roles, true)) {
+                                $roles[] = $role;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $roles;
+    }
+
+    /**
+     * @param array $groups Groups array
+     */
+    public function setGroups($groups)
+    {
+        $this->groups = $groups;
     }
 }

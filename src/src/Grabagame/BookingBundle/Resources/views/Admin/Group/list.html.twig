@@ -1,0 +1,66 @@
+{% extends 'GrabagameBookingBundle::layout.html.twig' %}
+
+{% block title %}Admin - Group list{% endblock %}
+
+{% block body %}
+
+    {% if app.session.hasFlash('noticeSuccess') %}
+        <div class="alert alert-block alert-success">
+            {{ app.session.flash('noticeSuccess') }}
+        </div>
+    {% elseif app.session.hasFlash('noticeFailed') %}
+        <div class="alert alert-block alert-failed">
+            {{ app.session.flash('noticeFailed') }}
+        </div>
+    {% endif %}
+
+    <h2 class="section-title">All Groups</h2>
+
+    {% block sidebar %}{% endblock %}
+    
+    <p><a class="btn" href="{{ path('group_add') }}">Add a new group</a></p>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Group ID</th>
+                <th>Name</th>
+                <th>Number of members</th>
+                <th>Action</th>
+                <th style="width: 140px;">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for Group in Groups %}
+            <tr>
+                <td>{{ Group.getId }}</td>
+                <td>{{ Group.getName }}</td>
+                <td>{{ Group.getNumberOfMembers }}</td>
+                <td><a href="{{ path('group_details', { 'groupId' : Group.getId }) }}">View</a> / <a href="{{ path('group_edit', { 'groupId' : Group.getId }) }}">Edit</a></td>
+                <td>
+                    <span class="actionConfirm">
+                        {% if Group.isActive %}
+                            <a href="{{ path('group_deactivate', { 'groupId' : Group.getId }) }}" class="delete">De-activate</a>
+                        {% else %}
+                            <a href="{{ path('group_activate', { 'groupId' : Group.getId }) }}" class="delete">Activate</a>
+                        {% endif %}
+                    </span>
+                    {% if Group.isActive %}
+                        <form style="margin-bottom: 0" method="post" action="{{ path('group_deactivate', { 'groupId' : Group.getId }) }}" class="actionConfirm hide">
+                    {% else %}
+                        <form style="margin-bottom: 0" method="post" action="{{ path('group_activate', { 'groupId' : Group.getId }) }}" class="actionConfirm hide">
+                    {% endif %}
+                        <button class="btn btn-info" type="submit">Yes</button>
+                        <button class="btn btn-danger delete" type="button" class="delete">No</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/tangentuser/js/delete-group.js') }}"></script>
+{% endblock %}
