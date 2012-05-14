@@ -44,4 +44,41 @@ class MemberService extends LoggerAware {
             throw new MemberException('You must be logged in to perform this action.');
         }
     }
+
+    /**
+     * @return array
+     */
+    public function getAllMembers()
+    {
+        return $this->doctrine
+                    ->getEntityManager()
+                    ->getRepository('GrabagameBookingBundle:Member')
+                    ->findAll();
+    }    
+
+    /**
+     * @param integer $memberId Member ID
+     *
+     * @return array
+     */
+    public function getMemberById($memberId)
+    {
+        return $this->doctrine
+                    ->getEntityManager()
+                    ->getRepository('GrabagameBookingBundle:Member')
+                    ->find($memberId);
+    }
+
+    /**
+     * @param string $query
+     *
+     * @return array
+     */
+    public function searchMembers($query)
+    {
+        return $this->doctrine
+                    ->getEntityManager()
+                    ->getRepository('GrabagameBookingBundle:Member')
+                    ->findAllBySearch($query);
+    }    
 }
