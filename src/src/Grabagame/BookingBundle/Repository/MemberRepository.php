@@ -12,4 +12,22 @@ use Doctrine\ORM\EntityRepository;
  */
 class MemberRepository extends EntityRepository
 {
+
+    /**
+     * @param Group $group
+     *
+     * @return array
+     */
+    public function findUserByGroup($group)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('
+            SELECT m
+            FROM GrabagameBookingBundle:Member m
+            JOIN m.groups g WHERE g = :group
+        ');
+        $query->setParameter('group', $group);
+
+        return $query->getResult();
+    }    
 }
