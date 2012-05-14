@@ -597,10 +597,6 @@ hr {
   border-collapse: collapse;
 }
 
-td {
-  behavior: url('IEFixes.htc');
-}
-
 #timetable td {
   border: 1px solid #c5c5c5;
   height: 50px;
