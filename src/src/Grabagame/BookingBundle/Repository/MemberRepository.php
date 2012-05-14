@@ -30,4 +30,26 @@ class MemberRepository extends EntityRepository
 
         return $query->getResult();
     }    
+
+    /**
+     * @param string $queryString
+     *
+     * @return array
+     */
+    public function findAllBySearch($queryString)
+    {
+        $queryString = '%'.$queryString.'%';
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('
+            SELECT m
+            FROM GrabagameBookingBundle:Member m
+            WHERE m.id           LIKE :query OR
+                  m.firstName    LIKE :query OR
+                  m.lastName     LIKE :query OR
+                  m.email        LIKE :query
+        ');
+        $query->setParameter('query', $queryString);
+
+        return $query->getResult();
+    }    
 }
