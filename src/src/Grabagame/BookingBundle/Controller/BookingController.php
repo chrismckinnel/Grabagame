@@ -94,10 +94,6 @@ class BookingController extends Controller
             $maxSlots = $bookingService->getMaxSlots($booking);
             $booking_form = $this->createForm(new BookingType(), $booking);
 
-            if ($member->hasRole('ROLE_BOOK_ON_BEHALF')) {
-                $booking->setType('onBehalf');
-            }
-
             $bindings = array(
                 'booking_form' => $booking_form->createView(),
                 'Booking'      => $booking,
@@ -158,9 +154,10 @@ class BookingController extends Controller
                         $bookingService->saveBooking($booking);
                         $this->setBookingSuccessfulFlash($member, $booking);
 
-                        if ($member->hasRole('ROLE_BOOK_ON_BEHALF')) {
+                        $onBehalf = $request->get('onBehalf');
+                        if ($member->hasRole('BOOK_ON_BEHALF') && $onBehalf) {
                             $booking->setType('onBehalf');
-    
+
                             $firstName = $request->get('firstName');
                             $lastName = $request->get('lastName');
 
@@ -173,7 +170,6 @@ class BookingController extends Controller
                             $booking->setBookingOnBehalf($bookingOnBehalf);
                             $bookingService->saveBooking($booking);
                         }
-
                     } else {
                         
                         $this->setBookingConflictFlash($member, $booking, $club);

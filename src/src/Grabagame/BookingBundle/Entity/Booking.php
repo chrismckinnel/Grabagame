@@ -40,6 +40,11 @@ class Booking
     private $nameHidden = false;
 
     /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdDate;
+
+    /**
      * Bidirectional - many-to-one
      *
      * @ORM\ManyToOne(targetEntity="Club", inversedBy="bookings")     
@@ -66,6 +71,14 @@ class Booking
      * @ORM\ManyToOne(targetEntity="Member", inversedBy="bookings")     
      */
     private $member;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->createdDate = new \DateTime('now');
+    }
 
     /**
      * Get id

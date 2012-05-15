@@ -6,14 +6,14 @@ $('#search_member').on('keypress', function() {
         var url = $(this).parents('form').attr('action') + '?_format=json&q=' + query;
         
         $.getJSON(url, function(data) {
-            if (data.users.length > 0) {
-                var user;
-                for (user in data.users) {
+            if (data.members.length > 0) {
+                var member;
+                for (member in data.members) {
                     var row = '<tr>';
-                    row    += '<td>'+data.users[0].memberId+'</td>';
-                    row    += '<td>'+data.users[0].name+'</td>';
-                    row    += '<td>'+data.users[0].email+'</td>';
-                    row    += '<td><a href="'+data.users[0].viewLink+'">View</a> / <a href="'+data.users[0].editLink+'">Edit</a></td>';
+                    row    += '<td>'+data.members[0].memberId+'</td>';
+                    row    += '<td>'+data.members[0].name+'</td>';
+                    row    += '<td>'+data.members[0].email+'</td>';
+                    row    += '<td><a href="'+data.members[0].viewLink+'">View</a> / <a href="'+data.members[0].editLink+'">Edit</a></td>';
                     row    += '</tr>';
                 }
             } else {
