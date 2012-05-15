@@ -74,7 +74,7 @@ class MemberController extends Controller
         $message = \Swift_Message::newInstance()
             ->setContentType('text/html')
             ->setSubject('Password reset request')
-            ->setFrom('no-reply@labour.org.uk')
+            ->setFrom('no-reply@grabagame.co.nz')
             ->setTo($member->getEmail())
             ->setBody($body);
 
