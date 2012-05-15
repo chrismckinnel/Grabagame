@@ -37,6 +37,8 @@ class GroupType extends AbstractType
         $builder->add('roles', 'choice', array(
             'choices' => array(
                 'ROLE_USER' => 'ROLE_USER',
+                'CAN_CANCEL_BOOKINGS' => 'CAN_CANCEL_BOOKINGS',
+                'BOOK_ON_BEHALF' => 'BOOK_ON_BEHALF',
                 'ROLE_ADMIN' => 'ROLE_ADMIN'),
             'multiple' => true,
             'expanded' => true,
