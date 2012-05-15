@@ -364,11 +364,8 @@ class BookingServiceTest extends DatabaseTestCase
 
         $this->bookingService->moveBooking($bookingToMove);
 
-        $bookingToMove = $bookingRepo->find(2);
-        $newStartTime = new \DateTime('2012-05-03 06:00:00');
-        $bookingToMove->setStartTime($newStartTime);
-
-        $this->bookingService->moveBooking($bookingToMove);
+        $movedBooking = $bookingRepo->find(1);
+        $this->assertEquals($newStartTime, $movedBooking->getStartTime());
     }
 
     /**
