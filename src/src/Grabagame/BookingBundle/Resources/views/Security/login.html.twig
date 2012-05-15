@@ -5,6 +5,27 @@
 {% block body %}
     <div class="left">
         <h2>Login</h2>
+
+        {% if app.session.hasFlash('alert-success') %} 
+            <div class="alert alert-success">
+                <button class="close" data-dismiss="alert">×</button>
+                {{ app.session.flash('alert-success') }}
+            </div>
+        {% endif %}
+
+        {% if app.session.hasFlash('alert-info') %} 
+            <div class="alert alert-info">
+                <button class="close" data-dismiss="alert">×</button>
+                {{ app.session.flash('alert-info') }}
+            </div>
+        {% endif %}
+
+        {% if app.session.hasFlash('alert-error') %} 
+            <div class="alert alert-error">
+                {{ app.session.flash('alert-error') }}
+            </div>
+        {% endif %}
+
         {% if error %}
             <div>{{ error }}</div>
         {% endif %}
@@ -29,6 +50,7 @@
             <button type="submit" id="_submit" name="_submit" />
             <i class="icon-check"></i>
             Sign in</button>
+            <a href="{{ path('member_forgot_password') }}">Forgot your password?</a>
         </form>
     </div>
 {% endblock body %}

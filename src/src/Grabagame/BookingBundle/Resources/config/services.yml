@@ -22,6 +22,7 @@ services:
         parent: service.loggerAware
         calls:
             - [ setDoctrine, [@doctrine] ]
+            - [ setMailer, [@mailer] ]
             - [ setSecurityContext, [@security.context] ]
             - [ setLogger, [@logger, %base_logging_url%, 'MemberService'] ]
 
