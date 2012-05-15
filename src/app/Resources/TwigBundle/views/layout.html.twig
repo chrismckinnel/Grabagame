@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Home{% endblock %} - Grabagame</title>
+    <meta content="Online sports court booking system" http-equiv="description" />
+    <meta content="sport booking, court booking, booking system, booking" http-equiv="keywords" />
+    <link href="{{ asset('bundles/grabagamebooking/css/bootstrap.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('bundles/grabagamebooking/css/styles.css') }}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="clouds">
+    <div id="wrapper">
+        <div id="background_texture">
+            <div id="header">
+                <div id="logo">
+                    <a href="{{ path('home') }}"><img src="{{ asset('bundles/grabagamebooking/images/grabagame.gif') }}" alt="logo" /></a>
+                </div>
+            </div>
+
+            <div id="menu_container">
+                <ul>
+                    <li> <a href="{{ path('home') }}" class="m1">Home</a> </li>
+                    <li> <a href="{{ path('about') }}" class="m2">About Us</a> </li>
+                    <li> <a href="{{ path('bookingDefault') }}" class="m3">Booking</a> </li>
+                </ul>
+            {% if is_granted('ROLE_USER') %}
+                <form class="form-inline logout-nav" action="{{ path('fos_user_security_logout') }}" method="post">
+                    <button type="submit" class="btn btn-danger" name="_submit" />
+                    <i class="icon-off icon-white"></i>
+                    Logout</button>
+                </form>
+            {% else %}
+                {% render 'GrabagameBookingBundle:Home:signInForm' %}
+            {% endif %}
+            </div>
+
+            <div id="paper_container">
+                <div class="top"><img src="{{ asset('bundles/grabagamebooking/images/content_top.png') }}" alt="top" /></div>
+                <div id="main_content">
+                    {% block body %}
+                    <h1>Grab a game</h1>
+                    {% endblock %}
+                    {% block sidebar %}
+                    <div class="right">
+                        <!--start news-->
+                        <div class="news_bubble">
+                            <div class="text">
+                                <p align="center"><img src="{{ asset('bundles/grabagamebooking/images/title_suggestions.gif') }}" alt="Latest News" border="0" /></p>
+                                <p id="suggestion_paragraph"><strong>We would love to hear your great ideas!</strong><br />
+                                <textarea name="suggestion" id="suggestion" rows="2" cols="28"></textarea>
+                                <input class="btn btn-primary" type="button" name="submit_suggestion" value="Suggest it!" onclick="submit_suggestion()" />
+                                </p>
+                            </div>
+                        </div>
+                        <!--end news-->
+                        <!--start contact-->
+                        <div class="contact_box">
+                            <div class="text">
+                                <p><img src="{{ asset('bundles/grabagamebooking/images/title_contact.gif') }}" alt="Latest News" border="0" /></p>
+                                <p><img src="{{ asset('bundles/grabagamebooking/images/icon_email.gif') }}" alt="Email" width="18" height="18" align="top" class="icon" /><a href="mailto:chrismckinnel@gmail.com">chrismckinnel@gmail.com</a></p>
+                            </div>
+                        </div>
+                        <!--end contact-->
+                    </div>
+                    {% endblock %}
+                    <hr class="clear" />
+                </div>
+                <div class="paper_bottom"><img src="{{ asset('bundles/grabagamebooking/images/content_bottom.png') }}" alt="bottom" /></div>
+            </div>
+            <!-- end main paper-->
+            <div id="footer">
+                <div class="left">&copy; Grab a Game 2012</div>
+                <div class="right"><a href="{{ path('about') }}">About</a></div>
+            </div>
+        <!--end wrapper-->
+    </div>
+</div>
+</div>
+<!--end cloud-->
+{% block analytics %}
+    {% if app.environment == 'prod' %} 
+        {% include "GrabagameBookingBundle:Other:google-analytics.html.twig" %}
+    {% endif %}
+{% endblock %}
+{% block javascripts %}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="{{ asset('bundles/grabagamebooking/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('bundles/grabagamebooking/js/general.js') }}"></script>
+{% endblock %}
+</body>
+</html>

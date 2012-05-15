@@ -42,4 +42,33 @@ class HomeController extends Controller
 
         return $this->render('GrabagameBookingBundle:Home:signInForm.html.twig', $bindings);
     }
+
+    /**
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function submitErrorAction(Request $request)
+    {
+        $errorReport = $request->get('errorReport');
+        $mailer = $this->get('mailer');
+
+        $bindings = array(
+            'ErrorReport' => $errorReport,
+        );
+
+        $body = $this->renderView('GrabagameBookingBundle:Email:errorReport.html.twig', $bindings);
+        $message = \Swift_Message::newInstance()
+            ->setContentType('text/html')
+            ->setSubject('User error report')
+            ->setFrom('support@grabagame.co.nz')
+            ->setTo('chrismckinnel@gmail.com')
+            ->setBody($body);
+
+        $mailer->send($message);
+
+        $this->get('session')->setFlash('alert-info', 'Thanks, hopefully we\'ll have the issue fixed shortly');
+
+        return $this->redirect($this->generateUrl('home'));
+    }
 }

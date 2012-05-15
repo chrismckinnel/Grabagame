@@ -776,3 +776,18 @@ input[type=text], input[type=password], input[type=email] {
     margin-right: 15px;
     margin-top: 5px;
 }
+
+.exception {
+    width: 600px;
+    float: left;
+}
+
+.exception form textarea {
+    font-size: large;
+    width: 90%;
+    height: 5em;
+}
+
+.exception-image {
+    float: right;
+}
