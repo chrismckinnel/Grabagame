@@ -38,3 +38,12 @@ services:
           - [ setDoctrine, [@doctrine] ]
           - [ setLogger, [@logger, %base_logging_url%, "GroupService"] ]
         parent: service.loggerAware
+
+    service.exception_listener:
+        class: Grabagame\BookingBundle\EventListener\ExceptionListener
+        calls:
+          - [ setTemplating, [@templating] ]
+          - [ setLogger, [@logger, %base_logging_url%, "Exceptions"] ]
+        tags:
+          - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }          
+        parent: service.loggerAware

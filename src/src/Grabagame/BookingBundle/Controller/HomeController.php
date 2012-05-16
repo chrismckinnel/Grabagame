@@ -18,7 +18,13 @@ class HomeController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('GrabagameBookingBundle:Home:index.html.twig');
+        try {
+            return $this->render('GrabagameBookingBundle:Home:index.html.twig');
+        } catch (\Exception $e) {
+
+            return $this->renderException($e);
+        }
+
     }
 
     /**
@@ -26,7 +32,11 @@ class HomeController extends Controller
      */
     public function aboutAction()
     {
-        return $this->render('GrabagameBookingBundle:Home:about.html.twig');
+        try {
+            return $this->render('GrabagameBookingBundle:Home:about.html.twig');
+        } catch (\Exception $e) {
+            return $this->renderException($e);
+        }
     }
 
     /**
@@ -69,6 +79,19 @@ class HomeController extends Controller
 
         $this->get('session')->setFlash('alert-info', 'Thanks, hopefully we\'ll have the issue fixed shortly');
 
-        return $this->redirect($this->generateUrl('home'));
+        return $this->redirect($this->generateUrl('bookingDefault'));
     }
+
+     /**
+     * @param Exception $e
+     *
+     * @return Response
+     */
+    private function renderException($e)
+    {
+        $logger = $this->get('logger');
+        $logger->err($e->getMessage());
+
+        return $this->render('GrabagameBookingBundle:Exception:exception.html.twig');
+    }   
 }
