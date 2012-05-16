@@ -17,4 +17,4 @@
     locale            = en
 
     secret            = 
-    base_logging_url  = ./app/logs
+    base_logging_url  = /home/vagrant/builds/chrismckinnel/Grabagame/src/app/logs 
