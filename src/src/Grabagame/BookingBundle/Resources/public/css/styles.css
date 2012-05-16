@@ -335,22 +335,8 @@ h1 {
 	margin-top:0px;
 }
 
-h1#h1_index {
-  text-align: center;
-  margin: 10px 0 0 0;
-  padding: 0 0 10px 0;
-}
-
-h1#h1_index span a{
-  font-size: 10px;
-	color:#2180ac;
-	margin-left: 4px;
-	cursor: auto;
-	text-decoration: none;
-}
-
-h1#h1_index span a:hover {
-  border-bottom: 1px solid;
+h1.bookingHeading {
+    text-align: center;
 }
 
 h2 {
