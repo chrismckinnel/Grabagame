@@ -18,13 +18,7 @@ class HomeController extends Controller
      */
     public function indexAction()
     {
-        try {
-            return $this->render('GrabagameBookingBundle:Home:index.html.twig');
-        } catch (\Exception $e) {
-
-            return $this->renderException($e);
-        }
-
+        return $this->render('GrabagameBookingBundle:Home:index.html.twig');
     }
 
     /**
