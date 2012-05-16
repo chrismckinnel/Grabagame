@@ -173,11 +173,11 @@ def rename_htaccess():
     "Renames htaccess files"
 
     if env.Environment == 'live':
-        run('mv %(BuildRoot)s/web/htaccess.live %(BuildRoot)s/web/.htaccess' % env)
-        run('rm %(BuildRoot)s/web/htaccess.dist' % env)
+        run('mv %(BuildRoot)s/web/.htaccess.live %(BuildRoot)s/web/.htaccess' % env)
+        run('rm %(BuildRoot)s/web/.htaccess.dist' % env)
     else:
-        run('mv %(BuildRoot)s/web/htaccess.dist %(BuildRoot)s/web/.htaccess' % env)
-        run('rm %(BuildRoot)s/web/htaccess.live' % env)
+        run('mv %(BuildRoot)s/web/.htaccess.dist %(BuildRoot)s/web/.htaccess' % env)
+        run('rm %(BuildRoot)s/web/.htaccess.live' % env)
 
 def set_production_symlinks():
     "Create production symbolic links"
