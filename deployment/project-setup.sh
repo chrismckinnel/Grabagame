@@ -8,9 +8,6 @@ sudo chmod -R 777 /var/log/grabagame
 sudo chmod -R 777 /var/cache/grabagame
 cd src
 mv app/config/parameters.ini.travis app/config/parameters.ini
-mv app/config/config_travis.yml app/config/config_dev.ini
-grep -r 'Grabagame_dev' *
 php bin/vendors install
-php app/console doctrine:schema:create
 sudo chmod -R 777 app/logs
 sudo chmod -R 777 app/cache
