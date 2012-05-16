@@ -5,15 +5,7 @@
 {% block body %}
     <h2 class="section-title">Members</h2>
 
-    {% if app.session.hasFlash('noticeSuccess') %}
-        <div class="alert alert-block alert-success">
-            {{ app.session.flash('noticeSuccess') }}
-        </div>
-    {% elseif app.session.hasFlash('noticeFailed') %}
-        <div class="alert alert-block alert-failed">
-            {{ app.session.flash('noticeFailed') }}
-        </div>
-    {% endif %}
+    {% include 'GrabagameBookingBundle:Generic:displayErrors.html.twig' %}
 
     {% block sidebar %}{% endblock %}
 
