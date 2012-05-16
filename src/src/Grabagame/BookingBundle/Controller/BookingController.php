@@ -327,6 +327,6 @@ class BookingController extends Controller
         $logger = $this->get('logger');
         $logger->err($e->getMessage());
 
-        return $this->render('GrabagameBookingBundle::exception.html.twig');
+        return $this->render('GrabagameBookingBundle:Exception:exception.html.twig');
     }
 }
