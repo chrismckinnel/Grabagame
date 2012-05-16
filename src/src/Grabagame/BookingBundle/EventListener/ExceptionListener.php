@@ -38,5 +38,6 @@ class ExceptionListener extends LoggerAware
     private function logException($e)
     {
         $this->logger->err($e->getMessage());
+        $this->logger->info($e->getTraceAsString());
     }    
 }
