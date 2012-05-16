@@ -137,6 +137,7 @@ def unpack(archive_path, temp_folder = '/tmp/build_temp'):
 
     # Create Application Configuration File
     create_parameters_ini()
+    rename_htaccess()
 
     # Deleted Temporal Files and Directories
     run('rm -rf %s' % temp_folder)
@@ -168,12 +169,15 @@ def create_parameters_ini(temp_folder = '/tmp/build_temp'):
     with cd('%s' % temp_folder):
         run('rm -f %s/parameters.ini' % temp_folder)
 
-def rename_htaccess(dest):
+def rename_htaccess():
     "Renames htaccess files"
 
-    with cd(dest):
-        run('cp htaccess.tpl .htaccess')
-        run('rm htaccess.tpl')
+    if env.Environment == 'live':
+        run('mv %(BuildRoot)s/web/htaccess.live %(BuildRoot)s/web/.htaccess' % env)
+        run('rm %(BuildRoot)s/web/htaccess.dist' % env)
+    else:
+        run('mv %(BuildRoot)s/web/htaccess.dist %(BuildRoot)s/web/.htaccess' % env)
+        run('rm %(BuildRoot)s/web/htaccess.live' % env)
 
 def set_production_symlinks():
     "Create production symbolic links"
