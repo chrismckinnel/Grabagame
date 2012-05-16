@@ -5,11 +5,7 @@
 {% block body %}
     <h1>Make a booking</h1>
 
-    {% if app.session.hasFlash('notice') %} 
-        <div class="flash-notice">
-            {{ app.session.flash('notice') }}
-        </div>
-    {% endif %}
+    {% include 'GrabagameBookingBundle:Generic:displayErrors.html.twig' %}
 
     <p><strong>Details of your booking</strong></p>
     
