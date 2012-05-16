@@ -17,4 +17,4 @@
     locale            = en
 
     secret            = 
-    base_logging_url  = /var/www/grabagame
+    base_logging_url  = ./app/logs
