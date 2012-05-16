@@ -138,7 +138,7 @@ a:hover {
 	display:block;
 	float:left;
 	height:39px;
-	background:url(../images/menu_sprite.gif) no-repeat;
+	background:url(../images/menu_sprite_trns.gif) no-repeat;
 	text-indent:-9999px;
 	overflow:hidden;
 }
@@ -784,7 +784,7 @@ input[type=text], input[type=password], input[type=email] {
 
 .exception form textarea {
     font-size: large;
-    width: 90%;
+    width: 600px;
     height: 5em;
     padding-top: 10px;
     line-height: 1.5em;
