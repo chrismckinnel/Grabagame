@@ -224,6 +224,8 @@ def rename_robots():
 def make_cache_and_log_dirs():
     sudo('if [ ! -d "%(CacheDir)s" ]; then mkdir %(CacheDir)s; fi' % env)
     sudo('if [ ! -d "%(LogDir)s" ]; then mkdir %(LogDir)s; fi' % env)
+    sudo('ln -sv /var/log/grabagame-%(Environment)s %(BuildRoot)s/app/logs' % env)
+    sudo('ln -sv /var/cache/grabagame-%(Environment)s %(BuildRoot)s/app/cache' % env)
 
 def set_cache_and_log_permissions():
     sudo('if [ -d "%(CacheDir)s" ]; then chmod -R 777 %(CacheDir)s; fi' % env)
