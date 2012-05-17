@@ -66,6 +66,7 @@ def deploy():
     clear_caches()
     set_cache_and_log_permissions()
     warmup_cache()
+    set_cache_and_log_permissions()
 
     # Change Permissions
     if env.Environment == 'live':
