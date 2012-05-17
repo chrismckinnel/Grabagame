@@ -1,8 +1,8 @@
 /src/web/bundles/
 /src/web/.htaccess
 /src/app/bootstrap*
-/src/app/cache/*
-/src/app/logs/*
+/src/app/cache
+/src/app/logs
 /src/vendor/
 /src/app/config/parameters.ini
 /src/app/config/parameters.ini.dist
