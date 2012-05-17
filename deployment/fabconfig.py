@@ -18,7 +18,7 @@ def dev():
 
     "Build Settings"
     env.BuildName = 'dev'
-    env.CacheDir = '/var/cache/grabagame'
+    env.CacheDir = '/var/cache/grabagame-*'
     env.LogDir = '/var/log/grabagame'
     env.BuildRoot = '%(AppRoot)s/builds/dev' % env 
 
