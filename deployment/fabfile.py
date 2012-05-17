@@ -65,6 +65,7 @@ def deploy():
 
     clear_caches()
     set_cache_and_log_permissions()
+    warmup_cache()
 
     # Change Permissions
     if env.Environment == 'live':
@@ -216,6 +217,11 @@ def clear_caches():
     "Clear caches"
     sudo('php %(BuildRoot)s/app/console cache:clear --env=dev --no-debug' % env)
     sudo('php %(BuildRoot)s/app/console cache:clear --env=prod --no-debug' % env)
+
+def warmup_cache():
+    "Warmup caches"
+    sudo('php %(BuildRoot)s/app/console cache:warmup --env=dev --no-debug' % env)
+    sudo('php %(BuildRoot)s/app/console cache:warmup --env=prod --no-debug' % env)
 
 def rename_robots():
     "Renaming robots.txt file"
