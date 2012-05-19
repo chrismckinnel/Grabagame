@@ -1,0 +1,19 @@
+{% extends 'GrabagameBookingBundle:Admin:dashboard.html.twig' %}
+
+{% block title %}Admin - Add group{% endblock %}
+
+{% block admin_content %}
+    <h1>Adding group failed</h1>
+
+    {% block sidebar %}{% endblock %}
+
+    <p>Something went wrong while adding the group {{ Group.getName }}.</p>
+        
+    {% if Errors is defined %}
+        <ul>
+            {% for error in Errors %}
+                <li>{{ error.getMessageTemplate }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

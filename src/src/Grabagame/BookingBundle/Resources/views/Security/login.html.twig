@@ -5,6 +5,9 @@
 {% block body %}
     <div class="left">
         <h2>Login</h2>
+
+        {% include 'GrabagameBookingBundle:Generic:displayErrors.html.twig' %}
+
         {% if error %}
             <div>{{ error }}</div>
         {% endif %}
@@ -29,6 +32,7 @@
             <button type="submit" id="_submit" name="_submit" />
             <i class="icon-check"></i>
             Sign in</button>
+            <a href="{{ path('member_forgot_password') }}">Forgot your password?</a>
         </form>
     </div>
 {% endblock body %}

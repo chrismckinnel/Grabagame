@@ -80,8 +80,7 @@ class BookingController extends Controller
     {
         try {
             $startTime = htmlentities($startTime);
-            $newStartTime = new \DateTime("now");
-            $startTime = new \DateTime($newStartTime->format('Y-m-d '.$startTime));
+            $startTime = new \DateTime($startTime);
 
             $bookingService = $this->get('service.booking');
             $memberService  = $this->get('service.member');
@@ -94,10 +93,6 @@ class BookingController extends Controller
             $booking->setClub($club);
             $maxSlots = $bookingService->getMaxSlots($booking);
             $booking_form = $this->createForm(new BookingType(), $booking);
-
-            if ($member->hasRole('ROLE_BOOK_ON_BEHALF')) {
-                $booking->setType('onBehalf');
-            }
 
             $bindings = array(
                 'booking_form' => $booking_form->createView(),
@@ -159,9 +154,10 @@ class BookingController extends Controller
                         $bookingService->saveBooking($booking);
                         $this->setBookingSuccessfulFlash($member, $booking);
 
-                        if ($member->hasRole('ROLE_BOOK_ON_BEHALF')) {
+                        $onBehalf = $request->get('onBehalf');
+                        if ($member->hasRole('BOOK_ON_BEHALF') && $onBehalf) {
                             $booking->setType('onBehalf');
-    
+
                             $firstName = $request->get('firstName');
                             $lastName = $request->get('lastName');
 
@@ -174,7 +170,6 @@ class BookingController extends Controller
                             $booking->setBookingOnBehalf($bookingOnBehalf);
                             $bookingService->saveBooking($booking);
                         }
-
                     } else {
                         
                         $this->setBookingConflictFlash($member, $booking, $club);
@@ -332,6 +327,6 @@ class BookingController extends Controller
         $logger = $this->get('logger');
         $logger->err($e->getMessage());
 
-        return $this->render('GrabagameBookingBundle::exception.html.twig');
+        return $this->render('GrabagameBookingBundle:Exception:exception.html.twig');
     }
 }

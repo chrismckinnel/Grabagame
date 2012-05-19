@@ -1,7 +1,7 @@
 services:
     service.loggerAware:
         class: Grabagame\BookingBundle\Service\LoggerAware
-    
+
     service.booking:
         class: Grabagame\BookingBundle\Service\BookingService
         parent: service.loggerAware
@@ -22,6 +22,7 @@ services:
         parent: service.loggerAware
         calls:
             - [ setDoctrine, [@doctrine] ]
+            - [ setMailer, [@mailer] ]
             - [ setSecurityContext, [@security.context] ]
             - [ setLogger, [@logger, %base_logging_url%, 'MemberService'] ]
 
@@ -30,3 +31,19 @@ services:
         arguments: [%fos_user.model.user.class%]
         tags:
             - { name: form.type, alias: grabagame_user_registration }
+
+    service.group:
+        class: Grabagame\BookingBundle\Service\GroupService
+        calls:
+          - [ setDoctrine, [@doctrine] ]
+          - [ setLogger, [@logger, %base_logging_url%, "GroupService"] ]
+        parent: service.loggerAware
+
+    service.exception_listener:
+        class: Grabagame\BookingBundle\EventListener\ExceptionListener
+        calls:
+          - [ setTemplating, [@templating] ]
+          - [ setLogger, [@logger, %base_logging_url%, "Exceptions"] ]
+        tags:
+          - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }          
+        parent: service.loggerAware

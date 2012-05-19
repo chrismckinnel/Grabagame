@@ -1,0 +1,32 @@
+{% extends 'GrabagameBookingBundle:Admin:dashboard.html.twig' %}
+
+{% block title %}Admin - Add group{% endblock %}
+
+{% block admin_content %}
+    {% form_theme group_form 'GrabagameBookingBundle:Form:twitter-bootstrap.html.twig' %}
+    
+    <h2 class="section-title">Add Group</h2>
+
+    {% block sidebar %}{% endblock %}
+
+    <form id="form-add-group" class="form-horizontal" method="post" action="{{ path('group_submit_add') }}" {{ form_enctype(group_form) }} >
+        <fieldset>
+            {{ form_widget(group_form.name) }}
+        </fieldset>
+        <fieldset>
+            <p class="indent"><b>Please select the roles you would like to include in this group:</b></p>
+
+            {{ form_widget(group_form.roles) }}
+        </fieldset>       
+        <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Add group</button>
+        </div>
+        {{ form_rest(group_form) }}
+    </form>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/grabagamebooking/js/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('bundles/grabagamebooking/js/validation.js') }}"></script>
+{% endblock %}

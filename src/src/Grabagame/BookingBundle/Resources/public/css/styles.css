@@ -138,7 +138,7 @@ a:hover {
 	display:block;
 	float:left;
 	height:39px;
-	background:url(../images/menu_sprite.gif) no-repeat;
+	background:url(../images/menu_sprite_trns.gif) no-repeat;
 	text-indent:-9999px;
 	overflow:hidden;
 }
@@ -318,7 +318,6 @@ hr.clear {
 	text-decoration:underline;
 }
 #footer .right {
-	width:450px;
 	float:right;
 	text-align:right;
 }
@@ -336,22 +335,8 @@ h1 {
 	margin-top:0px;
 }
 
-h1#h1_index {
-  text-align: center;
-  margin: 10px 0 0 0;
-  padding: 0 0 10px 0;
-}
-
-h1#h1_index span a{
-  font-size: 10px;
-	color:#2180ac;
-	margin-left: 4px;
-	cursor: auto;
-	text-decoration: none;
-}
-
-h1#h1_index span a:hover {
-  border-bottom: 1px solid;
+h1.bookingHeading {
+    text-align: center;
 }
 
 h2 {
@@ -598,10 +583,6 @@ hr {
   border-collapse: collapse;
 }
 
-td {
-  behavior: url('IEFixes.htc');
-}
-
 #timetable td {
   border: 1px solid #c5c5c5;
   height: 50px;
@@ -780,4 +761,21 @@ input[type=text], input[type=password], input[type=email] {
     float: right;
     margin-right: 15px;
     margin-top: 5px;
+}
+
+.exception {
+    width: 600px;
+    float: left;
+}
+
+.exception form textarea {
+    font-size: large;
+    width: 600px;
+    height: 5em;
+    padding-top: 10px;
+    line-height: 1.5em;
+}
+
+.exception-image {
+    float: right;
 }

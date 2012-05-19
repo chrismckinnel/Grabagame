@@ -1,0 +1,32 @@
+# Group management
+group_list:
+    pattern:  /list/
+    defaults: { _controller: Grabagame\BookingBundle\Controller\Admin\GroupController::listAction }
+
+group_activate:
+    pattern:  /activate/{groupId}/
+    defaults: { _controller: Grabagame\BookingBundle\Controller\Admin\GroupController::activateAction }
+
+group_deactivate:
+    pattern:  /deactivate/{groupId}/
+    defaults: { _controller: Grabagame\BookingBundle\Controller\Admin\GroupController::deactivateAction }
+
+group_add:
+    pattern:  /add/
+    defaults: { _controller: Grabagame\BookingBundle\Controller\Admin\GroupController::addAction }
+
+group_submit_add:
+    pattern:  /submit-add/
+    defaults: { _controller: Grabagame\BookingBundle\Controller\Admin\GroupController::submitAddAction }
+
+group_details:
+    pattern:  /details/{groupId}/
+    defaults: { _controller: Grabagame\BookingBundle\Controller\Admin\GroupController::detailsAction }
+    
+group_edit:
+    pattern:  /edit/{groupId}/
+    defaults: { _controller: Grabagame\BookingBundle\Controller\Admin\GroupController::editAction }
+    
+group_submit_edit:
+    pattern:  /submit-edit/
+    defaults: { _controller: Grabagame\BookingBundle\Controller\Admin\GroupController::submitEditAction }

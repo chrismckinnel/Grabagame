@@ -12,4 +12,44 @@ use Doctrine\ORM\EntityRepository;
  */
 class MemberRepository extends EntityRepository
 {
+
+    /**
+     * @param Group $group
+     *
+     * @return array
+     */
+    public function findUserByGroup($group)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('
+            SELECT m
+            FROM GrabagameBookingBundle:Member m
+            JOIN m.groups g WHERE g = :group
+        ');
+        $query->setParameter('group', $group);
+
+        return $query->getResult();
+    }    
+
+    /**
+     * @param string $queryString
+     *
+     * @return array
+     */
+    public function findAllBySearch($queryString)
+    {
+        $queryString = '%'.$queryString.'%';
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('
+            SELECT m
+            FROM GrabagameBookingBundle:Member m
+            WHERE m.id           LIKE :query OR
+                  m.firstName    LIKE :query OR
+                  m.lastName     LIKE :query OR
+                  m.email        LIKE :query
+        ');
+        $query->setParameter('query', $queryString);
+
+        return $query->getResult();
+    }    
 }

@@ -5,7 +5,6 @@
     <meta content="Online sports court booking system" http-equiv="description" />
     <meta content="sport booking, court booking, booking system, booking" http-equiv="keywords" />
     <link href="{{ asset('bundles/grabagamebooking/css/bootstrap.css') }}" rel="stylesheet" type="text/css" />
-    <script src="{{ asset('bundles/grabagamebooking/css/bootstrap.js') }}"></script>
     <link href="{{ asset('bundles/grabagamebooking/css/styles.css') }}" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -26,6 +25,11 @@
                 </ul>
             {% if is_granted('ROLE_USER') %}
                 <form class="form-inline logout-nav" action="{{ path('fos_user_security_logout') }}" method="post">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('dashboard') }}" class="btn btn-primary">
+                        <i class="icon-lock icon-white"></i>
+                        Admin dashboard</a>
+                    {% endif %}
                     <button type="submit" class="btn btn-danger" name="_submit" />
                     <i class="icon-off icon-white"></i>
                     Logout</button>
@@ -70,8 +74,8 @@
             </div>
             <!-- end main paper-->
             <div id="footer">
-                <div class="left">&copy; Grab a Game 2012</div>
-                <div class="right"><a href="{{ path('about') }}">About</a></div>
+                <div class="left">Grabagame 2012</div>
+                <div class="right"><a href="{{ path('about') }}">About</a> - <a href="mailto:chrismckinnel@gmail.com">Contact</a></div>
             </div>
         <!--end wrapper-->
     </div>
@@ -82,6 +86,11 @@
     {% if app.environment == 'prod' %} 
         {% include "GrabagameBookingBundle:Other:google-analytics.html.twig" %}
     {% endif %}
+{% endblock %}
+{% block javascripts %}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="{{ asset('bundles/grabagamebooking/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('bundles/grabagamebooking/js/general.js') }}"></script>
 {% endblock %}
 </body>
 </html>

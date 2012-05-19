@@ -1,0 +1,18 @@
+imports:
+    - { resource: config.yml }
+
+framework:
+    router:   { resource: "%kernel.root_dir%/config/routing_dev.yml" }
+    profiler: { only_exceptions: false }
+
+doctrine:
+    dbal:
+        dbname: Grabagame_test
+        driver: pdo_mysql
+
+web_profiler:
+    toolbar: true
+    intercept_redirects: false
+
+assetic:
+    use_controller: true
