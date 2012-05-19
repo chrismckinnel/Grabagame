@@ -25,6 +25,11 @@
                 </ul>
             {% if is_granted('ROLE_USER') %}
                 <form class="form-inline logout-nav" action="{{ path('fos_user_security_logout') }}" method="post">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('dashboard') }}" class="btn btn-primary">
+                        <i class="icon-lock icon-white"></i>
+                        Admin dashboard</a>
+                    {% endif %}
                     <button type="submit" class="btn btn-danger" name="_submit" />
                     <i class="icon-off icon-white"></i>
                     Logout</button>

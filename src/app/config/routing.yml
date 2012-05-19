@@ -7,12 +7,16 @@ booking:
     prefix: /booking
 
 club:
-    resource: "@GrabagameBookingBundle/Resources/config/routing/club.yml"
+    resource: "@GrabagameBookingBundle/Resources/config/routing/admin/club.yml"
     prefix: /admin/club
 
 group:
-    resource: "@GrabagameBookingBundle/Resources/config/routing/group.yml"
+    resource: "@GrabagameBookingBundle/Resources/config/routing/admin/group.yml"
     prefix: /admin/group
+
+dashboard:
+    resource: "@GrabagameBookingBundle/Resources/config/routing/admin/dashboard.yml"
+    prefix: /admin
 
 member_admin:
     resource: "@GrabagameBookingBundle/Resources/config/routing/admin/member.yml"
