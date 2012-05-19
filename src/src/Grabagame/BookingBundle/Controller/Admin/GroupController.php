@@ -94,7 +94,7 @@ class GroupController extends Controller
                 $bindings = array('Group' => $group);
                 $flashMessage = $this->renderView('GrabagameBookingBundle:Admin:Group/editSuccessful.html.twig', $bindings);
 
-                $this->get('session')->setFlash('noticeSuccess', $flashMessage);
+                $this->get('session')->setFlash('alert-success', $flashMessage);
             } else {
                 $errors = $form->getErrors();
                 $bindings = array('Errors' => $errors);
@@ -141,7 +141,7 @@ class GroupController extends Controller
                 $bindings = array('Group' => $group);
                 $flashMessage = $this->renderView('GrabagameBookingBundle:Admin:Group/addSuccessful.html.twig', $bindings);
 
-                $this->get('session')->setFlash('noticeSuccess', $flashMessage);
+                $this->get('session')->setFlash('alert-success', $flashMessage);
             } else {
                 $errors = $form->getErrors();
                 $bindings = array('Errors' => $errors);
@@ -164,9 +164,9 @@ class GroupController extends Controller
         $group = $groupService->activate($groupId);
 
         if ($group) {
-            $this->get('session')->setFlash('noticeSuccess', 'Successfully activated '.$group->getName().'.');
+            $this->get('session')->setFlash('alert-success', 'Successfully activated '.$group->getName().'.');
         } else {
-            $this->get('session')->setFlash('noticeFailed', 'Activation failed for group with ID '.$groupId);
+            $this->get('session')->setFlash('alert-error', 'Activation failed for group with ID '.$groupId);
         }
 
         return $this->redirect($this->generateUrl('group_list'));
@@ -183,9 +183,9 @@ class GroupController extends Controller
         $group = $groupService->deactivate($groupId);
 
         if ($group) {
-            $this->get('session')->setFlash('noticeSuccess', 'Successfully deactivated '.$group->getName().'.');
+            $this->get('session')->setFlash('alert-success', 'Successfully deactivated '.$group->getName().'.');
         } else {
-            $this->get('session')->setFlash('noticeFailed', 'Deactivation failed for group with ID '.$groupId);
+            $this->get('session')->setFlash('alert-error', 'Deactivation failed for group with ID '.$groupId);
         }
 
         return $this->redirect($this->generateUrl('group_list'));
