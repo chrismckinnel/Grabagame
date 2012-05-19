@@ -1,0 +1,21 @@
+# Member management
+member_remove:
+    pattern:  /remove/
+    defaults: { _controller: Grabagame\BookingBundle\Controller\Admin\MemberController::removeAction }
+
+member_details:
+    pattern:  /details/{memberId}/
+    defaults: { _controller: Grabagame\BookingBundle\Controller\Admin\MemberController::detailsAction }
+
+member_edit:
+    pattern:  /edit/{memberId}/
+    defaults: { _controller: Grabagame\BookingBundle\Controller\Admin\MemberController::editAction }
+
+member_submit_edit:
+    pattern:  /submit-edit/
+    defaults: { _controller: Grabagame\BookingBundle\Controller\Admin\MemberController::submitEditAction }
+
+member_search:
+    pattern:  /search/
+    defaults: { _controller: Grabagame\BookingBundle\Controller\Admin\MemberController::searchAction }
+

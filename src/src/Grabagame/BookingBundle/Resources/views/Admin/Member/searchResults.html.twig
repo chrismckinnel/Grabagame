@@ -1,0 +1,53 @@
+{% extends 'GrabagameBookingBundle:Admin:dashboard.html.twig' %}
+
+{% block title %}View members{% endblock %}
+
+{% block admin_content %}
+    <h2 class="section-title">Members</h2>
+
+    {% include 'GrabagameBookingBundle:Generic:displayErrors.html.twig' %}
+
+    {% block sidebar %}{% endblock %}
+
+    <p>You can search your members by entering their ID, Username, Last name or Email address</p>
+
+    <form class="form-inline" method="get" action="{{ path('member_search') }}" name="search_member_form">
+        <fieldset>
+            <label for="search_member" class="control-label">Search for a member: </label>
+            <input type="text" class="input-xlarge" id="search_member" name="q" value="{% if q is defined %}{{ q }}{% endif %}" placeholder="Who are you searching for?">
+            <span id="count" class="help-inline"></span>
+        </fieldset>
+    </form>
+
+    <table id="member-search" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Member ID</th>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for Member in Members %}
+            <tr>
+                <td>{{ Member.getId }}</td>
+                <td>{{ Member.getUsername }}</td>
+                <td>{{ Member.getFirstName }} {{ Member.getLastName }}</td>
+                <td>{{ Member.getEmail }}</td>
+                <td><a href="{{ path('member_details', { 'memberId' : Member.getId }) }}">View</a> / <a href="{{ path('member_edit', { 'memberId' : Member.getId }) }}">Edit</a></td>
+            </tr>
+        {% endfor %}
+        {% if Members is empty %}
+            <tr>
+                <td colspan="4">No members matched your query</td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/grabagamebooking/js/autocomplete.js') }}" type="text/javascript"></script>
+{% endblock %}

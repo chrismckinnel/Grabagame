@@ -1,0 +1,45 @@
+{% extends 'GrabagameBookingBundle::layout.html.twig' %}
+
+{% block title %}Add a club{% endblock %}
+
+{% block body %}
+
+    <div class="span3">
+        <div class="panel">
+
+    {% block admin_nav %}
+
+        <ul class="nav nav-list">
+            <li class="nav-header"><h2>Manage users</h2></li>
+            <li><a href="{{ path('member_search') }}">Search members</a></li>
+            <li class="nav-header"><h2>Manage groups</h2></li>
+            <li><a href="{{ path('group_list') }}">List all groups</a></li>
+            <li><a href="{{ path('group_add') }}">Add new group</a></li>
+            <li class="nav-header"><h2>Manage club</h2></li>
+            <li><a href="#">Coming soon</a></li>
+        </ul>
+
+    {% endblock %}
+
+        </div>
+    </div>
+
+    <div class="span8">
+        <div class="panel">
+
+    {% block admin_content %}
+
+        <h1>Dashboard</h1>
+
+        <p>Welcome to the admin dashboard, this is where you can manage your club settings, members and access group privileges.</p>
+
+        <p>Eventually there'll be guides here to show you exactly what you can do, but for now you'll have to follow your nose.</p>
+
+    {% endblock %}
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block sidebar %}{% endblock %}

@@ -65,6 +65,8 @@ def deploy():
 
     clear_caches()
     set_cache_and_log_permissions()
+    warmup_cache()
+    set_cache_and_log_permissions()
 
     # Change Permissions
     if env.Environment == 'live':
@@ -137,6 +139,7 @@ def unpack(archive_path, temp_folder = '/tmp/build_temp'):
 
     # Create Application Configuration File
     create_parameters_ini()
+    rename_htaccess()
 
     # Deleted Temporal Files and Directories
     run('rm -rf %s' % temp_folder)
@@ -168,12 +171,15 @@ def create_parameters_ini(temp_folder = '/tmp/build_temp'):
     with cd('%s' % temp_folder):
         run('rm -f %s/parameters.ini' % temp_folder)
 
-def rename_htaccess(dest):
+def rename_htaccess():
     "Renames htaccess files"
 
-    with cd(dest):
-        run('cp htaccess.tpl .htaccess')
-        run('rm htaccess.tpl')
+    if env.Environment == 'live':
+        run('mv %(BuildRoot)s/web/.htaccess.live %(BuildRoot)s/web/.htaccess' % env)
+        run('rm %(BuildRoot)s/web/.htaccess.dist' % env)
+    else:
+        run('mv %(BuildRoot)s/web/.htaccess.dist %(BuildRoot)s/web/.htaccess' % env)
+        run('rm %(BuildRoot)s/web/.htaccess.live' % env)
 
 def set_production_symlinks():
     "Create production symbolic links"
@@ -213,6 +219,11 @@ def clear_caches():
     sudo('php %(BuildRoot)s/app/console cache:clear --env=dev --no-debug' % env)
     sudo('php %(BuildRoot)s/app/console cache:clear --env=prod --no-debug' % env)
 
+def warmup_cache():
+    "Warmup caches"
+    sudo('php %(BuildRoot)s/app/console cache:warmup --env=dev --no-debug' % env)
+    sudo('php %(BuildRoot)s/app/console cache:warmup --env=prod --no-debug' % env)
+
 def rename_robots():
     "Renaming robots.txt file"
     sudo('mv %s/app/config/robots.txt.%s %s/web/robots.txt' % (env.BuildRoot, env.Environment, env.BuildRoot))
@@ -220,6 +231,8 @@ def rename_robots():
 def make_cache_and_log_dirs():
     sudo('if [ ! -d "%(CacheDir)s" ]; then mkdir %(CacheDir)s; fi' % env)
     sudo('if [ ! -d "%(LogDir)s" ]; then mkdir %(LogDir)s; fi' % env)
+    sudo('ln -sv /var/log/grabagame-%(Environment)s %(BuildRoot)s/app/logs' % env)
+    sudo('ln -sv /var/cache/grabagame-%(Environment)s %(BuildRoot)s/app/cache' % env)
 
 def set_cache_and_log_permissions():
     sudo('if [ -d "%(CacheDir)s" ]; then chmod -R 777 %(CacheDir)s; fi' % env)

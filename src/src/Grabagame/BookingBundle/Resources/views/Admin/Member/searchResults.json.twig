@@ -1,0 +1,11 @@
+{"members": [
+    {% for Member in Members %}
+    { "memberId": {{ Member.getId }},
+      "username": {{ Member.getUsername }},
+      "name": "{{ Member.getFirstName }} {{ Member.getLastName }}",
+      "email": "{{ Member.getEmail }}",
+      "viewLink": "{{ path('member_details', { 'memberId' : Member.getId }) }}",
+      "editLink": "{{ path('member_edit', { 'memberId' : Member.getId }) }}" }
+      {% if not loop.last %},{% endif %}
+    {% endfor %}
+]}

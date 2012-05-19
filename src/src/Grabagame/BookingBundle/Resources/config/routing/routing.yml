@@ -5,3 +5,7 @@ home:
 about:
     pattern: /about/
     defaults: { _controller: GrabagameBookingBundle:Home:about }
+
+submit_error_report:
+    pattern: /submit_error/
+    defaults: { _controller: GrabagameBookingBundle:Home:submitError }

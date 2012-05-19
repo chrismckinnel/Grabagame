@@ -1,0 +1,9 @@
+Hi {{ User.firstName }},
+
+Please click the link below to verify your email address with us.
+
+{{ url('verifyEmail', { 'confirmation_token': User.confirmation_token }) }}
+
+Once you've verified your email address you can login and make bookings.
+
+Grabagame

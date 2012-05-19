@@ -1,0 +1,16 @@
+#Member management
+member_forgot_password:
+    pattern:  /forgot-password/
+    defaults: { _controller: GrabagameBookingBundle\Controller\Admin\MemberController::forgotPasswordAction }
+
+member_reset_password_request:
+    pattern:  /reset-password-request/
+    defaults: { _controller: GrabagameBookingBundle\Controller\Admin\MemberController::resetPasswordRequestAction }
+
+member_reset_password:
+    pattern:  /reset-password/{uniqueHash}/
+    defaults: { _controller: GrabagameBookingBundle\Controller\Admin\MemberController::resetPasswordFormAction }
+
+member_submit_reset_password:
+    pattern:  /submit-reset-password/{uniqueHash}/
+    defaults: { _controller: GrabagameBookingBundle\Controller\Admin\MemberController::submitResetPasswordAction }

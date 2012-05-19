@@ -1,0 +1,4 @@
+AuthUserFile /etc/passwords
+AuthType Basic
+AuthName "Password Required"
+Require valid-user

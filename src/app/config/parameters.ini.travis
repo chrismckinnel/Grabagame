@@ -1,0 +1,20 @@
+[parameters]
+    database_driver   = pdo_mysql
+    database_host     = localhost
+    database_port     =
+    database_name     = Grabagame_test
+    database_user     = root
+    database_password = 
+
+    mailer_transport  = smtp
+    mailer_host       = smtp.gmail.com
+    mailer_user       = no-reply@grabagame.co.nz
+    mailer_password   = vnurzgdmfyochdwl
+    encryption        = ssl
+    port              = 465
+    auth_mode         = login
+
+    locale            = en
+
+    secret            = 
+    base_logging_url  = /home/vagrant/builds/chrismckinnel/Grabagame/src/app/logs 

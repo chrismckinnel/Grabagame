@@ -12,7 +12,7 @@
     <p><strong>Duration:</strong> {{ Booking.getSlots*Club.getBookingIncrement }} minutes</p>
     <form action="{{ path('submitCancel', { 'bookingId': Booking.getId }) }}" method="post">
         <input type="hidden" name="bookingId" value="{{ Booking.getId }}">
-        <button type="submit">Cancel booking</button>
+        <button class="btn btn-primary" type="submit">Cancel booking</button>
     </form>
 {% endblock %}
 
