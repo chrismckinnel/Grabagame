@@ -185,7 +185,7 @@ class GroupController extends Controller
         if ($group) {
             $this->get('session')->setFlash('alert-success', 'Successfully deactivated '.$group->getName().'.');
         } else {
-            $this->get('session')->setFlash('alert-error', 'Deactivation failed for group with ID '.$groupId);
+            $this->get('session')->setFlash('alert-errr', 'Deactivation failed for group with ID '.$groupId);
         }
 
         return $this->redirect($this->generateUrl('group_list'));
