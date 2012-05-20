@@ -418,4 +418,16 @@ class BookingServiceTest extends DatabaseTestCase
         $this->assertEquals('Test User', $bookingOnBehalf->getFullName());
         $this->assertEquals(2, $bookingOnBehalf->getId());
     }
+
+    /**
+     * Test get booking on behalf name
+     */
+    public function testGetBookingOnBehalfName()
+    {
+        $bookingRepo = $this->em->getRepository('GrabagameBookingBundle:Booking');
+        $booking = $bookingRepo->find(7);
+        $bookingOnBehalfName = $this->bookingService->getBookingOnBehalfName($booking);
+
+        $this->assertEquals('T. User', $bookingOnBehalfName);
+    }
 }
