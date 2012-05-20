@@ -65,7 +65,7 @@ class BookingController extends Controller
      * @param integer  $courtNumber
      * @param DateTime $startTime
      *
-     * @Secure(roles="ROLE_USER")
+     * @Secure(roles="IS_FULLY_AUTHENTICATED")
      *
      * @return Response
      */
@@ -99,7 +99,7 @@ class BookingController extends Controller
     /**
      * @param Request $request
      *
-     * @Secure(roles="ROLE_USER")
+     * @Secure(roles="IS_FULLY_AUTHENTICATED")
      *
      * @return Response
      */
