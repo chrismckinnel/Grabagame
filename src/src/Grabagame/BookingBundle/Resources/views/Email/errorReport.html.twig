@@ -1,3 +1,5 @@
-<p>A user has reported an error:</p>
+<p>{{ ErrorReport }}</p>
 
-<p style="font-size: 20px">{{ ErrorReport }}</p>
+{% if Email is defined %}
+    <p>User email: {{ Email }}</p>
+{% endif %}

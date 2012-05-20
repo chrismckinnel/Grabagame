@@ -26,11 +26,7 @@ class HomeController extends Controller
      */
     public function aboutAction()
     {
-        try {
-            return $this->render('GrabagameBookingBundle:Home:about.html.twig');
-        } catch (\Exception $e) {
-            return $this->renderException($e);
-        }
+        return $this->render('GrabagameBookingBundle:Home:about.html.twig');
     }
 
     /**
@@ -55,18 +51,27 @@ class HomeController extends Controller
     public function submitErrorAction(Request $request)
     {
         $errorReport = $request->get('errorReport');
+        $email = $request->get('email');
         $mailer = $this->get('mailer');
+        $to = $this->container->getParameter('admin_email');
+        $from = $this->container->getParameter('support_email');
 
         $bindings = array(
             'ErrorReport' => $errorReport,
         );
 
+        if (!empty($email)) {
+            $bindings['Email'] = $email;
+            $to = $this->container->getParameter('assembla_email');
+            $from = $email;
+        }
+
         $body = $this->renderView('GrabagameBookingBundle:Email:errorReport.html.twig', $bindings);
         $message = \Swift_Message::newInstance()
             ->setContentType('text/html')
             ->setSubject('User error report')
-            ->setFrom('support@grabagame.co.nz')
-            ->setTo('chrismckinnel@gmail.com')
+            ->setFrom($from)
+            ->setTo($to)
             ->setBody($body);
 
         $mailer->send($message);
