@@ -32,7 +32,7 @@
                     {% endif %}
                 {% endif %}
                 {% if Booking.getType == 'onBehalf' %}
-                    {% set NameForBookingTable = Booking.getBookingOnBehalf.getNameForBookingTable %}
+                    {% set NameForBookingTable = BookingService.getBookingOnBehalfName(Booking) %}
                     {% set BookingClass = 'onBehalf' %}
                 {% else %}
                     {% set NameForBookingTable = Member.getNameForBookingTable %}

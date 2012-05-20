@@ -23,7 +23,7 @@
                     <li> <a href="{{ path('about') }}" class="m2">About Us</a> </li>
                     <li> <a href="{{ path('bookingDefault') }}" class="m3">Booking</a> </li>
                 </ul>
-            {% if is_granted('ROLE_USER') %}
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <form class="form-inline logout-nav" action="{{ path('fos_user_security_logout') }}" method="post">
                     {% if is_granted('ROLE_ADMIN') %}
                         <a href="{{ path('dashboard') }}" class="btn btn-primary">

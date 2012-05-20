@@ -52,13 +52,6 @@ class Booking
     private $club;
 
     /**
-     * Bidirectional - one-to-one
-     *
-     * @ORM\OneToOne(targetEntity="BookingOnBehalf")
-     */
-    private $bookingOnBehalf;
-
-    /**
      * Bidirectional - many-to-one
      *
      * @ORM\ManyToOne(targetEntity="Court", inversedBy="bookings")     
@@ -188,26 +181,6 @@ class Booking
     public function getClub()
     {
         return $this->club;
-    }
-
-    /**
-     * Set booking on behalf
-     *
-     * @param Grabagame\BookingBundle\Entity\BookingOnBehalf $bookingOnBehalf
-     */
-    public function setBookingOnBehalf(\Grabagame\BookingBundle\Entity\BookingOnBehalf $bookingOnBehalf)
-    {
-        $this->bookingOnBehalf = $bookingOnBehalf;
-    }
-
-    /**
-     * Get booking on behalf
-     *
-     * @return Grabagame\BookingBundle\Entity\BookingOnBehalf 
-     */
-    public function getBookingOnBehalf()
-    {
-        return $this->bookingOnBehalf;
     }
 
     /**

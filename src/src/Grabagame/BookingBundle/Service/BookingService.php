@@ -172,6 +172,14 @@ class BookingService extends LoggerAware {
     {
         if ($this->canManageBooking($booking, $member)) {
             $entityManager = $this->doctrine->getEntityManager();
+            $bookingOnBehalfRepo = $entityManager->getRepository('GrabagameBookingBundle:BookingOnBehalf');
+            $bookingOnBehalf = $bookingOnBehalfRepo->findOneByBooking($booking);
+
+            if (!empty($bookingOnBehalf)) {
+                $entityManager->remove($bookingOnBehalf);
+                $entityManager->flush();
+            }
+
             $entityManager->remove($booking);
             $entityManager->flush();
         } else {
@@ -314,5 +322,20 @@ class BookingService extends LoggerAware {
         $entityManager->flush();
 
         return $bookingOnBehalf;
+    }
+
+    /**
+     * @param Booking $booking
+     * 
+     * @return string
+     */
+    public function getBookingOnBehalfName($booking)
+    {
+        $bookingOnBehalf = $this->doctrine
+                                ->getEntityManager()
+                                ->getRepository('GrabagameBookingBundle:BookingOnBehalf')
+                                ->findOneByBooking($booking);
+
+        return $bookingOnBehalf->getNameForBookingTable();
     }
 }

@@ -18,12 +18,14 @@
             If you were in the middle of something or got here totally unexpectedly, be a sport and let me know what you did to get here so I can stop it happening next time.
         </p>
 
-        <form action="{{ path('submit_error_report') }}" method="post">
+        <form action="{{ path('submit_error_report') }}" method="post" class="form-inline">
             <textarea class="input-xlarge" name="errorReport" placeholder="E.g., My username is abc123 and I was trying to make a booking on court 3 at 10am."></textarea>
+
+            <input type="text" class="input-xlarge" name="email" placeholder="Your email address"> (so I can let you know when I've fixed it)
 
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary">Be a good sport</button>
-              </div>
+            </div>
         </form>
     </div>
     <div class="exception-image">

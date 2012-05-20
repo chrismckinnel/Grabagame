@@ -37,9 +37,9 @@ class BookingOnBehalf
     private $lastName;
 
     /**
-     * Bidirectional - one-to-one
+     * Unidirectional - one-to-one
      *
-     * @ORM\OneToOne(targetEntity="Booking", inversedBy="bookingOnBehalf")
+     * @ORM\OneToOne(targetEntity="Booking")
      */
     private $booking;
 

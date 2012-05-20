@@ -15,7 +15,6 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Group ID</th>
                 <th>Name</th>
                 <th>Number of members</th>
                 <th>Action</th>
@@ -25,7 +24,6 @@
         <tbody>
         {% for Group in Groups %}
             <tr>
-                <td>{{ Group.getId }}</td>
                 <td>{{ Group.getName }}</td>
                 <td>{{ Group.getNumberOfMembers }}</td>
                 <td><a href="{{ path('group_details', { 'groupId' : Group.getId }) }}">View</a> / <a href="{{ path('group_edit', { 'groupId' : Group.getId }) }}">Edit</a></td>
@@ -50,9 +48,4 @@
         {% endfor %}
     </table>
 
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    <script src="{{ asset('bundles/tangentuser/js/delete-group.js') }}"></script>
 {% endblock %}
