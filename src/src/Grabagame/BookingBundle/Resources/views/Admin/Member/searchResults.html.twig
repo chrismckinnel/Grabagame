@@ -22,7 +22,6 @@
     <table id="member-search" class="table table-striped">
         <thead>
             <tr>
-                <th>Member ID</th>
                 <th>Username</th>
                 <th>Name</th>
                 <th>Actions</th>
@@ -31,7 +30,6 @@
         <tbody>
         {% for Member in Members %}
             <tr>
-                <td>{{ Member.getId }}</td>
                 <td>{{ Member.getUsername }}</td>
                 <td>{{ Member.getFirstName }} {{ Member.getLastName }}</td>
                 <td>{{ Member.getEmail }}</td>
