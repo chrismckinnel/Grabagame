@@ -6,8 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller,
     Grabagame\BookingBundle\Form\Type\BookingType,
     Grabagame\BookingBundle\Entity\Booking,
     Grabagame\BookingBundle\Entity\BookingOnBehalf,
-    Grabagame\BookingBundle\Exception\BookingException,
-    JMS\SecurityExtraBundle\Annotation\Secure;
+    Grabagame\BookingBundle\Exception\BookingException;
 
 /**
  * Controller for booking management
@@ -65,8 +64,6 @@ class BookingController extends Controller
      * @param integer  $courtNumber
      * @param DateTime $startTime
      *
-     * @Secure(roles="IS_FULLY_AUTHENTICATED")
-     *
      * @return Response
      */
     public function makeBookingAction($courtNumber, $startTime)
@@ -98,8 +95,6 @@ class BookingController extends Controller
 
     /**
      * @param Request $request
-     *
-     * @Secure(roles="IS_FULLY_AUTHENTICATED")
      *
      * @return Response
      */
