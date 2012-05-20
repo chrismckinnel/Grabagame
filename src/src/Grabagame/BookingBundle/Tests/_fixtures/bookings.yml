@@ -38,6 +38,13 @@ court:
     club_id: 2
     number: 1
 
+member_group:
+  -
+    id: 1
+    name: "Administrators"
+    roles: 'a:4:{i:0;s:9:"ROLE_USER";i:1;s:19:"CAN_CANCEL_BOOKINGS";i:2;s:14:"BOOK_ON_BEHALF";i:3;s:10:"ROLE_ADMIN";}'
+    active: 1
+
 member:
   -
     id: 1
@@ -113,6 +120,11 @@ member:
     firstName: "Chris"
     lastName: "McKinnel"
     roles: "a:0:{}"
+
+grabagame_user_group:
+  -
+    member_id: 1
+    group_id: 1
 
 booking:
   -

@@ -173,6 +173,21 @@ class BookingServiceTest extends DatabaseTestCase
     }
 
     /**
+     * Test cancelling an on behalf booking
+     */
+    public function testAdminCancelBookingOnBehalf()
+    {
+        $memberRepo = $this->em->getRepository('GrabagameBookingBundle:Member');
+        $bookingRepo = $this->em->getRepository('GrabagameBookingBundle:Booking');
+
+        $member = $memberRepo->find(1);
+        $booking = $bookingRepo->find(7);
+        
+        $this->bookingService->cancelBooking($booking, $member);
+        $this->assertEquals(null, $bookingRepo->find(7));
+    }
+
+    /**
      * Test save booking
      */
     public function testSaveBooking()

@@ -32,40 +32,33 @@ class BookingController extends Controller
      */
     public function renderBookingTableAction($dayToDisplay = null)
     {
-        try {
-            $clubService = $this->get('service.club');
-            $bookingService = $this->get('service.booking');
-            $memberService = $this->get('service.member');
+        $clubService = $this->get('service.club');
+        $bookingService = $this->get('service.booking');
+        $memberService = $this->get('service.member');
 
-            $dayToDisplay = $bookingService->getDayToDisplay($dayToDisplay);
-            $yesterday = $bookingService->getYesterday($dayToDisplay);
-            $tomorrow = $bookingService->getTomorrow($dayToDisplay);
+        $dayToDisplay = $bookingService->getDayToDisplay($dayToDisplay);
+        $yesterday = $bookingService->getYesterday($dayToDisplay);
+        $tomorrow = $bookingService->getTomorrow($dayToDisplay);
 
-            $member = $memberService->getLoggedInMember();
-            $club = $member->getClub();
+        $member = $memberService->getLoggedInMember();
+        $club = $member->getClub();
 
-            $startTimes = $clubService->getStartTimes($club, $dayToDisplay);
+        $startTimes = $clubService->getStartTimes($club, $dayToDisplay);
 
-            $bookings = $bookingService->getBookingsByDate($club, $dayToDisplay);
-            $bookedSlots = $bookingService->getBookedSlotsForBookings($bookings);
+        $bookings = $bookingService->getBookingsByDate($club, $dayToDisplay);
+        $bookedSlots = $bookingService->getBookedSlotsForBookings($bookings);
 
-            $bindings = array(
-                'Club'              => $club,
-                'StartTimes'        => $startTimes,
-                'BookingCollection' => $bookedSlots,
-                'DayToDisplay'      => $dayToDisplay,
-                'Tomorrow'          => $tomorrow,
-                'Yesterday'         => $yesterday,
-            );
+        $bindings = array(
+            'Club'              => $club,
+            'StartTimes'        => $startTimes,
+            'BookingCollection' => $bookedSlots,
+            'DayToDisplay'      => $dayToDisplay,
+            'Tomorrow'          => $tomorrow,
+            'Yesterday'         => $yesterday,
+            'BookingService'    => $bookingService,
+        );
 
-            return $this->render('GrabagameBookingBundle:Booking:renderBookingTable.html.twig', $bindings);
-        } catch (BookingException $e) {
-
-            return $this->renderBookingException($e);
-        } catch (\Exception $e) {
-
-            return $this->renderException($e);
-        }
+        return $this->render('GrabagameBookingBundle:Booking:renderBookingTable.html.twig', $bindings);
     }
 
     /**
@@ -78,37 +71,29 @@ class BookingController extends Controller
      */
     public function makeBookingAction($courtNumber, $startTime)
     {
-        try {
-            $startTime = htmlentities($startTime);
-            $startTime = new \DateTime($startTime);
+        $startTime = htmlentities($startTime);
+        $startTime = new \DateTime($startTime);
 
-            $bookingService = $this->get('service.booking');
-            $memberService  = $this->get('service.member');
+        $bookingService = $this->get('service.booking');
+        $memberService  = $this->get('service.member');
 
-            $member = $memberService->getLoggedInMember();
-            $club = $member->getClub();
-            $court = $club->getCourtByNumber($courtNumber);
+        $member = $memberService->getLoggedInMember();
+        $club = $member->getClub();
+        $court = $club->getCourtByNumber($courtNumber);
 
-            $booking = $bookingService->createBooking($court, $member, $startTime);
-            $booking->setClub($club);
-            $maxSlots = $bookingService->getMaxSlots($booking);
-            $booking_form = $this->createForm(new BookingType(), $booking);
+        $booking = $bookingService->createBooking($court, $member, $startTime);
+        $booking->setClub($club);
+        $maxSlots = $bookingService->getMaxSlots($booking);
+        $booking_form = $this->createForm(new BookingType(), $booking);
 
-            $bindings = array(
-                'booking_form' => $booking_form->createView(),
-                'Booking'      => $booking,
-                'Club'         => $club,
-                'MaxSlots'     => $maxSlots,
-            );
+        $bindings = array(
+            'booking_form' => $booking_form->createView(),
+            'Booking'      => $booking,
+            'Club'         => $club,
+            'MaxSlots'     => $maxSlots,
+        );
 
-            return $this->render('GrabagameBookingBundle:Booking:makeBooking.html.twig', $bindings);
-        } catch (BookingException $e) {
-
-            return $this->renderBookingException($e);
-        } catch (\Exception $e) {
-
-            return $this->renderException($e);
-        }
+        return $this->render('GrabagameBookingBundle:Booking:makeBooking.html.twig', $bindings);
     }
 
     /**
@@ -120,70 +105,58 @@ class BookingController extends Controller
      */
     public function submitMakeBookingAction(Request $request)
     {
-        try {
-            if ($request->getMethod() == 'POST') {
-                $bookingService = $this->get('service.booking');
-                $memberService  = $this->get('service.member');
-                $clubService    = $this->get('service.club');
+        if ($request->getMethod() == 'POST') {
+            $bookingService = $this->get('service.booking');
+            $memberService  = $this->get('service.member');
+            $clubService    = $this->get('service.club');
 
-                $member = $memberService->getLoggedInMember();
-                $club = $member->getClub();
+            $member = $memberService->getLoggedInMember();
+            $club = $member->getClub();
 
-                $booking = new Booking();
-                $bookingForm = $this->createForm(new BookingType(), $booking);
-                $bookingForm->bindRequest($request);
+            $booking = new Booking();
+            $bookingForm = $this->createForm(new BookingType(), $booking);
+            $bookingForm->bindRequest($request);
 
-                $startTime = new \DateTime($request->get('startTime'));
-                $court = $club->getCourtByNumber($request->get('courtNumber'));
-                if ($request->get('nameHidden')) {
-                    $booking->setNameHidden(1);
-                }
+            $startTime = new \DateTime($request->get('startTime'));
+            $court = $club->getCourtByNumber($request->get('courtNumber'));
+            if ($request->get('nameHidden')) {
+                $booking->setNameHidden(1);
+            }
 
-                $booking->setStartTime($startTime);
-                $booking->setCourt($court);
-                $booking->setMember($member);
-                $booking->setClub($member->getClub());
+            $booking->setStartTime($startTime);
+            $booking->setCourt($court);
+            $booking->setMember($member);
+            $booking->setClub($member->getClub());
 
-                if ($bookingForm->isValid()) {
+            if ($bookingForm->isValid()) {
 
-                    $slots = $request->get('duration');
-                    $booking->setSlots($slots);
+                $slots = $request->get('duration');
+                $booking->setSlots($slots);
 
-                    if ($bookingService->isSlotAvailable($booking) == true) {
+                if ($bookingService->isSlotAvailable($booking) == true) {
+
+                    $bookingService->saveBooking($booking);
+                    $this->setBookingSuccessfulFlash($member, $booking);
+
+                    $onBehalf = $request->get('onBehalf');
+                    if ($member->hasRole('BOOK_ON_BEHALF') && $onBehalf) {
+                        $booking->setType('onBehalf');
+
+                        $firstName = $request->get('firstName');
+                        $lastName = $request->get('lastName');
+
+                        $bookingOnBehalf = new BookingOnBehalf();
+                        $bookingOnBehalf->setFirstName($firstName);
+                        $bookingOnBehalf->setLastName($lastName);
+                        $bookingOnBehalf->setBooking($booking);
+                        $bookingOnBehalf = $bookingService->saveBookingOnBehalf($bookingOnBehalf);
 
                         $bookingService->saveBooking($booking);
-                        $this->setBookingSuccessfulFlash($member, $booking);
-
-                        $onBehalf = $request->get('onBehalf');
-                        if ($member->hasRole('BOOK_ON_BEHALF') && $onBehalf) {
-                            $booking->setType('onBehalf');
-
-                            $firstName = $request->get('firstName');
-                            $lastName = $request->get('lastName');
-
-                            $bookingOnBehalf = new BookingOnBehalf();
-                            $bookingOnBehalf->setFirstName($firstName);
-                            $bookingOnBehalf->setLastName($lastName);
-                            $bookingOnBehalf->setBooking($booking);
-
-                            $bookingOnBehalf = $bookingService->saveBookingOnBehalf($bookingOnBehalf);
-                            $booking->setBookingOnBehalf($bookingOnBehalf);
-                            $bookingService->saveBooking($booking);
-                        }
-                    } else {
-                        
-                        $this->setBookingConflictFlash($member, $booking, $club);
-
-                        $bindings = array(
-                            'booking_form' => $bookingForm->createView(),
-                            'Booking'      => $booking,
-                            'Club'         => $club,
-                        );
-
-                        return $this->render('GrabagameBookingBundle:Booking:makeBooking.html.twig', $bindings);
                     }
-
                 } else {
+                    
+                    $this->setBookingConflictFlash($member, $booking, $club);
+
                     $bindings = array(
                         'booking_form' => $bookingForm->createView(),
                         'Booking'      => $booking,
@@ -192,19 +165,22 @@ class BookingController extends Controller
 
                     return $this->render('GrabagameBookingBundle:Booking:makeBooking.html.twig', $bindings);
                 }
+
+            } else {
+                $bindings = array(
+                    'booking_form' => $bookingForm->createView(),
+                    'Booking'      => $booking,
+                    'Club'         => $club,
+                );
+
+                return $this->render('GrabagameBookingBundle:Booking:makeBooking.html.twig', $bindings);
             }
-
-            $dayToDisplay = $booking->getStartTime()->format('Y-m-d');
-            $bindings = array('dayToDisplay' => $dayToDisplay);
-
-            return $this->redirect($this->generateUrl('booking', $bindings));
-        } catch (BookingException $e) {
-
-            return $this->renderBookingException($e);
-        } catch (\Exception $e) {
-
-            return $this->renderException($e);
         }
+
+        $dayToDisplay = $booking->getStartTime()->format('Y-m-d');
+        $bindings = array('dayToDisplay' => $dayToDisplay);
+
+        return $this->redirect($this->generateUrl('booking', $bindings));
     }
 
     /**
@@ -246,24 +222,15 @@ class BookingController extends Controller
      */
     public function cancelAction($bookingId)
     {
-        try {
-            $bookingService = $this->get('service.booking');
-            $booking = $bookingService->getBookingById($bookingId);
-            
-            $bindings = array(
-                'Booking' => $booking,
-                'Club' => $booking->getClub(),
-            );
+        $bookingService = $this->get('service.booking');
+        $booking = $bookingService->getBookingById($bookingId);
+        
+        $bindings = array(
+            'Booking' => $booking,
+            'Club' => $booking->getClub(),
+        );
 
-            return $this->render('GrabagameBookingBundle:Booking:confirmCancelBooking.html.twig', $bindings);
-
-        } catch (BookingException $e) {
-
-            return $this->renderBookingException($e);
-        } catch (\Exception $e) {
-
-            return $this->renderException($e);
-        }
+        return $this->render('GrabagameBookingBundle:Booking:confirmCancelBooking.html.twig', $bindings);
     }
 
     /**
@@ -273,60 +240,22 @@ class BookingController extends Controller
      */
     public function submitCancelAction($bookingId)
     {
-        try {
-            $bookingService = $this->get('service.booking');
-            $memberService = $this->get('service.member');
-            $booking = $bookingService->getBookingById($bookingId);
+        $bookingService = $this->get('service.booking');
+        $memberService = $this->get('service.member');
+        $booking = $bookingService->getBookingById($bookingId);
 
-            $member = $memberService->getLoggedInMember();
-            $flashMessage = '';
+        $member = $memberService->getLoggedInMember();
+        $flashMessage = '';
 
-            if ($booking->getMember() != $member) {
-                $flashMessage = 'You have successfully cancelled '.$booking->getMember()->getFullName().'\'s booking for '.$booking->getStartTime()->format("l d F"). ' at '.$booking->getStartTime()->format('G:i a').'. He has been sent a notification email.';
-            } else {
-                $flashMessage = 'Your booking has been successfully cancelled';
-            }
-            
-            $bookingService->cancelBooking($booking, $member);
-            $this->get('session')->setFlash('alert-success', $flashMessage);
-
-            return $this->redirect($this->generateUrl('bookingDefault'));
-        } catch (BookingException $e) {
-
-            return $this->renderBookingException($e);
-        } catch (\Exception $e) {
-
-            return $this->renderException($e);
+        if ($booking->getMember() != $member) {
+            $flashMessage = 'You have successfully cancelled '.$booking->getMember()->getFullName().'\'s booking for '.$booking->getStartTime()->format("l d F"). ' at '.$booking->getStartTime()->format('G:i a').'. He has been sent a notification email.';
+        } else {
+            $flashMessage = 'Your booking has been successfully cancelled';
         }
-    }
+        
+        $bookingService->cancelBooking($booking, $member);
+        $this->get('session')->setFlash('alert-success', $flashMessage);
 
-    /**
-     * @param BookingException $e
-     *
-     * @return Response
-     */
-    private function renderBookingException($e)
-    {
-        $logger = $this->get('logger');
-        $logger->err($e);
-
-        $bindings = array(
-            'ErrorMessage' => $e->getMessage(),
-        );
-
-        return $this->render('GrabagameBookingBundle::exception.html.twig', $bindings);
-    }
-
-    /**
-     * @param Exception $e
-     *
-     * @return Response
-     */
-    private function renderException($e)
-    {
-        $logger = $this->get('logger');
-        $logger->err($e->getMessage());
-
-        return $this->render('GrabagameBookingBundle:Exception:exception.html.twig');
+        return $this->redirect($this->generateUrl('bookingDefault'));
     }
 }
