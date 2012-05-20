@@ -97,16 +97,16 @@ class MemberController extends Controller
                     $entityManager->persist($member);
                     $entityManager->flush();
 
-                    $this->get('session')->setFlash('noticeSuccess', 'Successfully edited the member '.$member->getFirstName().' '.$member->getLastName());
+                    $this->get('session')->setFlash('alert-success', 'Successfully edited the member '.$member->getFirstName().' '.$member->getLastName());
                 } else {
-                    $this->get('session')->setFlash('noticeFailed', 'Some errors occurred: '.$form->getErrors());
+                    $this->get('session')->setFlash('alert-error', 'Some errors occurred: '.$form->getErrors());
                 }
             }
 
         } catch (\Exception $e) {
             $logger = $this->get('logger');
             $logger->err($e->getMessage());
-            $this->get('session')->setFlash('noticeFailed', 'Something went wrong during your password reset request, a developer has been notified and we hope to have this resolved shortly.');
+            $this->get('session')->setFlash('alert-error', 'Something went wrong during your password reset request, a developer has been notified and we hope to have this resolved shortly.');
         }
 
         return $this->redirect($this->generateUrl('member_search'));
@@ -257,7 +257,7 @@ class MemberController extends Controller
 
             $bindings = array('FirstName' => $resetResult['FirstName']);
             $flashMessage = $this->renderView('GrabagameBookingBundle:Member:passwordResetSuccess.html.twig', $bindings);
-            $this->get('session')->setFlash('noticeSuccess', $flashMessage);
+            $this->get('session')->setFlash('alert-success', $flashMessage);
 
         } catch (MembersnetException $e) {
             $membersnetService->logError('Resetting a password failed');
@@ -265,14 +265,14 @@ class MemberController extends Controller
 
             $bindings = array('Error' => $e->getMessage());
             $flashMessage = $this->renderView('GrabagameBookingBundle:Member:passwordResetFailed.html.twig', $bindings);
-            $this->get('session')->setFlash('noticeFailed', $flashMessage);
+            $this->get('session')->setFlash('alert-error', $flashMessage);
 
         } catch (\Exception $e) {
             $logger = $this->get('logger');
             $logger->err($e->getMessage());
 
             $flashMessage = 'Something went wrong during your password reset request, a developer has been notified and we hope to have this resolved shortly.';
-            $this->get('session')->setFlash('noticeFailed', $flashMessage);
+            $this->get('session')->setFlash('alert-error', $flashMessage);
         }
 
         return $this->redirect($this->generateUrl('fos_member_security_login'));
