@@ -428,6 +428,6 @@ class BookingServiceTest extends DatabaseTestCase
         $booking = $bookingRepo->find(7);
         $bookingOnBehalfName = $this->bookingService->getBookingOnBehalfName($booking);
 
-        $this->assertEquals('T. User', $bookingOnBehalfName);
+        $this->assertEquals('Test User', $bookingOnBehalfName);
     }
 }
