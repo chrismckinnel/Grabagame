@@ -336,6 +336,6 @@ class BookingService extends LoggerAware {
                                 ->getRepository('GrabagameBookingBundle:BookingOnBehalf')
                                 ->findOneByBooking($booking);
 
-        return $bookingOnBehalf->getNameForBookingTable();
+        return $bookingOnBehalf->getFullName();
     }
 }

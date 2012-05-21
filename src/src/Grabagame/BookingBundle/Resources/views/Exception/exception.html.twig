@@ -4,7 +4,11 @@
 
 {% block body %}
     <div class="alert alert-error">
+    {% if ExceptionMessage is defined %}
+        {{ ExceptionMessage }}
+    {% else %}
         An unexpected error has occurred, but don't worry - nerds are on their way to help.
+    {% endif %}
     </div>
 
     <div class="exception">

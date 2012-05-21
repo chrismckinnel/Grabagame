@@ -3,6 +3,7 @@ namespace Grabagame\BookingBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent,
     Symfony\Component\HttpFoundation\Response,
+    Grabagame\BookingBundle\Exception\BookingException,
     Grabagame\BookingBundle\Service\LoggerAware;
 
 class ExceptionListener extends LoggerAware
@@ -27,7 +28,14 @@ class ExceptionListener extends LoggerAware
         $exception = $event->getException();
         $this->logException($exception);
 
-        $response = new Response($this->templating->render('GrabagameBookingBundle:Exception:exception.html.twig'));
+        $bindings = array();
+        if ($exception instanceOf BookingException) {
+            $bindings = array(
+                'ExceptionMessage' => $exception->getMessage()
+            );
+        }
+
+        $response = new Response($this->templating->render('GrabagameBookingBundle:Exception:exception.html.twig', $bindings));
 
         $event->setResponse($response);
     }
