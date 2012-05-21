@@ -1,7 +1,31 @@
-add_club:
+club_list:
+    pattern:  /list/
+    defaults: { _controller: Grabagame\BookingBundle\Controller\Admin\ClubController::listAction }
+
+club_activate:
+    pattern:  /activate/{clubId}/
+    defaults: { _controller: Grabagame\BookingBundle\Controller\Admin\ClubController::activateAction }
+
+club_deactivate:
+    pattern:  /deactivate/{clubId}/
+    defaults: { _controller: Grabagame\BookingBundle\Controller\Admin\ClubController::deactivateAction }
+
+club_add:
     pattern:  /add/
     defaults: { _controller: Grabagame\BookingBundle\Controller\Admin\ClubController::addClubAction }
 
-submit_add_club:
+club_add_submit:
     pattern:  /add/complete/
     defaults: { _controller: Grabagame\BookingBundle\Controller\Admin\ClubController::submitAddClubAction }
+
+club_details:
+    pattern:  /details/{clubId}/
+    defaults: { _controller: Grabagame\BookingBundle\Controller\Admin\ClubController::detailsAction }
+    
+club_edit:
+    pattern:  /edit/{clubId}/
+    defaults: { _controller: Grabagame\BookingBundle\Controller\Admin\ClubController::editAction }
+    
+club_submit_edit:
+    pattern:  /submit-edit/
+    defaults: { _controller: Grabagame\BookingBundle\Controller\Admin\ClubController::submitEditAction }

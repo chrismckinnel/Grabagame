@@ -1,0 +1,19 @@
+{% extends 'GrabagameBookingBundle:Admin:dashboard.html.twig' %}
+
+{% block title %}Admin - Edit club{% endblock %}
+
+{% block admin_content %}
+    <h1>Editing club failed</h1>
+
+    {% block sidebar %}{% endblock %}
+
+    <p>Something went wrong while editing the club {{ Club.getName }}.</p>
+        
+    {% if Errors is defined %}
+        <ul>
+            {% for error in Errors %}
+                <li>{{ error.getMessageTemplate }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

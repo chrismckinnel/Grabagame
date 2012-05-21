@@ -16,7 +16,13 @@
             <li><a href="{{ path('group_list') }}">List all groups</a></li>
             <li><a href="{{ path('group_add') }}">Add new group</a></li>
             <li class="nav-header"><h2>Manage club</h2></li>
-            <li><a href="#">Coming soon</a></li>
+
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <li><a href="{{ path('club_list') }}">List all clubs</a></li>
+            <li><a href="{{ path('club_add') }}">Add a club</a></li>
+            {% else %}
+            <li><a href="{{ path('club_edit', { 'clubId': Club.getId }) }}">Edit club settings</a></li>
+            {% endif %}
         </ul>
 
     {% endblock %}

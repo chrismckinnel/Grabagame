@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Court entity
  *
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Grabagame\BookingBundle\Repository\CourtRepository")
  * @ORM\Table( name="court" )
  */
 class Court

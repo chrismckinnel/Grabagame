@@ -12,14 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class GroupService extends LoggerAware
 {
 
-    /**
-     * @var Logger $logger
-     */
     protected $logger;
-
-    /**
-     * @var Registry $doctrine
-     */
     protected $doctrine;
 
     /**
