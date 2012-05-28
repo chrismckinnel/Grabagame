@@ -25,6 +25,14 @@ class ClubService extends LoggerAware {
     }
 
     /**
+     * @param BookingService $bookingService
+     */
+    public function setBookingService($bookingService)
+    {
+        $this->bookingService = $bookingService;
+    }
+
+    /**
      * @param string  $name             Name of the club
      * @param string  $email            Email address of the club administrator
      * @param integer $bookingIncrement Time increment for a booking
@@ -183,6 +191,7 @@ class ClubService extends LoggerAware {
     public function removeCourtByNumber($club, $courtNumber)
     {
         $court = $this->getCourtByNumber($club, $courtNumber);
+        $court = $this->bookingService->removeBookingsForCourt($court);
 
         $entityManager = $this->doctrine->getEntityManager();
         $entityManager->remove($court);

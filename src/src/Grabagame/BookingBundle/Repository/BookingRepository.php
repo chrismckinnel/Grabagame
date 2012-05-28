@@ -149,4 +149,24 @@ class BookingRepository extends EntityRepository
 
         return $query->getOneOrNullResult();
     }
+
+    /**
+     * @param Court $court
+     * 
+     * @return Collection
+     */
+    public function findAllOnBehalfBookingsByCourt($court)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("
+            SELECT bob
+            FROM GrabagameBookingBundle:BookingOnBehalf bob
+            JOIN bob.booking b
+            WHERE b.court = :court"
+        );
+
+        $query->setParameter('court', $court);
+
+        return $query->getResult();
+    }
 }
