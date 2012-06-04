@@ -73,6 +73,6 @@ fos_user:
     registration:
         confirmation:
             enabled: true
-            template: FOSUserBundle:Registration:email.txt.twig
+            template: GrabagameBookingBundle:Email:verifyEmail.html.twig
         form:
             type: grabagame_user_registration

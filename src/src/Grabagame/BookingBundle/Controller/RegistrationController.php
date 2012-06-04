@@ -113,9 +113,9 @@ class RegistrationController extends ContainerAware
             throw new AccessDeniedException('This user does not have access to this section.');
         }
 
-        return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:confirmed.html.'.$this->getEngine(), array(
-            'user' => $user,
-        ));
+        $this->setFlash('alert-success', 'Thanks for confirming your email address  with us, '.$user->getFirstName().'. You can go ahead and make bookings below.');
+
+        return new RedirectResponse($this->container->get('router')->generate('bookingDefault'));
     }
 
     /**
