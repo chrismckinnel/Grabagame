@@ -12,4 +12,25 @@ use Doctrine\ORM\EntityRepository;
  */
 class CourtRepository extends EntityRepository
 {
+    /**
+     * @param Club     $club        Club object
+     * @param integer  $courtNumber Court number
+     *
+     * @return Court
+     */
+    public function findCourtByClubAndCourtNumber($club, $courtNumber)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("
+            SELECT c
+            FROM GrabagameBookingBundle:Court c
+            WHERE c.number = :courtNumber
+            AND c.club = :club"
+        );
+
+        $query->setParameter('courtNumber', $courtNumber);
+        $query->setParameter('club', $club);
+
+        return $query->getOneOrNullResult();
+    }
 }

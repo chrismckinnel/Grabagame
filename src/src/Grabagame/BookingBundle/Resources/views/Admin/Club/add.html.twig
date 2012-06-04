@@ -8,8 +8,14 @@
 
     <h1>Add a club</h1>
 
-    <form name="add_club_form" method="post" action="{{ path('submit_add_club') }}">
+    <form name="add_club_form" method="post" action="{{ path('club_add_submit') }}">
         {{ form_widget(club_form) }}
+        <div class="control-group text">
+            <label class="control-label" for="numberOfCourts">Number of courts: </label>
+            <div class="controls">
+                <input type="text" id="numberOfCourts" name="numberOfCourts" required="required">
+            </div>
+        </div>
         <button type="submit">Save club</button>
     </form>
 {% endblock %}

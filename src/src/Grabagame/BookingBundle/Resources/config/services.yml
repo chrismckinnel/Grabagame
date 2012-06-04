@@ -15,6 +15,7 @@ services:
         parent: service.loggerAware
         calls:
             - [ setDoctrine, [@doctrine] ]
+            - [ setBookingService, [@service.booking] ]
             - [ setLogger, [@logger, %base_logging_url%, 'ClubService'] ]
 
     service.member:

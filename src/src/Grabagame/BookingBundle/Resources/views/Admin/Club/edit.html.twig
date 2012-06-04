@@ -1,0 +1,32 @@
+{% extends 'GrabagameBookingBundle:Admin:dashboard.html.twig' %}
+
+{% block title %}Admin - Edit club{% endblock %}
+
+{% block admin_content %}
+
+	{% form_theme club_form 'GrabagameBookingBundle:Form:twitter-bootstrap.html.twig' %}
+
+	<h2 class="section-title">Edit club</h2>
+
+    {% block sidebar %}{% endblock %}
+
+	<form class="form-horizontal" method="post" action="{{ path('club_submit_edit') }}" {{ form_enctype(club_form) }} >
+        {{ form_widget(club_form) }}
+        <div class="control-group text">
+            <label class="control-label" for="numberOfCourts">Number of courts: </label>
+            <div class="controls">
+                <input type="text" id="numberOfCourts" name="numberOfCourts" required="required" value="{{ Club.getNumberOfCourts }}">
+            </div>
+        </div>
+		<div class="form-actions">
+			<button class="btn btn-primary" type="submit">Update club</button>
+			{% if Club.isActive == true %}
+				<a class="btn" href="{{ path('club_deactivate', { 'clubId': Club.getId }) }}">Deactivate</a>
+			{% else %}
+				<a class="btn" href="{{ path('club_activate', { 'clubId': Club.getId }) }}">Activate</a>
+			{% endif %}
+		</div>
+		{{ form_rest(club_form) }}
+	</form>
+
+{% endblock %}
