@@ -17,8 +17,6 @@ class GroupService extends LoggerAware
 
     /**
      * @param Registry $doctrine
-     *
-     * @return void
      */
     public function setDoctrine($doctrine)
     {
@@ -64,45 +62,27 @@ class GroupService extends LoggerAware
     }
 
     /**
-     * @param integer $groupId
+     * @param Group $group
      *
      * @return Group
      */
-    public function activate($groupId)
+    public function activate($group)
     {
-        try {
-            $group = $this->getGroupById($groupId);
-            $group->setActive(true);
-            $group = $this->saveGroup($group);
-
-            return $group;
-        } catch (\Exception $e) {
-            $this->logger($e->getMessage());
-
-            return null;
-        }
+        $group->setActive(true);
+        $group = $this->saveGroup($group);
 
         return $group;
     }
 
     /**
-     * @param integer $groupId
+     * @param Group $group
      *
      * @return Group
      */
-    public function deactivate($groupId)
+    public function deactivate($group)
     {
-        try {
-            $group = $this->getGroupById($groupId);
-            $group->setActive(false);
-            $group = $this->saveGroup($group);
-
-            return $group;
-        } catch (\Exception $e) {
-            $this->logger($e->getMessage());
-
-            return null;
-        }
+        $group->setActive(false);
+        $group = $this->saveGroup($group);
 
         return $group;
     }

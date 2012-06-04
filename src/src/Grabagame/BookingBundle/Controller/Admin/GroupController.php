@@ -161,7 +161,8 @@ class GroupController extends Controller
     public function activateAction($groupId)
     {
         $groupService = $this->get('service.group');
-        $group = $groupService->activate($groupId);
+        $group = $groupService->getGroupById($groupId);
+        $group = $groupService->activate($group);
 
         if ($group) {
             $this->get('session')->setFlash('alert-success', 'Successfully activated '.$group->getName().'.');
@@ -180,7 +181,8 @@ class GroupController extends Controller
     public function deactivateAction($groupId)
     {
         $groupService = $this->get('service.group');
-        $group = $groupService->deactivate($groupId);
+        $group = $groupService->getGroupById($groupId);
+        $group = $groupService->deactivate($group);
 
         if ($group) {
             $this->get('session')->setFlash('alert-success', 'Successfully deactivated '.$group->getName().'.');

@@ -3,6 +3,7 @@
 {% block title %}Add a club{% endblock %}
 
 {% block body %}
+{% set Member = app.security.getToken().getUser() %}
 
     <div class="span3">
         <div class="panel">
@@ -21,7 +22,7 @@
             <li><a href="{{ path('club_list') }}">List all clubs</a></li>
             <li><a href="{{ path('club_add') }}">Add a club</a></li>
             {% else %}
-            <li><a href="{{ path('club_edit', { 'clubId': Club.getId }) }}">Edit club settings</a></li>
+            <li><a href="{{ path('club_edit', { 'clubId': Member.getClub.getId }) }}">Edit club settings</a></li>
             {% endif %}
         </ul>
 
