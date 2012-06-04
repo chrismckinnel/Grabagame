@@ -1,0 +1,49 @@
+{% extends 'GrabagameBookingBundle:Admin:dashboard.html.twig' %}
+
+{% block title %}Admin - Club list{% endblock %}
+
+{% block admin_content %}
+
+    {% include 'GrabagameBookingBundle:Generic:displayErrors.html.twig' %}
+
+    <h2 class="section-title">All Clubs</h2>
+
+    {% block sidebar %}{% endblock %}
+    
+    <p><a class="btn" href="{{ path('club_add') }}">Add a new club</a></p>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Action</th>
+                <th style="width: 140px;">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for Club in Clubs %}
+            <tr>
+                <td>{{ Club.getName }}</td>
+                <td><a href="{{ path('club_details', { 'clubId' : Club.getId }) }}">View</a> / <a href="{{ path('club_edit', { 'clubId' : Club.getId }) }}">Edit</a></td>
+                <td>
+                    <span class="actionConfirm">
+                        {% if Club.isActive %}
+                            <a href="{{ path('club_deactivate', { 'clubId' : Club.getId }) }}" class="delete">De-activate</a>
+                        {% else %}
+                            <a href="{{ path('club_activate', { 'clubId' : Club.getId }) }}" class="delete">Activate</a>
+                        {% endif %}
+                    </span>
+                    {% if Club.isActive %}
+                        <form style="margin-bottom: 0" method="post" action="{{ path('club_deactivate', { 'clubId' : Club.getId }) }}" class="actionConfirm hide">
+                    {% else %}
+                        <form style="margin-bottom: 0" method="post" action="{{ path('club_activate', { 'clubId' : Club.getId }) }}" class="actionConfirm hide">
+                    {% endif %}
+                        <button class="btn btn-info" type="submit">Yes</button>
+                        <button class="btn btn-danger delete" type="button" class="delete">No</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

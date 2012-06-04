@@ -1,7 +1,9 @@
 <?php
 namespace Grabagame\BookingBundle\Service;
 
-use Monolog\Handler\StreamHandler;
+use Monolog\Handler\StreamHandler,
+    Grabagame\BookingBundle\Entity\Club,
+    Grabagame\BookingBundle\Entity\Court;
 
  /**
   * Club service
@@ -20,6 +22,14 @@ class ClubService extends LoggerAware {
     public function setDoctrine($doctrine)
     {
         $this->doctrine = $doctrine;
+    }
+
+    /**
+     * @param BookingService $bookingService
+     */
+    public function setBookingService($bookingService)
+    {
+        $this->bookingService = $bookingService;
     }
 
     /**
@@ -58,7 +68,31 @@ class ClubService extends LoggerAware {
         return $club;
     }
 
-    
+    /**
+     * @return array
+     */
+    public function getAllClubs()
+    {
+        return $this->doctrine
+                    ->getEntityManager()
+                    ->getRepository('GrabagameBookingBundle:Club')
+                    ->findAll();
+    }
+
+    /**
+     * @param Club    $club        Club object
+     * @param integer $courtNumber Court number
+     *
+     * @return Court
+     */
+    public function getCourtByNumber($club, $courtNumber)
+    {
+        return $this->doctrine
+                    ->getEntityManager()
+                    ->getRepository('GrabagameBookingBundle:Court')
+                    ->findCourtByClubAndCourtNumber($club, $courtNumber);
+    }
+
     /**
      * @param Club $club
      *
@@ -96,4 +130,73 @@ class ClubService extends LoggerAware {
         return $startTimes;
     }
 
+    /**
+     * @param integer $clubId
+     *
+     * @return Club
+     */
+    public function activate($clubId)
+    {
+        $club = $this->getClubById($clubId);
+        $club->setActive(true);
+        $club = $this->saveClub($club);
+
+        return $club;
+    }
+
+    /**
+     * @param integer $clubId
+     *
+     * @return Club
+     */
+    public function deactivate($clubId)
+    {
+        $club = $this->getClubById($clubId);
+        $club->setActive(false);
+        $club = $this->saveClub($club);
+
+        return $club;
+    }    
+
+    /**
+     * @param Club    $club           Club object
+     * @param integer $numberOfCourts Number of courts
+     *
+     * @return Club
+     */
+    public function updateCourts($club, $numberOfCourts)
+    {
+        if ($numberOfCourts < $club->getNumberOfCourts()) {
+            for ($i = $club->getNumberOfCourts(); $i > $numberOfCourts; $i--) {
+                $this->removeCourtByNumber($club, $i);
+            }
+        } else {
+            for ($i = $club->getNumberOfCourts()+1; $i <= $numberOfCourts; $i++) {
+                $court = new Court();
+                $court->setNumber($i);
+                $court->setClub($club);
+                $club->addCourt($court);
+            }
+        }
+
+        return $club;
+    }
+
+    /**
+     * @param Club    $club        Club object
+     * @param integer $courtNumber Court number to remove
+     *
+     * @return Club
+     */
+    public function removeCourtByNumber($club, $courtNumber)
+    {
+        $court = $this->getCourtByNumber($club, $courtNumber);
+        $court = $this->bookingService->removeBookingsForCourt($court);
+
+        $entityManager = $this->doctrine->getEntityManager();
+        $entityManager->remove($court);
+        $entityManager->flush();  
+
+        return $club;
+    }
 }

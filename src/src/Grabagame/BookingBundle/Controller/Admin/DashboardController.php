@@ -18,7 +18,15 @@ class DashboardController extends Controller
      */
     public function dashboardAction()
     {
-        return $this->render('GrabagameBookingBundle:Admin:dashboard.html.twig');
+        $memberService = $this->get('service.member');
+        $club = $memberService->getLoggedInMember()
+                              ->getClub();
+
+        $bindings = array(
+            'Club' => $club,
+        );
+           
+        return $this->render('GrabagameBookingBundle:Admin:dashboard.html.twig', $bindings);
     }
 
 }

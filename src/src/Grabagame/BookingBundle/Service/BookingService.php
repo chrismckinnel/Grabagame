@@ -36,6 +36,16 @@ class BookingService extends LoggerAware {
     }
 
     /**
+     * @return BookingRepository
+     */
+    public function getBookingRepo()
+    {
+        return $bookingRepo = $this->doctrine
+                                   ->getEntityManager()
+                                   ->getRepository('GrabagameBookingBundle:Booking');
+    }
+
+    /**
      * @param Member  $member
      * @param Booking $booking
      *
@@ -83,6 +93,16 @@ class BookingService extends LoggerAware {
         $entityManager->flush();
 
         return $booking;
+    }
+
+    /**
+     * @param Entity $entity
+     */
+    public function removeEntity($entity)
+    {
+        $entityManager = $this->doctrine->getEntityManager();
+        $entityManager->remove($entity);
+        $entityManager->flush();
     }
 
     /**
@@ -337,5 +357,40 @@ class BookingService extends LoggerAware {
                                 ->findOneByBooking($booking);
 
         return $bookingOnBehalf->getFullName();
+    }
+
+    /**
+     * @param Court $court
+     * 
+     * @return $court
+     */
+    public function removeBookingsForCourt($court)
+    {
+        $this->removeBookingOnBehalfForCourt($court);
+        
+        $bookingRepo = $this->getBookingRepo();
+        foreach ($bookingRepo->findByCourt($court) as $booking) {
+            $this->removeEntity($booking);
+        }
+
+        return $court;
+    }
+
+    /**
+     * @param Court $court
+     * 
+     * @return $court
+     */
+    public function removeBookingOnBehalfForCourt($court)
+    {
+        $bookingRepo = $this->getBookingRepo();
+
+        $bookingOnBehalfCollection = $bookingRepo->findAllOnBehalfBookingsByCourt($court);
+
+        foreach ($bookingOnBehalfCollection as $bookingOnBehalf) {
+            $this->removeEntity($bookingOnBehalf);
+        }
+
+        return $court;
     }
 }

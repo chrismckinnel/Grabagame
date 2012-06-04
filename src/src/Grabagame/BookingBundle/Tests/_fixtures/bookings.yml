@@ -44,6 +44,16 @@ member_group:
     name: "Administrators"
     roles: 'a:4:{i:0;s:9:"ROLE_USER";i:1;s:19:"CAN_CANCEL_BOOKINGS";i:2;s:14:"BOOK_ON_BEHALF";i:3;s:10:"ROLE_ADMIN";}'
     active: 1
+  -
+    id: 2
+    name: "Deactivated"
+    roles: 'a:0:{}'
+    active: 0
+  -
+    id: 3
+    name: "Empty group"
+    roles: 'a:0:{}'
+    active: 1
 
 member:
   -
@@ -125,6 +135,12 @@ grabagame_user_group:
   -
     member_id: 1
     group_id: 1
+  -
+    member_id: 3
+    group_id: 1
+  -
+    member_id: 3
+    group_id: 2
 
 booking:
   -

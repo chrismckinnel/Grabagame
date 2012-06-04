@@ -51,16 +51,31 @@ class Club
     private $maxSlots = 3;
 
     /**
-     * Bidirectional - one-to-many
-     *
-     * @ORM\OneToMany(targetEntity="Court", mappedBy="club", cascade={"persist"})     
+     * @ORM\Column(type="boolean")
      */
-    private $courts;
+    private $active = true;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $timezoneLocale ;
 
     /**
      * @var integer
      */
     private $numberOfCourts;
+
+    /**
+     * @var integer
+     */
+    private $numberOfMembers;
+
+    /**
+     * Bidirectional - one-to-many
+     *
+     * @ORM\OneToMany(targetEntity="Court", mappedBy="club", cascade={"persist"})     
+     */
+    private $courts;
 
     /**
      * Bidirectional - one-to-many
@@ -92,6 +107,14 @@ class Club
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @param integer $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 
     /**
@@ -215,21 +238,6 @@ class Club
     }
 
     /**
-     * Set numberOfCourts
-     *
-     * @param integer $numberOfCourts
-     */
-    public function setNumberOfCourts($numberOfCourts)
-    {
-        for ($i = 1; $i <= $numberOfCourts; $i++) {
-            $court = new Court();
-            $court->setNumber($i);
-            $court->setClub($this);
-            $this->addCourt($court);
-        }
-    }
-
-    /**
      * Get numberOfCourts
      *
      * @return integer 
@@ -313,5 +321,31 @@ class Club
         }
 
         throw new \Exception('Court number '.$courtNumber.' doesn\'t exist for this club');
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param boolean $active
+     *
+     * @return boolean
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+    }    
+
+    /**
+     * @return integer
+     */
+    public function getNumberOfMembers()
+    {
+        return $this->members->count();
     }
 }
