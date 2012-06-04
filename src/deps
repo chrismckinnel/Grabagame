@@ -71,7 +71,7 @@
 
 [DoctrineMigrationsBundle]
     git=http://github.com/doctrine/DoctrineMigrationsBundle.git
-    target=/bundles/Doctrine/Bundle/DoctrineMigrationsBundle
+    target=/bundles/Symfony/Bundle/DoctrineMigrationsBundle    
     origin=2.0
 
 [DoctrineExtensions]
