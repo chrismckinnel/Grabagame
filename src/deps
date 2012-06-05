@@ -72,7 +72,7 @@
 [DoctrineMigrationsBundle]
     git=http://github.com/doctrine/DoctrineMigrationsBundle.git
     target=/bundles/Symfony/Bundle/DoctrineMigrationsBundle    
-    version=2.0
+    version=origin/2.0
 
 [DoctrineExtensions]
     git=http://github.com/beberlei/DoctrineExtensions.git

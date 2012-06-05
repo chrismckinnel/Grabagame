@@ -58,7 +58,6 @@ def deploy():
         set_production_symlinks()
 
     installVendors()
-    updateVendors()
     installAssets()
     
     rename_robots()
