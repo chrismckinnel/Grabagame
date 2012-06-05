@@ -58,7 +58,7 @@ class Club
     /**
      * @ORM\Column(type="string")
      */
-    private $timezoneLocale ;
+    private $timezone = 'Pacific/Auckland';
 
     /**
      * @var integer
@@ -150,11 +150,31 @@ class Club
     /**
      * Get email
      *
-     * @return stringGrabagame\BookingBundle\Entity\Court 
+     * @return string
      */
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $timezone
+     */
+    public function setTimezone($timezone)
+    {
+        $this->timezone = $timezone;
+    }
+
+    /**
+     * Get timezone
+     *
+     * @return string
+     */
+    public function getTimezone()
+    {
+        return $this->timezone;
     }
 
     /**

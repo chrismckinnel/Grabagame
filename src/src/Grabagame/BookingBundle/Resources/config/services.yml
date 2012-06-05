@@ -48,3 +48,11 @@ services:
         tags:
           - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }          
         parent: service.loggerAware
+
+    service.timezone_listener:
+        class: Grabagame\BookingBundle\EventListener\TimezoneListener
+        calls:
+          - [ setSecurityContext, [@security.context] ]
+          - [ setConnection, [@database_connection] ]
+        tags:
+          - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }          

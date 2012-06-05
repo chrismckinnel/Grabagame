@@ -28,16 +28,24 @@ class ExceptionListener extends LoggerAware
         $exception = $event->getException();
         $this->logException($exception);
 
-        $bindings = array();
         if ($exception instanceOf BookingException) {
             $bindings = array(
                 'ExceptionMessage' => $exception->getMessage()
             );
         }
 
-        $response = new Response($this->templating->render('GrabagameBookingBundle:Exception:exception.html.twig', $bindings));
+        if ($exception->getCode() == 404) {
+            $bindings = array(
+                'Exception' => $exception,
+            );
 
-        $event->setResponse($response);
+            $response = new Response($this->templating->render('GrabagameBookingBundle:Exception:not-found.html.twig', $bindings));
+            $event->setResponse($response);
+        } else {
+            $response = new Response($this->templating->render('GrabagameBookingBundle:Exception:exception.html.twig'));
+
+            $event->setResponse($response);
+        }
     }
 
     /**

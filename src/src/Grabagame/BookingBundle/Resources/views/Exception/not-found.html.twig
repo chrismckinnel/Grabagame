@@ -1,0 +1,37 @@
+{% extends 'GrabagameBookingBundle::layout.html.twig' %}
+
+{% block title %}Oops, we couldn't find that page{% endblock %}
+
+{% block body %}
+    <div class="alert alert-error">
+        {{ Exception.getMessage }}
+    </div>
+
+    <div class="exception">
+        <h2>What should you do?</h2>
+        <p>
+            If you think you've reached this page by mistake (maybe you typed the URL wrong), you don't need to do anything.  Nothing to see here, <a href="{{ path('home') }}">move along...</a>
+        </p>
+
+        <h3>Something aint right...</h3>
+        <p>
+            If you were in the middle of something or got here totally unexpectedly, be a sport and let me know what you did to get here so I can stop it happening next time.
+        </p>
+
+        <form action="{{ path('submit_error_report') }}" method="post" class="form-inline">
+            <textarea class="input-xlarge" name="errorReport" placeholder="E.g., I was trying to make a booking on court 3 at 10am and got a 'not found' message."></textarea>
+
+            <input type="text" class="input-xlarge" name="email" placeholder="Your email address"> (so I can let you know when I've fixed it)
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Be a good sport</button>
+            </div>
+        </form>
+    </div>
+    <div class="exception-image">
+        <img src="{{ asset('bundles/grabagamebooking/images/circle.jpg') }}" />
+    </div>
+
+{% endblock %}
+
+{% block sidebar %}{% endblock %}
