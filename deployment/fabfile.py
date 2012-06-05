@@ -62,16 +62,13 @@ def deploy():
     
     rename_robots()
 
-    clear_caches()
-    set_cache_and_log_permissions()
-    warmup_cache()
-    set_cache_and_log_permissions()
-
     # Change Permissions
     if env.Environment == 'live':
         apply_production_permissions()
+        clear_prod_cache()
     else:
         apply_sftp_friendly_permissions()
+        clear_dev_cache()
 
 # Tasks
 def check_deployment_dir():
@@ -213,15 +210,13 @@ def installAssets():
     "Install assets to web"
     sudo('php %(BuildRoot)s/app/console assets:install %(BuildRoot)s/web' % env)
 
-def clear_caches():
-    "Clear caches"
-    sudo('php %(BuildRoot)s/app/console cache:clear --env=dev --no-debug' % env)
+def clear_prod_cache():
+    "Clear prod cache"
     sudo('php %(BuildRoot)s/app/console cache:clear --env=prod --no-debug' % env)
 
-def warmup_cache():
-    "Warmup caches"
-    sudo('php %(BuildRoot)s/app/console cache:warmup --env=dev --no-debug' % env)
-    sudo('php %(BuildRoot)s/app/console cache:warmup --env=prod --no-debug' % env)
+def clear_dev_cache():
+    "Clear dev cache"
+    sudo('php %(BuildRoot)s/app/console cache:clear --env=dev --no-debug' % env)
 
 def rename_robots():
     "Renaming robots.txt file"
@@ -234,5 +229,5 @@ def make_cache_and_log_dirs():
     sudo('ln -sv /var/cache/grabagame-%(Environment)s %(BuildRoot)s/app/cache' % env)
 
 def set_cache_and_log_permissions():
-    sudo('if [ -d "%(CacheDir)s" ]; then chmod -R 777 %(CacheDir)s; fi' % env)
-    sudo('if [ -d "%(LogDir)s" ]; then chmod -R 777 %(LogDir)s; fi' % env)
+    sudo('if [ -d "%(CacheDir)s" ]; then chmod -R 775 %(CacheDir)s; fi' % env)
+    sudo('if [ -d "%(LogDir)s" ]; then chmod -R 775 %(LogDir)s; fi' % env)
