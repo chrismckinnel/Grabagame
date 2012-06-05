@@ -4,7 +4,7 @@
 
 {% block body %}
 
-    <h1 class="bookingHeading">{{ DayToDisplay.format('l dS F, Y') }}</h1>
+    <h1 class="bookingHeading">{{ DayToDisplay.format('l jS F, Y') }}</h1>
 
     <ul class="pager">
         <li class="previous"><a href="{{ path('booking', { 'dayToDisplay': Yesterday.format('Y-m-d') }) }}">&larr; Yesterday</a></li>

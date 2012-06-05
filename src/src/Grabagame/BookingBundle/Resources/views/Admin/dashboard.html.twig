@@ -21,9 +21,8 @@
             {% if is_granted('ROLE_SUPER_ADMIN') %}
             <li><a href="{{ path('club_list') }}">List all clubs</a></li>
             <li><a href="{{ path('club_add') }}">Add a club</a></li>
-            {% else %}
-            <li><a href="{{ path('club_edit', { 'clubId': Member.getClub.getId }) }}">Edit club settings</a></li>
             {% endif %}
+            <li><a href="{{ path('club_edit', { 'clubId': Member.getClub.getId }) }}">Edit club settings</a></li>
         </ul>
 
     {% endblock %}
