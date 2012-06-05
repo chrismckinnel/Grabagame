@@ -245,7 +245,7 @@ class Member extends BaseUser
         $groups = parent::getGroups();
         $roles = $this->roles;
 
-        if (count($groups)) {
+       if (count($groups)) {
             foreach ($groups as $group) {
                 if ($group->isActive()) {
                     $groupRoles = $group->getRoles();
