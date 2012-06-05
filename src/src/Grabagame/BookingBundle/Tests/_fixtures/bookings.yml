@@ -7,6 +7,7 @@ club:
     createdDate: "2012-04-07 06:00:00"
     bookingIncrement: 60
     maxSlots: 3
+    active: true
   -
     id: 2
     name: "Test club 2"
@@ -15,6 +16,7 @@ club:
     createdDate: "2012-04-07 06:00:00"
     bookingIncrement: 30
     maxSlots: 4
+    active: true
 
 court:
   -

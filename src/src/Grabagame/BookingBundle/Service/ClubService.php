@@ -3,6 +3,7 @@ namespace Grabagame\BookingBundle\Service;
 
 use Monolog\Handler\StreamHandler,
     Grabagame\BookingBundle\Entity\Club,
+    Grabagame\BookingBundle\Exception\ClubException,
     Grabagame\BookingBundle\Entity\Court;
 
  /**
@@ -45,6 +46,7 @@ class ClubService extends LoggerAware {
         $club->setName($name);
         $club->setEmail($email);
         $club->setBookingIncrement($bookingIncrement);
+        $club->setActive(true);
 
         return $club;
     }
@@ -62,7 +64,7 @@ class ClubService extends LoggerAware {
                      ->find($clubId);
 
         if (!$club) {
-            throw new \Exception('No club exists with the ID '.$clubId);
+            throw new ClubException('No club exists with the ID '.$clubId);
         }
 
         return $club;

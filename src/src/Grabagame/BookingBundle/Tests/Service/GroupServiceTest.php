@@ -39,7 +39,7 @@ class GroupServiceTest extends DatabaseTestCase
     /**
      * Test saving a group
      */
-    public function testSave()
+    public function testSaveGroup()
     {
         $groupRepo = $this->em->getRepository('GrabagameBookingBundle:Group');
 
@@ -57,7 +57,7 @@ class GroupServiceTest extends DatabaseTestCase
     /**
      * Test getting a group by ID
      */
-    public function testGetById()
+    public function testGetGroupById()
     {
         $groupRepo = $this->em->getRepository('GrabagameBookingBundle:Group');
 
@@ -70,7 +70,7 @@ class GroupServiceTest extends DatabaseTestCase
     /**
      * Test deactivate group
      */
-    public function testDeactivate()
+    public function testDeactivateGroup()
     {
         $groupRepo = $this->em->getRepository('GrabagameBookingBundle:Group');
         $group = $groupRepo->find(1);
@@ -83,7 +83,7 @@ class GroupServiceTest extends DatabaseTestCase
     /**
      * Test activate group
      */
-    public function testActivate()
+    public function testActivateGroup()
     {
         $groupRepo = $this->em->getRepository('GrabagameBookingBundle:Group');
         $group = $groupRepo->find(2);
@@ -96,9 +96,9 @@ class GroupServiceTest extends DatabaseTestCase
     /**
      * Test get number of members in a group
      *
-     * @dataProvider getDataForGetNumberOfMembers
+     * @dataProvider getDataForGetNumberOfMembersOfGroup
      */
-    public function testGetNumberOfMembers($groupId, $expectedNumber)
+    public function testGetNumberOfMembersOfGroup($groupId, $expectedNumber)
     {
         $groupRepo = $this->em->getRepository('GrabagameBookingBundle:Group');
 
@@ -106,7 +106,7 @@ class GroupServiceTest extends DatabaseTestCase
         $this->assertEquals($expectedNumber, $this->groupService->getNumberOfMembers($group));
     }
 
-    public function getDataForGetNumberOfMembers()
+    public function getDataForGetNumberOfMembersOfGroup()
     {
         return array(
             array(1, 2),

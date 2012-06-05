@@ -40,6 +40,46 @@ class ClubServiceTest extends DatabaseTestCase
     }
 
     /**
+     * Test saving a club
+     */
+    public function testSaveClub()
+    {
+        $clubRepo = $this->em->getRepository('GrabagameBookingBundle:Club');
+
+        $newClub = new Club();
+        $newClub->setName('TestAddClub');
+        $newClub->setEmail('testemail@gmail.com');
+        $firstBookingTime = new \DateTime('2012-01-01 06:00:00');
+        $newClub->setFirstBookingTime($firstBookingTime);
+        $newClub->setBookingIncrement(60);
+        $newClub->setMaxSlots(3);
+        $newClub->setActive(true);
+
+        $savedClub = $this->clubService->saveClub($newClub);
+        $savedClub = $clubRepo->find($savedClub->getId());
+
+        $this->assertTrue($savedClub->isActive());
+        $this->assertEquals('TestAddClub', $savedClub->getName());
+        $this->assertEquals('testemail@gmail.com', $savedClub->getEmail());
+        $this->assertEquals($firstBookingTime, $savedClub->getFirstBookingTime());
+        $this->assertEquals('60', $savedClub->getBookingIncrement());
+        $this->assertEquals('3', $savedClub->getMaxSlots());
+    }
+
+    /**
+     * Test get club by ID
+     */
+    public function testGetClubById()
+    {
+        $clubRepo = $this->em->getRepository('GrabagameBookingBundle:Club');
+
+        $club = $this->clubService->getClubById(1);
+
+        $this->assertTrue($club->isActive());
+        $this->assertEquals('Test club', $club->getName());
+    }
+
+    /**
      * Test adding courts to a club
      */
     public function testAddCourts()
