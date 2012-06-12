@@ -139,10 +139,12 @@ class BookingController extends Controller
 
                         $firstName = $request->get('firstName');
                         $lastName = $request->get('lastName');
+                        $phoneNumber = $request->get('phoneNumber');
 
                         $bookingOnBehalf = new BookingOnBehalf();
                         $bookingOnBehalf->setFirstName($firstName);
                         $bookingOnBehalf->setLastName($lastName);
+                        $bookingOnBehalf->setPhoneNumber($phoneNumber);
                         $bookingOnBehalf->setBooking($booking);
                         $bookingOnBehalf = $bookingService->saveBookingOnBehalf($bookingOnBehalf);
 
@@ -222,6 +224,7 @@ class BookingController extends Controller
         
         $bindings = array(
             'Booking' => $booking,
+            'BookingService' => $bookingService,
             'Club' => $booking->getClub(),
         );
 

@@ -6,7 +6,6 @@ use Monolog\Handler\StreamHandler,
     Grabagame\BookingBundle\Exception\BookingException,
     Grabagame\BookingBundle\Entity\BookingCollection;
 
-
  /**
   * Booking service
   *
@@ -357,6 +356,21 @@ class BookingService extends LoggerAware {
                                 ->findOneByBooking($booking);
 
         return $bookingOnBehalf->getFullName();
+    }
+
+    /**
+     * @param Booking $booking
+     * 
+     * @return string
+     */
+    public function getBookingOnBehalfPhoneNumber($booking)
+    {
+        $bookingOnBehalf = $this->doctrine
+                                ->getEntityManager()
+                                ->getRepository('GrabagameBookingBundle:BookingOnBehalf')
+                                ->findOneByBooking($booking);
+
+        return $bookingOnBehalf->getPhoneNumber();
     }
 
     /**

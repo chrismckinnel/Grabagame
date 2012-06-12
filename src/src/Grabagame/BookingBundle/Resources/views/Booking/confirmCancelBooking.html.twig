@@ -7,6 +7,12 @@
 
     <p><strong>Details of your booking</strong></p>
     
+    {% if Booking.getType == 'onBehalf' %}
+    <p><strong>Name:</strong> {{ BookingService.getBookingOnBehalfName(Booking) }}</p>
+    <p><strong>Phone number:</strong> {{ BookingService.getBookingOnBehalfPhoneNumber(Booking) }}</p>
+    {% else %}
+    <p><strong>Name:</strong> {{ Booking.getMember.getFirstName }} {{ Booking.getMember.getLastName }}</p>
+    {% endif %}
     <p><strong>Start time:</strong> {{ Booking.getStartTime.format('d F G:i a') }}</p>
     <p><strong>Court number:</strong> {{ Booking.getCourt.getNumber }}</p>
     <p><strong>Duration:</strong> {{ Booking.getSlots*Club.getBookingIncrement }} minutes</p>

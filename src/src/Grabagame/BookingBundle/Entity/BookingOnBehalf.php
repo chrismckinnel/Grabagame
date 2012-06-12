@@ -37,6 +37,12 @@ class BookingOnBehalf
     private $lastName;
 
     /**
+     * @ORM\Column(type="string", nullable=true)
+     * @Assert\NotBlank(message="Please enter a phone number.", groups={"Registration", "Profile"})
+     */
+    private $phoneNumber;
+
+    /**
      * Unidirectional - one-to-one
      *
      * @ORM\OneToOne(targetEntity="Booking")
@@ -93,6 +99,25 @@ class BookingOnBehalf
         return $this->lastName;
     }
 
+    /**
+     * Set phoneNumber
+     *
+     * @param string $phoneNumber
+     */
+    public function setPhoneNumber($phoneNumber)
+    {
+        $this->phoneNumber = $phoneNumber;
+    }
+
+    /**
+     * Get phoneNumber
+     *
+     * @return string 
+     */
+    public function getPhoneNumber()
+    {
+        return $this->phoneNumber;
+    }
 
     /**
      * Set club

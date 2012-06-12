@@ -430,4 +430,16 @@ class BookingServiceTest extends DatabaseTestCase
 
         $this->assertEquals('Test User', $bookingOnBehalfName);
     }
+
+    /**
+     * Test get booking on behalf name
+     */
+    public function testGetBookingOnBehalfPhoneNumber()
+    {
+        $bookingRepo = $this->em->getRepository('GrabagameBookingBundle:Booking');
+        $booking = $bookingRepo->find(7);
+        $bookingOnBehalfPhoneNumber = $this->bookingService->getBookingOnBehalfPhoneNumber($booking);
+
+        $this->assertEquals('+012 3456 789', $bookingOnBehalfPhoneNumber);
+    }
 }

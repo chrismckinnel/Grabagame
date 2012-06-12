@@ -17,7 +17,11 @@
                 <input type="checkbox" id="onBehalf" name="onBehalf" value=1 checked="checked">
                 I am making this booking on behalf on someone else
             </label>
-            <p id="onBehalfName"><input type="text" name="firstName" placeholder="First name" required="required"> <input type="text" name="lastName" placeholder="Last name" required="required"></p>
+            <p id="onBehalfName">
+                <input type="text" name="firstName" placeholder="First name" required="required"> 
+                <input type="text" name="lastName" placeholder="Last name" required="required"><br>
+                <input type="text" name="phoneNumber" placeholder="Phone number" required="required">
+            </p>
         {% endif %}
         <p><strong>Start time:</strong> {{ Booking.getStartTime.format('d F G:i a') }}</p>
         <p><strong>Court number:</strong> {{ Booking.getCourt.getNumber }}</p>
