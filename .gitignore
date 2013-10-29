@@ -13,3 +13,4 @@ fabconfig.pyc
 fabfile.pyc
 /deployment/fabconfig.py
 tags
+src/deps.lock
